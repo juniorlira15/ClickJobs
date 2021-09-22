@@ -1,7 +1,9 @@
-package com.victall.clickjobs;
+package com.victall.clickjobs.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.victall.clickjobs.R;
 
 public class LoginActivity extends AppCompatActivity {
 
