@@ -2,29 +2,80 @@
     <!-- Base application theme. -->
     <style name="Theme.ClickJobs" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryDark">@color/purple_700</item>
-        <item name="colorAccent">@color/teal_200</item>
+        <item name="colorPrimary">@color/roxo_medio</item>
+        <item name="colorPrimaryDark">@color/roxo</item>
+        <item name="colorAccent">@color/roxo_claro</item>
         <!-- Customize your theme here. -->
+
+    </style>
+
+    <style name="Theme.Teste.Fullscreen" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/roxo_medio</item>
+        <item name="colorPrimaryDark">@color/roxo</item>
+        <item name="colorAccent">@color/roxo_claro</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/roxo_medio</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+
+        <!-- Secondary brand color. -->
+
     </style>
 
     <style name="fonte_padrao">
-        <item name="fontFamily">sans-serif</item>
+        <item name="fontFamily">@font/montserrat_medium</item>
         <item name="android:textSize">@dimen/tamanho_menor</item>
     </style>
 
     <style name="fonte_btn">
-        <item name="fontFamily">sans-serif</item>
+        <item name="fontFamily">@font/montserrat_medium</item>
         <item name="android:textSize">@dimen/tamanho_btn</item>
-        <item name="android:background">@color/roxo_tema</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/roxo_medio</item>
+            <item name="android:textColor">@color/branco</item>
     </style>
 
     <style name="fonte_txt_click">
-        <item name="fontFamily">sans-serif</item>
+        <item name="fontFamily">@font/montserrat_medium</item>
         <item name="android:padding">10dp</item>
         <item name="android:textSize">@dimen/tamanho_btn</item>
     </style>
+
+    <style name="Thema.EditText" parent="Theme.Teste.Fullscreen">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/roxo_medio</item>
+        <item name="colorPrimaryVariant">@color/roxo_claro</item>
+        <item name="colorControlNormal">@color/cinza_escuro</item>
+        <item name="colorControlActivated">@color/roxo_claro</item>
+        <item name="colorControlHighlight">@color/roxo_claro</item>
+        <item name="colorBackgroundFloating">@color/roxo_claro</item>
+        <item name="autoCompleteTextViewStyle">@color/roxo_claro</item>
+
+    </style>
+
+    <style name="EditText" >
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/roxo_medio</item>
+<!--        <item name="colorPrimaryVariant">@color/azul_tema</item>-->
+        <item name="colorControlNormal">@color/cinza_escuro</item>
+        <item name="fontFamily">@font/montserrat_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="colorControlActivated">@color/roxo_medio</item>
+        <item name="colorControlHighlight">@color/roxo_medio</item>
+        <item name="colorBackgroundFloating">@color/roxo_medio</item>
+        <item name="autoCompleteTextViewStyle">@color/roxo_medio</item>
+        <item name="android:textColorHint">@color/cinza_escuro</item>
+        <item name="android:textColor">@color/cinza_escuro</item>
+        <item name="paddingStart">10dp</item>
+        <item name="android:drawablePadding">10dp</item>
+<!--        <item name="fontFamily">@font/bahnschrift</item>-->
+
+    </style>
+
+    <style name="Theme.Fullscreen" parent="Theme.Design.Light.NoActionBar">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/roxo_medio</item>
+    </style>
+
+
 
 
 

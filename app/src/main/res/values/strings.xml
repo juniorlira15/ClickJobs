@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Click Jobs</string>
     <string name="logomarca_clickjobs">logomarca clickjobs</string>
-    <string name="hint_email">email</string>
-    <string name="hint_senha">senha</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_senha">Senha</string>
     <string name="btn_entrar">Entrar</string>
     <string name="txtNaoTenhoCad">Não tenho cadastro</string>
     <string name="txtCadastrar">Cadastrar</string>

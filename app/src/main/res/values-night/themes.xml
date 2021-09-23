@@ -2,9 +2,9 @@
     <!-- Base application theme. -->
     <style name="Theme.ClickJobs" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryDark">@color/purple_700</item>
-        <item name="colorAccent">@color/teal_200</item>
+        <item name="colorPrimary">@color/roxo_medio</item>
+        <item name="colorPrimaryDark">@color/roxo</item>
+        <item name="colorAccent">@color/roxo_claro</item>
         <!-- Customize your theme here. -->
     </style>
 </resources>
