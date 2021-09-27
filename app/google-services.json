@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "198997572123",
+    "firebase_url": "https://clickjobs-3378d-default-rtdb.firebaseio.com",
+    "project_id": "clickjobs-3378d",
+    "storage_bucket": "clickjobs-3378d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:198997572123:android:48cd8822b0c43b3a5856be",
+        "android_client_info": {
+          "package_name": "com.victall.clickjobs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "198997572123-8khnogdqms2slnhpntnbdc7882ijsb8c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.victall.clickjobs",
+            "certificate_hash": "8489d1bfcfeae1d9a36a88639e494350dabdfd5e"
+          }
+        },
+        {
+          "client_id": "198997572123-p34d8hkrl0rbjtufd5a5js8q6upjguaf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtSuhFSAgo5qNWF8aNJb-rEVU5aM-SVnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "198997572123-p34d8hkrl0rbjtufd5a5js8q6upjguaf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

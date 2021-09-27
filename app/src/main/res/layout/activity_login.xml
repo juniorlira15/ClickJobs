@@ -25,13 +25,14 @@
         android:layout_height="56dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
+        style="@style/Thema.TextInputLayout"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView">
 
         <com.google.android.material.textfield.TextInputEditText
-            style="@style/EditText"
+            android:id="@+id/edtEmailLogin"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:drawableStart="@drawable/ic_email"
@@ -39,6 +40,7 @@
             android:drawablePadding="8dp"
             android:hint="@string/hint_email"
             android:paddingStart="8dp"
+            style="@style/Thema.EditText"
             android:paddingEnd="8dp"
             tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -49,12 +51,16 @@
         android:layout_height="56dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        style="@style/Thema.TextInputLayout"
+        app:layout_constraintBottom_toTopOf="@+id/btnLogin"
         app:layout_constraintEnd_toEndOf="parent"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/roxo_claro"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtSenhaLogin"
             style="@style/Thema.EditText"
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -67,48 +73,50 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnLogin"
         style="@style/fonte_btn"
-        android:layout_width="312dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="50dp"
         android:background="@drawable/bg_btn_login"
         android:text="@string/btn_entrar"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
+        android:onClick="onClick"
+        app:layout_constraintBottom_toTopOf="@+id/sign_in_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
-    <Button
-        android:id="@+id/button2"
-        style="@style/EditText"
-        android:layout_width="312dp"
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/btnFacebook"
+        style="@style/fonte_btn_facebook"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@drawable/bg_button_branco"
-        android:drawableStart="@drawable/icon_face"
-        android:elevation="10dp"
         android:paddingStart="20dp"
-        android:text="Entrar com Facebook"
+        android:paddingEnd="20dp"
+        android:textColor="@color/branco"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/entrar_com_facebook"
         app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintEnd_toEndOf="@+id/btnLogin"
+        app:layout_constraintStart_toStartOf="@+id/btnLogin"
+        app:layout_constraintTop_toBottomOf="@+id/sign_in_button" />
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="312dp"
+        android:id="@+id/sign_in_button"
+        style="@style/fonte_btn_google"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@drawable/bg_button_branco"
-        android:drawableStart="@drawable/icon_google"
-        android:elevation="10dp"
         android:paddingStart="20dp"
-        android:text="Entrar com Google"
-        style="@style/EditText"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        android:paddingEnd="20dp"
+        android:text="@string/entrar_com_google"
+        app:layout_constraintBottom_toTopOf="@+id/btnFacebook"
+        app:layout_constraintEnd_toEndOf="@+id/btnLogin"
+        app:layout_constraintStart_toStartOf="@+id/btnLogin"
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
 
     <TextView
         android:id="@+id/textView"
@@ -121,14 +129,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/btnFacebook" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/txtCadastrar"
         style="@style/fonte_txt_click"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="cadastrar"
+        android:onClick="onClick"
         android:text="@string/txtCadastrar"
         android:textColor="@color/roxo_medio"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
@@ -136,5 +144,42 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/txtEsqueciSenhaLogin"
+        style="@style/fonte_padrao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:padding="10dp"
+        android:text="Esqueci minha senha"
+        android:onClick="recuperarSenha"
+        android:textColor="@color/roxo_medio"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBarLogin"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/txtEsqueciSenhaLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <ProgressBar
+        android:id="@+id/barGoogle"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/sign_in_button"
+        app:layout_constraintEnd_toEndOf="@+id/sign_in_button"
+        app:layout_constraintStart_toStartOf="@+id/sign_in_button"
+        app:layout_constraintTop_toTopOf="@+id/sign_in_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
