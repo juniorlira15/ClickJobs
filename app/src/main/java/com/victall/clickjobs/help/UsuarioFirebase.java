@@ -29,7 +29,7 @@ import com.iceteck.silicompressorr.FileUtils;
 import com.iceteck.silicompressorr.SiliCompressor;
 import com.victall.clickjobs.activity.CadastroActivity;
 import com.victall.clickjobs.activity.MainActivity;
-import com.victall.clickjobs.activity.Usuario;
+import com.victall.clickjobs.model.Usuario;
 
 
 import java.io.File;

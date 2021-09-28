@@ -1,4 +1,4 @@
-package com.victall.clickjobs.activity.adapter;
+package com.victall.clickjobs.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 import com.victall.clickjobs.R;
-import com.victall.clickjobs.activity.model.Anuncio;
+import com.victall.clickjobs.model.Anuncio;
 
 import java.util.ArrayList;
 

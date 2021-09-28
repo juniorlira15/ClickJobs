@@ -17,7 +17,6 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.login.Login;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -49,6 +48,7 @@ import java.util.Objects;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
 import com.victall.clickjobs.help.CheckConnection;
 import com.victall.clickjobs.help.UsuarioFirebase;
+import com.victall.clickjobs.model.Usuario;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private CallbackManager callbackManager;
     private FirebaseUser firebaseUser;
     private ProgressBar bar;
-    private static GoogleSignInClient mGoogleSignInClient;
+    private GoogleSignInClient mGoogleSignInClient;
     private GoogleSignInOptions gso;
     private static final int RC_SIGN_IN = 9001;
     private ProgressBar bar_google;
@@ -245,7 +245,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken("198997572123-p34d8hkrl0rbjtufd5a5js8q6upjguaf.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
@@ -443,7 +443,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    public static void logout(){
+    public void logout(){
 
         // Logoff Google
         if(mGoogleSignInClient!=null){

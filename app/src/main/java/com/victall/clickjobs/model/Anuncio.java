@@ -1,9 +1,7 @@
-package com.victall.clickjobs.activity.model;
+package com.victall.clickjobs.model;
 
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 public class Anuncio {
 

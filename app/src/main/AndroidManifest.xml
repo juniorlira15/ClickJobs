@@ -4,6 +4,8 @@
     package="com.victall.clickjobs">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -13,16 +15,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
+            android:name=".activity.MeusServicosActivity"
+            android:exported="true"
+            android:label="@string/title_activity_meus_servicos"
+            android:theme="@style/NoActionBar" />
+        <activity
             android:name=".activity.TelaInicialActivity"
             android:exported="true"
             android:label="@string/title_activity_tela_inicial"
-            android:theme="@style/Theme.ClickJobs.NoActionBar"
-             />
+            android:theme="@style/Theme.ClickJobs.NoActionBar" />
         <activity
             android:name=".activity.ScrollingActivity"
             android:exported="true"
-            android:label="@string/title_activity_scrolling"
-            />
+            android:label="@string/title_activity_scrolling" />
         <activity
             android:name=".activity.ConfirmacaoEmailActivity"
             android:exported="true"
@@ -52,11 +57,13 @@
             android:name=".activity.TelaAberturaActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/Theme.TelaInteira">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".activity.CadastroActivity"

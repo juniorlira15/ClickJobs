@@ -1,4 +1,4 @@
-package com.victall.clickjobs.activity;
+package com.victall.clickjobs.model;
 
 import androidx.annotation.NonNull;
 

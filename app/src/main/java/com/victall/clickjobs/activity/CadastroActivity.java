@@ -34,6 +34,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
+import com.victall.clickjobs.model.Usuario;
 import com.victall.clickjobs.preferences.UsuarioPreferences;
 
 public class CadastroActivity extends AppCompatActivity implements View.OnClickListener {
