@@ -73,25 +73,19 @@
         "Bold, graphic, intentional.\n\n"
 
     </string>
-    <string name="action_settings">Meus Serviços</string>
     <string name="title_activity_tela_inicial">TelaInicialActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="title_activity_meus_servicos">MeusServicosActivity</string>
+    <string name="menu_home">Meus Serviços</string>
+    <string name="menu_gallery">Novo Serviço</string>
+    <string name="menu_slideshow">Buscar Serviços</string>
+    <string name="title_activity_meus_servicos">Meus Serviços</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="adicionar_an_ncio">Adicionar Anúncio</string>
     <!--    <string name="default_web_client_id">198997572123-p34d8hkrl0rbjtufd5a5js8q6upjguaf.apps.googleusercontent.com</string>-->
 
 

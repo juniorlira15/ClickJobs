@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
     public void abreTelaInicial(View view){
-        startActivity(new Intent(MainActivity.this,TelaInicialActivity.class));
+        startActivity(new Intent(MainActivity.this,TelaPrincipalActivity.class));
     }
 
 

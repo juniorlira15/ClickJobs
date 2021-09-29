@@ -15,15 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
+            android:name=".activity.TelaPrincipalActivity"
+            android:theme="@style/Theme.ClickJobs.NoActionBar"
+            android:exported="true" />
+        <activity
             android:name=".activity.MeusServicosActivity"
             android:exported="true"
             android:label="@string/title_activity_meus_servicos"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activity.TelaInicialActivity"
-            android:exported="true"
-            android:label="@string/title_activity_tela_inicial"
-            android:theme="@style/Theme.ClickJobs.NoActionBar" />
+            android:theme="@style/Theme.ClickJobs"
+            android:parentActivityName=".activity.TelaPrincipalActivity"/>
+
         <activity
             android:name=".activity.ScrollingActivity"
             android:exported="true"
