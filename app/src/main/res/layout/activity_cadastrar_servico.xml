@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.CadastrarServicoActivity"
+    >
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarCadServico"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img1CadServ"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onClick"
+                    app:srcCompat="@drawable/img_padrao" />
+
+                <ImageView
+                    android:id="@+id/img2CadServ"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onClick"
+                    app:srcCompat="@drawable/img_padrao" />
+
+                <ImageView
+                    android:id="@+id/img3CadServ"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onClick"
+                    app:srcCompat="@drawable/img_padrao" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spnUF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <Spinner
+                    android:id="@+id/spnCategoria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edtTituloCadServ"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:inputType="textPersonName"
+                android:padding="10dp"
+                android:hint="Título" />
+
+            <com.blackcat.currencyedittext.CurrencyEditText
+                android:id="@+id/editValorCadServ"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:allow_negative_values="true"
+                android:layout_marginBottom="16dp"
+                android:padding="10dp"
+                />
+
+
+            <EditText
+                android:id="@+id/edtDescricaoCadServ"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:maxLength="300"
+                android:maxLines="20"
+                android:gravity="top"
+                android:layout_marginBottom="16dp"
+                android:inputType="textPersonName"
+                android:padding="10dp"
+                android:hint="Descrição" />
+
+            <Button
+                android:id="@+id/btnCadServ"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="salvarAnuncio"
+                android:text="Cadastrar Serviço" />
+
+        </LinearLayout>
+
+</LinearLayout>

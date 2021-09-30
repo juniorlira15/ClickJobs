@@ -73,7 +73,7 @@
 
 
 
-    <include layout="@layout/content_tela_principal2"/>
+    <include layout="@layout/content_tela_principal"/>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fabTelaPrincipal"

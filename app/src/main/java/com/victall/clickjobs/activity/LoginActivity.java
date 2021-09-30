@@ -94,6 +94,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         configLoginGoogle();
 
+        //UsuarioFirebase.verificaUsuarioLogado(this);
 
 
     }
@@ -130,7 +131,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
 
-                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    startActivity(new Intent(LoginActivity.this, TelaPrincipalActivity.class));
                                     finish();
                                 }
                             }
@@ -437,7 +438,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             currentUser.reload();
 
             // Não faz nada
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            startActivity(new Intent(LoginActivity.this, TelaPrincipalActivity.class));
             finish();
 
         }

@@ -1,5 +1,6 @@
 package com.victall.clickjobs.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +21,12 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
 
     private ArrayList<Anuncio> anunciosList;
     private AdapterView.OnItemClickListener mListener;
+    private Context context;
 
-
-    public AnuncioAdapter(ArrayList<Anuncio> anunciosList) {
+    public AnuncioAdapter(ArrayList<Anuncio> anunciosList, Context context) {
         this.anunciosList = anunciosList;
+        this.context = context;
+
     }
 
     @NonNull
@@ -38,11 +41,11 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
     public void onBindViewHolder(@NonNull AnuncioViewHolder holder, int position) {
 
 
-        Picasso.get().load(String.valueOf(anunciosList.get(position).getImageView())).into(holder.imgAnuncio);
-        holder.txtValor.setText(anunciosList.get(position).getTxtFaixaValor().getText());
-        holder.txtNome.setText(anunciosList.get(position).getTextViewNome().getText());
-        holder.txtEnd.setText(anunciosList.get(position).getTxtEndereco().getText());
-        holder.txtCategoria.setText(anunciosList.get(position).getTxtCategoria().getText());
+        Picasso.get().load(String.valueOf(anunciosList.get(position).getFoto().get(0))).into(holder.imgAnuncio);
+        holder.txtValor.setText(anunciosList.get(position).getValor());
+        holder.txtNome.setText(anunciosList.get(position).getTitulo());
+        holder.txtEnd.setText(anunciosList.get(position).getEndereco());
+        holder.txtCategoria.setText(anunciosList.get(position).getCategoria());
 
 
     }

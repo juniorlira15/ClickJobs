@@ -16,6 +16,8 @@ public class Usuario {
     private String id;
     private String foto;
     private String ultimaAtualizacao;
+    private String latitude;
+    private String longitude;
 
     {
         this.setFoto("");
@@ -27,6 +29,22 @@ public class Usuario {
 
     public void setUltimaAtualizacao(String ultimaAtualizacao) {
         this.ultimaAtualizacao = ultimaAtualizacao;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 
     public String getFoto() {

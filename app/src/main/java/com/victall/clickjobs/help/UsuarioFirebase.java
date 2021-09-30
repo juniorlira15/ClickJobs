@@ -29,6 +29,7 @@ import com.iceteck.silicompressorr.FileUtils;
 import com.iceteck.silicompressorr.SiliCompressor;
 import com.victall.clickjobs.activity.CadastroActivity;
 import com.victall.clickjobs.activity.MainActivity;
+import com.victall.clickjobs.activity.TelaPrincipalActivity;
 import com.victall.clickjobs.model.Usuario;
 
 
@@ -56,7 +57,7 @@ public class UsuarioFirebase {
             FirebaseUser user = getFirebaseUser();
             if (user != null) {
 
-                Intent intent = new Intent(activity, MainActivity.class);
+                Intent intent = new Intent(activity, TelaPrincipalActivity.class);
                 activity.startActivity(intent);
                 activity.finish();
 
