@@ -3,23 +3,36 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/branco"
+    android:background="?android:attr/selectableItemBackground"
     android:elevation="4dp"
-    android:layout_marginBottom="2dp"
-    android:layout_marginStart="2dp"
-    android:layout_marginEnd="2dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgAnuncio"
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:padding="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgAnuncio"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:padding="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+        ...(your complex view here)...
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+
 
     <TextView
         android:id="@+id/txtNomeProf"
@@ -31,7 +44,7 @@
         android:text="Carlos Antônio"
         android:textColor="@color/cinza_escuro"
         app:layout_constraintBottom_toTopOf="@+id/txtCategProf"
-        app:layout_constraintStart_toEndOf="@+id/imgAnuncio" />
+        app:layout_constraintStart_toEndOf="@+id/shimmer_view_container" />
 
     <TextView
         android:id="@+id/txtCategProf"
@@ -42,7 +55,7 @@
         android:text="Carpinteiro"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imgAnuncio"
+        app:layout_constraintStart_toEndOf="@+id/shimmer_view_container"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

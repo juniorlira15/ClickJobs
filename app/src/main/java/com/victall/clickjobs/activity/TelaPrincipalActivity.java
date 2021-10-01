@@ -10,25 +10,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.victall.clickjobs.R;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.victall.clickjobs.adapter.AnuncioAdapter;
-import com.victall.clickjobs.config.ConfiguracaoFirebase;
+import com.victall.clickjobs.help.EndlessRecyclerViewScrollListener;
 import com.victall.clickjobs.model.Anuncio;
+import com.victall.clickjobs.model.AnunciosDAO;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class TelaPrincipalActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -36,6 +31,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     private RecyclerView recyclerView;
     private AnuncioAdapter adapter;
     private RecyclerView.LayoutManager manager;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
 
 
@@ -45,7 +41,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         setContentView(R.layout.activity_tela_principal);
 
         recyclerView = findViewById(R.id.recyclerTelaPrincipal);
-        anuncios_list = new ArrayList<>();
+        anuncios_list = AnunciosDAO.getAnuncios();
 
 
         //Configurar RecyclerView
@@ -74,7 +70,35 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
             }
         });
 
-        getAnuncios();
+        adapter.setOnItemClickListener(new AnuncioAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Toast.makeText(TelaPrincipalActivity.this, "Clicou aqui"+position, Toast.LENGTH_SHORT).show();
+                detalhesAnuncio(adapter.getAnuncios().get(position));
+            }
+        });
+
+
+    }
+
+    private void detalhesAnuncio(Anuncio anuncio) {
+
+        anuncio.setCategoria(anuncio.getCategoria());
+        anuncio.setIdAnuncio(anuncio.getIdAnuncio());
+        anuncio.setDescricao(anuncio.getDescricao());
+        anuncio.setTitulo(anuncio.getTitulo());
+        anuncio.setValor(anuncio.getValor());
+        anuncio.setFoto(anuncio.getFoto());
+        anuncio.setData(anuncio.getData());
+        anuncio.setEndereco(anuncio.getEndereco());
+
+        Intent intent = new Intent(getApplicationContext(),DetalhesAnuncioActivity.class);
+
+        intent.putExtra("anuncio", anuncio);
+
+        startActivity(intent);
+
+
     }
 
     @Override
@@ -84,7 +108,6 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
         if(id == R.id.nav_home){startActivity(new Intent(TelaPrincipalActivity.this,MeusServicosActivity.class));}
 
-
         return true;
     }
 
@@ -92,45 +115,8 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     protected void onRestart() {
         super.onRestart();
 
-        getAnuncios();
     }
 
-    private void getAnuncios(){
-
-        DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
-
-        reference.child("anuncios").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for(DataSnapshot estados : snapshot.getChildren()) {
-                    for (DataSnapshot categorias : estados.getChildren()) {
-                        for (DataSnapshot anuncios : categorias.getChildren()) {
-
-                            Anuncio anuncio = anuncios.getValue(Anuncio.class);
-                            Log.d("ANUNCIO", "onDataChange: " + anuncio.getTitulo());
-                            anuncios_list.add(anuncio);
-                        }
-                    }
-
-                }
-                Collections.reverse( anuncios_list );
-                adapter.notifyDataSetChanged();
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-
-
-
-    }
 
     private void filtrarEstado(){
 

@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.collection.ArraySet;
 
 import android.Manifest;
 import android.app.Activity;
@@ -32,6 +31,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.victall.clickjobs.R;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
 import com.victall.clickjobs.help.Permissoes;
@@ -64,7 +64,7 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastrar_servico);
 
-        Toolbar toolbar = findViewById(R.id.toolbarCadServico);
+        Toolbar toolbar = findViewById(R.id.toolbarDetalhesAnuncio);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -151,13 +151,13 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
     }
 
     private void abreDialog(){
-        View viewTitle = View.inflate(this,R.layout.custom_title_dialog,null);
+        //View viewTitle = View.inflate(this,R.layout.custom_title_dialog,null);
         builder = new AlertDialog.Builder(this);
         builder.setMessage("Salvando serviço...");
         builder.setCancelable(false);
 //        builder.setCustomTitle(viewTitle);
 //        builder.setTitle("Gravando Serviço...");
-        builder.setView(R.layout.layout_alert_dialog);
+        //builder.setView(R.layout.layout_alert_dialog);
         alertDialog = builder.create();
         alertDialog.show();
 
@@ -311,11 +311,14 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
             String caminhaImagem = imagemSelecionada.toString();
 
             if (requestCode == 1) {
-                img1.setImageURI(imagemSelecionada);
+                Picasso.get().load(imagemSelecionada)
+                        .into(img1);
             }else if(requestCode == 2){
-                img2.setImageURI(imagemSelecionada);
+                Picasso.get().load(imagemSelecionada)
+                        .into(img2);
             }else if(requestCode == 3){
-                img3.setImageURI(imagemSelecionada);
+                Picasso.get().load(imagemSelecionada)
+                        .into(img3);
             }
 
             listaFotosRecuperadas.add(caminhaImagem);

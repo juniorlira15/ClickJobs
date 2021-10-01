@@ -43,7 +43,7 @@ public class MeusServicosActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbarMeusSericos);
         recyclerView = findViewById(R.id.recyclerMeusServicos);
-        recyclerView = new RecyclerView(this);
+        //recyclerView = new RecyclerView(this);
         anuncios_list = new ArrayList<>();
         adapter = new AnuncioAdapter(anuncios_list,this);
         manager = new LinearLayoutManager(this);

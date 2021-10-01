@@ -15,7 +15,7 @@
         android:theme="@style/AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarCadServico"
+            android:id="@+id/toolbarDetalhesAnuncio"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -30,7 +30,7 @@
             android:padding="16dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginBottom="16dp"
                 android:orientation="horizontal">
@@ -38,7 +38,7 @@
                 <ImageView
                     android:id="@+id/img1CadServ"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="100dp"
                     android:layout_weight="1"
                     android:onClick="onClick"
                     app:srcCompat="@drawable/img_padrao" />
@@ -46,7 +46,7 @@
                 <ImageView
                     android:id="@+id/img2CadServ"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="100dp"
                     android:layout_weight="1"
                     android:onClick="onClick"
                     app:srcCompat="@drawable/img_padrao" />
@@ -54,7 +54,7 @@
                 <ImageView
                     android:id="@+id/img3CadServ"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="100dp"
                     android:layout_weight="1"
                     android:onClick="onClick"
                     app:srcCompat="@drawable/img_padrao" />

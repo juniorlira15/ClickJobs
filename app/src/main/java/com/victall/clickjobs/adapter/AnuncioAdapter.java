@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.victall.clickjobs.R;
 import com.victall.clickjobs.model.Anuncio;
@@ -20,13 +22,24 @@ import java.util.ArrayList;
 public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioViewHolder> {
 
     private ArrayList<Anuncio> anunciosList;
-    private AdapterView.OnItemClickListener mListener;
+    private OnItemClickListener mListener;
     private Context context;
+
 
     public AnuncioAdapter(ArrayList<Anuncio> anunciosList, Context context) {
         this.anunciosList = anunciosList;
-        this.context = context;
+    }
 
+    public ArrayList<Anuncio> getAnuncios(){
+        return anunciosList;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 
     @NonNull
@@ -41,7 +54,23 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
     public void onBindViewHolder(@NonNull AnuncioViewHolder holder, int position) {
 
 
-        Picasso.get().load(String.valueOf(anunciosList.get(position).getFoto().get(0))).into(holder.imgAnuncio);
+        Picasso.get().
+                load(String.valueOf(anunciosList.get(position).getFoto().get(0)))
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_placeholder_error)
+                .into(holder.imgAnuncio, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        holder.shimmer_view_container.hideShimmer();
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                });
+
+
         holder.txtValor.setText(anunciosList.get(position).getValor());
         holder.txtNome.setText(anunciosList.get(position).getTitulo());
         holder.txtEnd.setText(anunciosList.get(position).getEndereco());
@@ -59,9 +88,12 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
 
         private ImageView imgAnuncio;
         private TextView txtNome,txtValor,txtCategoria,txtEnd;
+        private ShimmerFrameLayout shimmer_view_container;
 
 
-        public AnuncioViewHolder(@NonNull View itemView, AdapterView.OnItemClickListener onItemClickListener) {
+
+
+        public AnuncioViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
 
             imgAnuncio = itemView.findViewById(R.id.imgAnuncio);
@@ -69,6 +101,20 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
             txtEnd = itemView.findViewById(R.id.txtEndServ);
             txtNome = itemView.findViewById(R.id.txtNomeProf);
             txtValor = itemView.findViewById(R.id.txtFaixaPrecoServ);
+            shimmer_view_container = (ShimmerFrameLayout) itemView.findViewById(R.id.shimmer_view_container);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            onItemClickListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
 
         }
     }

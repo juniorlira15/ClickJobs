@@ -3,13 +3,14 @@ package com.victall.clickjobs.model;
 import com.google.firebase.database.DatabaseReference;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Anuncio {
+public class Anuncio implements Serializable {
 
     private ArrayList<String> foto;
     private String titulo;

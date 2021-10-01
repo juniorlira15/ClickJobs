@@ -12,7 +12,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
@@ -46,6 +46,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     //dependenia de mascara de telefone
     implementation 'com.github.rtoshiro.mflibrary:mflibrary:1.0.0'
+
 
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:27.1.0')
@@ -86,7 +87,13 @@ dependencies {
     // carregar imagem da Firebase
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    // Campo de valores
     implementation 'com.github.BlacKCaT27:CurrencyEditText:2.0.2'
+
+    // Mascara de carregamento do FACEbook
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+
 
 }
 apply plugin: 'com.android.application'

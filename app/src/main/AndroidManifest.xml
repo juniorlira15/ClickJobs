@@ -6,9 +6,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -18,11 +18,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
-            android:name=".activity.CadastrarServicoActivity"
-            android:theme="@style/Theme.ClickJobs.NoActionBar"
+            android:name=".activity.DetalhesAnuncioActivity"
             android:parentActivityName=".activity.MeusServicosActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.ClickJobs.NoActionBar"
             android:exported="true" />
+        <activity
+            android:name=".activity.CadastrarServicoActivity"
+            android:exported="true"
+            android:parentActivityName=".activity.MeusServicosActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ClickJobs.NoActionBar" />
         <activity
             android:name=".activity.TelaPrincipalActivity"
             android:exported="true"
@@ -32,14 +38,14 @@
             android:name=".activity.MeusServicosActivity"
             android:exported="true"
             android:label="@string/title_activity_meus_servicos"
-            android:screenOrientation="portrait"
             android:parentActivityName=".activity.TelaPrincipalActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.ClickJobs.NoActionBar" />
         <activity
             android:name=".activity.ScrollingActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_scrolling" />
+            android:label="@string/title_activity_scrolling"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ConfirmacaoEmailActivity"
             android:exported="true"
@@ -71,13 +77,11 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.TelaInteira">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activity.CadastroActivity"
@@ -99,7 +103,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity android:name=".activity.MainActivity" />

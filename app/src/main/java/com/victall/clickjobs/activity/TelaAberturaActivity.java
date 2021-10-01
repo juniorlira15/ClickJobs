@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.victall.clickjobs.R;
+import com.victall.clickjobs.model.AnunciosDAO;
 
 
 public class TelaAberturaActivity extends AppCompatActivity {
@@ -18,6 +19,8 @@ public class TelaAberturaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_abertura);
+
+
 
         ImageView logo_bb = findViewById(R.id.logo_inicial_splash);
 
@@ -32,6 +35,8 @@ public class TelaAberturaActivity extends AppCompatActivity {
             public void run(){
 
                 try{
+                    AnunciosDAO anunciosDAO = new AnunciosDAO();
+                    anunciosDAO.execute();
                     sleep(3000);
                 }catch (InterruptedException e){
                     e.printStackTrace();
