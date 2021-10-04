@@ -2,6 +2,7 @@ package com.victall.clickjobs.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -10,8 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 
@@ -19,19 +24,19 @@ import com.google.android.material.navigation.NavigationView;
 import com.victall.clickjobs.R;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.victall.clickjobs.adapter.AnuncioAdapter;
+import com.victall.clickjobs.adapter.FiltroAdapter;
 import com.victall.clickjobs.help.EndlessRecyclerViewScrollListener;
 import com.victall.clickjobs.model.Anuncio;
 import com.victall.clickjobs.model.AnunciosDAO;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TelaPrincipalActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private ArrayList<Anuncio> anuncios_list;
     private RecyclerView recyclerView;
     private AnuncioAdapter adapter;
-    private RecyclerView.LayoutManager manager;
-    private EndlessRecyclerViewScrollListener scrollListener;
 
 
 
@@ -118,7 +123,37 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     }
 
 
-    private void filtrarEstado(){
+    private void filtrarEstado(String estado){
+
+
+    }
+
+    public void abrirDialogEstado(View view){
+
+        String[] estados = getResources().getStringArray(R.array.estados);
+        ArrayList<String> estados_list = new ArrayList<>(Arrays.asList(estados));
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Estados");
+        View viewEstado = getLayoutInflater().inflate(R.layout.custom_adapter_recycler, null);
+        builder.setView(viewEstado);
+
+        RecyclerView recyclerView = findViewById(R.id.recylerEstado);
+
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+
+        FiltroAdapter adapter = new FiltroAdapter(estados_list);
+        recyclerView.setAdapter(adapter);
+
+
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
+
 
     }
 
