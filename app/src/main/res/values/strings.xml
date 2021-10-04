@@ -84,33 +84,33 @@
     <string name="menu_slideshow">Buscar Serviços</string>
     <string name="title_activity_meus_servicos">Meus Serviços</string>
     <string-array name="estados">
-        <item>AC</item>
-        <item>AL</item>
-        <item>AM</item>
-        <item>AP</item>
-        <item>BA</item>
-        <item>CE</item>
-        <item>DF</item>
-        <item>ES</item>
-        <item>GO</item>
-        <item>MA</item>
-        <item>MG</item>
-        <item>MS</item>
-        <item>MT</item>
-        <item>PA</item>
-        <item>PB</item>
-        <item>PE</item>
-        <item>PI</item>
-        <item>PR</item>
-        <item>RJ</item>
-        <item>RN</item>
-        <item>RO</item>
-        <item>RR</item>
-        <item>RS</item>
-        <item>SC</item>
-        <item>SE</item>
-        <item>SP</item>
-        <item>TO</item>
+        <item>AC - ACRE</item>
+        <item>AL - ALAGOAS</item>
+        <item>AM - AMAZONAS</item>
+        <item>AP - AMAPÁ</item>
+        <item>BA - BAHIA</item>
+        <item>CE - CEARÁ</item>
+        <item>DF - DISTRITO FEDERAL</item>
+        <item>ES - ESPÍRITO SANTO</item>
+        <item>GO -  GOIÁS</item>
+        <item>MA - MARANHÃO</item>
+        <item>MG - MINAS GERAIS</item>
+        <item>MS - MATO GROSSO DO SUL</item>
+        <item>MT - MATO GROSSO</item>
+        <item>PA - PARÁ</item>
+        <item>PB - PARAÍBA</item>
+        <item>PE - PERNAMBUCO</item>
+        <item>PI - PIAUÍ</item>
+        <item>PR - PARANÁ</item>
+        <item>RJ - RIO DE JANEIRO</item>
+        <item>RN - RIO GRANDE DO NORTE</item>
+        <item>RO - RONDÔNIA</item>
+        <item>RR - RORAIMA</item>
+        <item>RS - RIO GRANDE DO SUL</item>
+        <item>SC - SANTA CATARINA</item>
+        <item>SE - SERGIPE</item>
+        <item>SP - SÃO PAULO</item>
+        <item>TO - TOCANTINS</item>
     </string-array>
     <string-array name="categoria">
         <item>Construção</item>

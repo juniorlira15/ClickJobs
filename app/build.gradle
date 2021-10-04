@@ -93,7 +93,8 @@ dependencies {
     // Mascara de carregamento do FACEbook
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
-
+    // Biblioteca de slider de imagens
+    implementation 'com.synnapps:carouselview:0.1.4'
 
     // MAscara de Carregamento Facebook
     implementation 'com.facebook.shimmer:shimmer:0.5.0'

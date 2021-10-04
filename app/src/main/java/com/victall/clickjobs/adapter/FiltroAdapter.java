@@ -1,5 +1,6 @@
 package com.victall.clickjobs.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,7 @@ public class FiltroAdapter extends RecyclerView.Adapter<FiltroAdapter.FiltroAdap
         holder.textView.setText(lista.get(position));
 
     }
+
 
     @Override
     public int getItemCount() {

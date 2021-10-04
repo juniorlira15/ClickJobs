@@ -9,15 +9,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
 
 import com.google.android.material.navigation.NavigationView;
@@ -25,7 +22,6 @@ import com.victall.clickjobs.R;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.victall.clickjobs.adapter.AnuncioAdapter;
 import com.victall.clickjobs.adapter.FiltroAdapter;
-import com.victall.clickjobs.help.EndlessRecyclerViewScrollListener;
 import com.victall.clickjobs.model.Anuncio;
 import com.victall.clickjobs.model.AnunciosDAO;
 
@@ -37,6 +33,13 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     private ArrayList<Anuncio> anuncios_list;
     private RecyclerView recyclerView;
     private AnuncioAdapter adapter;
+    private String[] estados;
+    private ArrayList<String> estados_list;
+    private String[] categorias;
+    private ArrayList<String> categorias_list;
+    private ExtendedFloatingActionButton actionButton;
+
+
 
 
 
@@ -45,9 +48,15 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_principal);
 
-        recyclerView = findViewById(R.id.recyclerTelaPrincipal);
-        anuncios_list = AnunciosDAO.getAnuncios();
 
+        inicializaViews();
+
+        // Configuraçoes Iniciais
+        estados = getResources().getStringArray(R.array.estados);
+        estados_list = new ArrayList<>(Arrays.asList(estados));
+
+        categorias = getResources().getStringArray(R.array.categoria);
+        categorias_list = new ArrayList<>(Arrays.asList(categorias));
 
         //Configurar RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -56,17 +65,11 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         recyclerView.setAdapter( adapter );
 
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        Toolbar toolbar = findViewById(R.id.toolbarTelaPrincipal);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        // Config. Drawer
+        configDrawer();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
-        ExtendedFloatingActionButton actionButton = findViewById(R.id.fabTelaPrincipal);
+
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,12 +81,31 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         adapter.setOnItemClickListener(new AnuncioAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Toast.makeText(TelaPrincipalActivity.this, "Clicou aqui"+position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(TelaPrincipalActivity.this, "Clicou aqui"+position, Toast.LENGTH_SHORT).show();
                 detalhesAnuncio(adapter.getAnuncios().get(position));
             }
         });
 
 
+    }
+
+    private void inicializaViews(){
+        anuncios_list = AnunciosDAO.getAnuncios();
+        recyclerView = findViewById(R.id.recyclerTelaPrincipal);
+        actionButton = findViewById(R.id.fabTelaPrincipal);
+
+    }
+
+    private void configDrawer(){
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        Toolbar toolbar = findViewById(R.id.toolbarTelaPrincipal);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void detalhesAnuncio(Anuncio anuncio) {
@@ -98,11 +120,8 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         anuncio.setEndereco(anuncio.getEndereco());
 
         Intent intent = new Intent(getApplicationContext(),DetalhesAnuncioActivity.class);
-
         intent.putExtra("anuncio", anuncio);
-
         startActivity(intent);
-
 
     }
 
@@ -110,9 +129,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         int id = item.getItemId();
-
         if(id == R.id.nav_home){startActivity(new Intent(TelaPrincipalActivity.this,MeusServicosActivity.class));}
-
         return true;
     }
 
@@ -122,39 +139,91 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
     }
 
-
     private void filtrarEstado(String estado){
+
+        ArrayList<Anuncio> anuncios_filter = new ArrayList<>();
+
+        for(Anuncio anuncio : anuncios_list){
+            if(anuncio.getEndereco().equals(estado)){
+                anuncios_filter.add(anuncio);
+            }
+        }
+        adapter.filterList(anuncios_filter);
+    }
+
+    private void filtrarCategoria(String categoria){
+
+        ArrayList<Anuncio> anuncios_filter = new ArrayList<>();
+
+        for(Anuncio anuncio : anuncios_list){
+            if(anuncio.getCategoria().equals(categoria)){
+                anuncios_filter.add(anuncio);
+            }
+        }
+
+        adapter.filterList(anuncios_filter);
+    }
+
+    public void abrirDialogCategoria(View view){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Categorias");
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View title = inflater.inflate(R.layout.layout_filtros,null);
+
+        RecyclerView recyclerView = title.findViewById(R.id.recylerFiltros);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+
+        FiltroAdapter adapter = new FiltroAdapter(categorias_list);
+
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+        builder.setView(title);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        adapter.setOnItemClickListener(new FiltroAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                alertDialog.dismiss();
+                filtrarCategoria(categorias_list.get(position));
+            }
+        });
 
 
     }
 
     public void abrirDialogEstado(View view){
 
-        String[] estados = getResources().getStringArray(R.array.estados);
-        ArrayList<String> estados_list = new ArrayList<>(Arrays.asList(estados));
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Estados");
-        View viewEstado = getLayoutInflater().inflate(R.layout.custom_adapter_recycler, null);
-        builder.setView(viewEstado);
 
-        RecyclerView recyclerView = findViewById(R.id.recylerEstado);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View title = inflater.inflate(R.layout.layout_filtros,null);
 
-
+        RecyclerView recyclerView = title.findViewById(R.id.recylerFiltros);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
         FiltroAdapter adapter = new FiltroAdapter(estados_list);
+
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
-
-
+        builder.setView(title);
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
-
-
-
+        adapter.setOnItemClickListener(new FiltroAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                alertDialog.dismiss();
+                filtrarEstado(estados_list.get(position).substring(0,2));
+            }
+        });
     }
 
 

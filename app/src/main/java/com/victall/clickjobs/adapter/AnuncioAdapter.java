@@ -1,6 +1,7 @@
 package com.victall.clickjobs.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,14 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
         void onItemClick(int position);
     }
 
+
+    public void filterList(ArrayList<Anuncio> filteredList) {
+        anunciosList = filteredList;
+        notifyDataSetChanged();
+        Log.d("FILTER", "filterList: "+filteredList.size());
+    }
+
+
     @NonNull
     @Override
     public AnuncioViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -53,10 +62,13 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
     @Override
     public void onBindViewHolder(@NonNull AnuncioViewHolder holder, int position) {
 
+        String titulo = anunciosList.get(position).getTitulo();
 
         Picasso.get().
                 load(String.valueOf(anunciosList.get(position).getFoto().get(0)))
                 .placeholder(R.drawable.img_placeholder)
+                .resize(100,100)
+                .centerCrop()
                 .error(R.drawable.img_placeholder_error)
                 .into(holder.imgAnuncio, new Callback() {
                     @Override
@@ -72,7 +84,14 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
 
 
         holder.txtValor.setText(anunciosList.get(position).getValor());
-        holder.txtNome.setText(anunciosList.get(position).getTitulo());
+
+        if(titulo.length()>20){
+            String novoTitulo = titulo.substring(0,19)+"...";
+            holder.txtNome.setText(novoTitulo);
+        }else{
+            holder.txtNome.setText(titulo);
+        }
+
         holder.txtEnd.setText(anunciosList.get(position).getEndereco());
         holder.txtCategoria.setText(anunciosList.get(position).getCategoria());
 
