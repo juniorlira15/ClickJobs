@@ -8,15 +8,20 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.victall.clickjobs.R;
 import com.victall.clickjobs.model.Anuncio;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DetalhesAnuncioActivity extends AppCompatActivity {
 
     private Anuncio anuncio;
     private TextView txtDesc,txtCategoria,txtValor,txtEndereco,txtTitulo;
     private Toolbar mToolbar;
-    private Carousel carousel;
+    private ImageSlider slider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +38,9 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         txtEndereco = findViewById(R.id.txtEndereco);
         txtValor = findViewById(R.id.txtValor);
         txtTitulo = findViewById(R.id.txtTitulo);
-        carousel = findViewById(R.id.imgFotosAnuncio);
+        slider = findViewById(R.id.imageSliderDetalhesAnuncio);
+
+
 
         if (bundle != null) {
 
@@ -45,6 +52,14 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
             txtCategoria.setText(anuncio.getCategoria());
             txtDesc.setText(anuncio.getDescricao());
             txtTitulo.setText(anuncio.getTitulo());
+
+            List<SlideModel> slideModels = new ArrayList<>();
+
+            for(int i=0; i<anuncio.getFoto().size();i++){
+                slideModels.add(new SlideModel(anuncio.getFoto().get(i), ""));
+            }
+            slider.setImageList(slideModels,true);
+
 
 
 

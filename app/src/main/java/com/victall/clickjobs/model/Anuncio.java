@@ -20,6 +20,9 @@ public class Anuncio implements Serializable {
     private String descricao;
     private String data;
     private String idAnuncio;
+    private String idAnunciante;
+    private String nomeAnunciante;
+
 
     {
         data = recuperaData();
@@ -29,6 +32,22 @@ public class Anuncio implements Serializable {
     public Anuncio() {
         DatabaseReference anuncioRef = ConfiguracaoFirebase.getDatabaseReference().child("meus_anuncios");
         setIdAnuncio(anuncioRef.push().getKey());
+    }
+
+    public String getIdAnunciante() {
+        return idAnunciante;
+    }
+
+    public void setIdAnunciante(String idAnunciante) {
+        this.idAnunciante = idAnunciante;
+    }
+
+    public String getNomeAnunciante() {
+        return nomeAnunciante;
+    }
+
+    public void setNomeAnunciante(String nomeAnunciante) {
+        this.nomeAnunciante = nomeAnunciante;
     }
 
     public String getData() {

@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 
 import com.google.android.material.navigation.NavigationView;
@@ -156,12 +157,19 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
         ArrayList<Anuncio> anuncios_filter = new ArrayList<>();
 
+        //Toast.makeText(this, estado, Toast.LENGTH_SHORT).show();
+
         for(Anuncio anuncio : anuncios_list){
             if(anuncio.getEndereco().equals(estado)){
                 anuncios_filter.add(anuncio);
             }
         }
-        adapter.filterList(anuncios_filter);
+        if(estado.equals("TODOS")){
+            adapter.filterList(anuncios_list);
+        }else{
+            adapter.filterList(anuncios_filter);
+        }
+
     }
 
     private void filtrarCategoria(String categoria){
@@ -174,7 +182,11 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
             }
         }
 
-        adapter.filterList(anuncios_filter);
+        if(categoria.equals("TODAS")){
+            adapter.filterList(anuncios_list);
+        }else{
+            adapter.filterList(anuncios_filter);
+        }
     }
 
     public void abrirDialogCategoria(View view){
@@ -234,7 +246,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
             @Override
             public void onItemClick(int position) {
                 alertDialog.dismiss();
-                filtrarEstado(estados_list.get(position).substring(0,2));
+                filtrarEstado(estados_list.get(position));
             }
         });
     }

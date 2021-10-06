@@ -85,6 +85,7 @@
     <string name="menu_sair">Sair</string>
     <string name="title_activity_meus_servicos">Meus Serviços</string>
     <string-array name="estados">
+        <item> TODOS </item>
         <item>AC - ACRE</item>
         <item>AL - ALAGOAS</item>
         <item>AM - AMAZONAS</item>
@@ -114,6 +115,7 @@
         <item>TO - TOCANTINS</item>
     </string-array>
     <string-array name="categoria">
+        <item> TODAS </item>
         <item>Construção</item>
         <item>Informática</item>
         <item>Limpeza</item>
