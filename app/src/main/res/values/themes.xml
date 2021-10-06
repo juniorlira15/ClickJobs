@@ -27,6 +27,7 @@
         <item name="colorPrimary">@color/roxo_medio</item>
         <item name="colorPrimaryDark">@color/roxo</item>
         <item name="colorAccent">@color/roxo_claro</item>
+        <item name="fontFamily">@font/montserrat_medium</item>
         Customize your theme here.
 
 

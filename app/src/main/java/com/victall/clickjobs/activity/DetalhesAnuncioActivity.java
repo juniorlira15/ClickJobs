@@ -2,6 +2,7 @@ package com.victall.clickjobs.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.helper.widget.Carousel;
 
 import android.os.Bundle;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
     private Anuncio anuncio;
     private TextView txtDesc,txtCategoria,txtValor,txtEndereco,txtTitulo;
     private Toolbar mToolbar;
+    private Carousel carousel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         txtEndereco = findViewById(R.id.txtEndereco);
         txtValor = findViewById(R.id.txtValor);
         txtTitulo = findViewById(R.id.txtTitulo);
+        carousel = findViewById(R.id.imgFotosAnuncio);
 
         if (bundle != null) {
 
@@ -48,6 +51,8 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         }else{
             Toast.makeText(this, "Erro ao consultar informações.", Toast.LENGTH_SHORT).show();
         }
+
+
     }
 
     public void inicializaToolbar(){

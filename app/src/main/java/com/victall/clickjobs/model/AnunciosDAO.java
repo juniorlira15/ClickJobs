@@ -28,6 +28,8 @@ public class AnunciosDAO extends AsyncTask {
 
         DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
 
+        ANUNCIOS.clear();
+
         reference.child("anuncios").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

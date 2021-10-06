@@ -18,10 +18,12 @@ import android.view.View;
 
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.victall.clickjobs.R;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.victall.clickjobs.adapter.AnuncioAdapter;
 import com.victall.clickjobs.adapter.FiltroAdapter;
+import com.victall.clickjobs.config.ConfiguracaoFirebase;
 import com.victall.clickjobs.model.Anuncio;
 import com.victall.clickjobs.model.AnunciosDAO;
 
@@ -129,8 +131,19 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         int id = item.getItemId();
-        if(id == R.id.nav_home){startActivity(new Intent(TelaPrincipalActivity.this,MeusServicosActivity.class));}
+        if(id == R.id.nav_meus_servicos){startActivity(new Intent(TelaPrincipalActivity.this,MeusServicosActivity.class));}
+        if(id == R.id.nav_novo_servico){startActivity(new Intent(TelaPrincipalActivity.this,CadastrarServicoActivity.class));}
+        if(id == R.id.nav_meu_perfil){startActivity(new Intent(TelaPrincipalActivity.this,PerfilActivity.class));}
+        if(id == R.id.nav_sair){sair();}
         return true;
+    }
+
+    public void sair(){
+        FirebaseAuth firebaseAuth = ConfiguracaoFirebase.getFirebaseAuth();
+        firebaseAuth.signOut();
+        startActivity(new Intent(TelaPrincipalActivity.this,LoginActivity.class));
+        finish();
+        //LoginActivity.logout();
     }
 
     @Override

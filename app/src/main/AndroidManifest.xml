@@ -18,11 +18,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
-            android:name=".activity.DetalhesAnuncioActivity"
+            android:name=".activity.PerfilActivity"
+            android:exported="true"
+            android:parentActivityName=".activity.TelaPrincipalActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ClickJobs.NoActionBar"/>
+        <activity
+            android:name=".activity.DetalheMeuAnuncioActivity"
+            android:exported="true"
             android:parentActivityName=".activity.MeusServicosActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.ClickJobs.NoActionBar"
-            android:exported="true" />
+            android:theme="@style/Theme.ClickJobs.NoActionBar" />
+        <activity
+            android:name=".activity.DetalhesAnuncioActivity"
+            android:exported="true"
+            android:parentActivityName=".activity.TelaPrincipalActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ClickJobs.NoActionBar" />
         <activity
             android:name=".activity.CadastrarServicoActivity"
             android:exported="true"
@@ -41,11 +53,6 @@
             android:parentActivityName=".activity.TelaPrincipalActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.ClickJobs.NoActionBar" />
-        <activity
-            android:name=".activity.ScrollingActivity"
-            android:exported="true"
-            android:label="@string/title_activity_scrolling"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ConfirmacaoEmailActivity"
             android:exported="true"

@@ -50,6 +50,7 @@ public class MeusServicosActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -65,6 +66,31 @@ public class MeusServicosActivity extends AppCompatActivity {
 
         getMeusAnuncios();
 
+        adapter.setOnItemClickListener(new AnuncioAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+
+                Anuncio anuncio = anuncios_list.get(position);
+
+                Intent intent = new Intent(getApplicationContext(),DetalheMeuAnuncioActivity.class);
+                intent.putExtra("anuncio", anuncio);
+
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     private void getMeusAnuncios() {
@@ -72,7 +98,7 @@ public class MeusServicosActivity extends AppCompatActivity {
         DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
         FirebaseUser firebaseUser = UsuarioFirebase.getFirebaseUser();
 
-        reference.child("meus_anuncios").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+        reference.child("meus_anuncios").child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 

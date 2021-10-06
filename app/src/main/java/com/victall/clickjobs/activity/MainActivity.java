@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
     public void abreTelaScroll(View view){
-        startActivity(new Intent(MainActivity.this,ScrollingActivity.class));
+
     }
 
     public void abreTelaInicial(View view){

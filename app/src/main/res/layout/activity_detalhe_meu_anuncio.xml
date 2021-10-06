@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.DetalheMeuAnuncioActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarDetalheMeuAnuncio"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/PopupOverlay">
+
+            <TextView
+                android:id="@+id/txtTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/branco"
+                android:textSize="18sp"
+                android:text="" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+<!--    <androidx.constraintlayout.helper.widget.Carousel-->
+<!--        android:id="@+id/carouselView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="200dp"-->
+<!--        app:fillColor="@color/branco"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/appBarLayout4"-->
+<!--        app:pageColor="@color/cinza_escuro"-->
+<!--        app:radius="6dp"-->
+<!--        app:slideInterval="3000"-->
+<!--        app:strokeColor="@color/cinza_muito_claro"-->
+<!--        app:strokeWidth="1dp" />-->
+
+    <TextView
+        android:id="@+id/txtTituloMeuAnuncio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        style="@style/fonte_padrao"
+        android:textSize="@dimen/tamanho_maior"
+        android:text="Titulo" />
+
+    <TextView
+        android:id="@+id/txtValorMeuAnuncio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/fonte_padrao"
+        android:textStyle="bold"
+        android:textSize="@dimen/tamanho_maior"
+        android:padding="10dp"
+        android:text="R$ 100,00" />
+
+    <TextView
+        android:id="@+id/txtEnderecoMeuAnuncio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/fonte_padrao"
+        android:textSize="@dimen/tamanho_menor"
+        android:padding="10dp"
+        android:text="Montes Claros" />
+
+    <Button
+        android:id="@+id/btnAlterar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Alterar" />
+
+    <Button
+        android:id="@+id/btnExcluir"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Excluir" />
+
+
+</LinearLayout>
