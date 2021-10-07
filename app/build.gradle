@@ -90,9 +90,10 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     // Biblioteca de slider de imagens
-//    implementation 'com.synnapps:carouselview:0.1.5'
-
     implementation 'com.github.denzcoskun:ImageSlideshow:0.0.6'
+
+    //panel deslizante vertical
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
 
 
 }

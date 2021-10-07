@@ -5,12 +5,19 @@
     <color name="cinza_muito_claro">#F2F2F2</color>
     <color name="roxo">#360259</color>
     <color name="roxo_medio">#56048C</color>
-    <color name="roxo_claro">#6708A6</color>
+    <color name="roxo_claro">#9806D7</color>
     <color name="cinza_escuro">#221E26</color>
+    <color name="cinza_medio">#808080</color>
+    <color name="cinza_medio_claro">#DFDFDF</color>
     <color name="background">#FAFAFA</color>
     <color name="login_form_details">#ccffffff</color>
     <color name="login_form_details_light">#1affffff</color>
     <color name="login_form_details_medium">#66ffffff</color>
+    <color name="azul_facebook">#3B5998</color>
+    <color name="vermelho_google">#F1584D</color>
+    <color name="azul_escuro">#3D5775</color>
+    <color name="amarelo">#FFB900</color>
+    <color name="roxo_rose">#BE4AF1</color>
 
 
 </resources>

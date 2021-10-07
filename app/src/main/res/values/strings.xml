@@ -3,10 +3,10 @@
     <string name="logomarca_clickjobs">logomarca clickjobs</string>
     <string name="hint_email">Email</string>
     <string name="hint_senha">Senha</string>
-    <string name="btn_entrar">Entrar</string>
+    <string name="btn_entrar">Login</string>
     <string name="txtNaoTenhoCad">Não tenho cadastro</string>
     <string name="txtCadastrar">Cadastrar</string>
-    <string name="entrar_com_google">Entrar com Google</string>
+    <string name="entrar_com_google">Google</string>
     <string name="entrar_com_facebook">Entrar com Facebook</string>
     <string name="facebook_app_id">922330525333303</string>
     <string name="fb_login_protocol_scheme">fb922330525333303</string>

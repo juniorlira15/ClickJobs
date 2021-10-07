@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/dragview"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/bg_ponta_redonda_filtro"
+    android:layout_height="match_parent">
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/nunito_bold"
+            android:gravity="center"
+            android:text="Filtrar"
+            android:textColor="@color/branco"
+            android:textSize="34sp" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="22dp"
+            android:fontFamily="@font/nunito_semi_bold"
+            android:text="Preço"
+            android:textColor="@color/branco"
+            android:textSize="20dp" />
+
+        <SeekBar
+            android:id="@+id/seekBarPreco"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="45dp"
+            android:progressBackgroundTint="@color/roxo_rose"
+            android:progressTint="@color/amarelo"
+            android:thumbTint="@color/amarelo" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/nunito_semi_bold"
+
+            android:text="Proximidade"
+            android:textColor="@color/branco"
+            android:textSize="20dp" />
+
+        <SeekBar
+            android:id="@+id/seekBarProximidade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="45dp"
+            android:progressBackgroundTint="@color/roxo_rose"
+            android:progressTint="@color/amarelo"
+            android:thumbTint="@color/amarelo" />
+    </LinearLayout>
+</RelativeLayout>

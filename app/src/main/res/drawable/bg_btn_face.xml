@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<item>
+
+    <shape xmlns:android="http://schemas.android.com/apk/res/android"
+        android:color="?android:colorControlHighlight">
+        <corners android:radius="40dp"/>
+        <solid android:color="@color/azul_facebook"/>
+
+    </shape>
+</item>
+</selector>

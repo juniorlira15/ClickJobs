@@ -24,14 +24,17 @@
 
     <style name="Theme.ClickJobs.NoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!--         Primary brand color. -->
-        <item name="colorPrimary">@color/roxo_medio</item>
+        <item name="colorPrimary">@color/branco</item>
         <item name="colorPrimaryDark">@color/roxo</item>
         <item name="colorAccent">@color/roxo_claro</item>
+        <item name="android:statusBarColor">@color/branco</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="fontFamily">@font/montserrat_medium</item>
         Customize your theme here.
-
-
     </style>
+
+
+
 
     <style name="Theme.Teste.Fullscreen" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/roxo_medio</item>
@@ -68,7 +71,7 @@
     <style name="fonte_padrao">
         <item name="fontFamily">@font/montserrat_medium</item>
         <item name="android:textSize">@dimen/tamanho_menor</item>
-        <item name="android:textColor">@color/cinza_escuro</item>
+        <item name="android:textColor">@color/cinza_medio</item>
     </style>
 
     <style name="fonte_btn" parent="TextAppearance.MaterialComponents.Button">
@@ -81,7 +84,7 @@
     </style>
 
     <style name="fonte_btn_google" parent="TextAppearance.MaterialComponents.Button">
-        <item name="fontFamily">@font/montserrat_medium</item>
+        <item name="fontFamily">@font/nunito_regular</item>
         <item name="android:textSize">@dimen/tamanho_btn</item>
         <!--        <item name="android:background">@color/roxo_medio</item>-->
         <item name="android:textColor">@color/cinza_escuro</item>
@@ -91,13 +94,13 @@
     </style>
 
     <style name="fonte_btn_facebook" parent="TextAppearance.MaterialComponents.Button">
-        <item name="fontFamily">@font/montserrat_medium</item>
+        <item name="fontFamily">@font/nunito_regular</item>
         <item name="android:textSize">@dimen/tamanho_btn</item>
         <!--        <item name="android:background">@color/roxo_medio</item>-->
         <item name="android:textColor">@color/cinza_escuro</item>
-        <item name="background">@color/branco</item>
-        <item name="backgroundTint">@color/branco</item>
-        <item name="android:drawableStart">@drawable/icon_face</item>
+
+        <item name="android:colorControlHighlight">@color/azul_facebook</item>
+
     </style>
 
     <style name="fonte_txt_click">
@@ -109,36 +112,42 @@
     <style name="Thema.EditText" parent="Theme.Teste.Fullscreen">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/roxo_medio</item>
+        <item name="hintTextColor">@color/cinza_medio</item>
         <item name="colorPrimaryVariant">@color/roxo_claro</item>
         <item name="colorControlNormal">@color/cinza_escuro</item>
+        <item name="strokeColor">@color/roxo_claro</item>
+        <item name="android:strokeColor">@color/roxo_claro</item>
+        <item name="boxStrokeWidth">1dp</item>
         <item name="colorControlActivated">@color/roxo_claro</item>
         <item name="colorControlHighlight">@color/roxo_claro</item>
         <item name="colorBackgroundFloating">@color/roxo_claro</item>
         <item name="autoCompleteTextViewStyle">@color/roxo_claro</item>
+        <item name="fontFamily">@font/nunito_regular</item>
 
 
     </style>
 
     <style name="Thema.TextInputLayout" parent="Widget.Design.TextInputLayout">
         <item name="boxBackgroundMode">outline</item>
+        <item name="fontFamily">@font/nunito_regular</item>
         <item name="boxBackgroundColor">@color/cinza_muito_claro</item>
         <item name="boxStrokeColor">@color/cinza_escuro</item>
-        <item name="strokeWidth">0dp</item>
+        <item name="strokeWidth">1dp</item>
         <item name="hintTextColor">@color/roxo_medio</item>
-        <item name="android:textColor">@color/cinza_escuro</item>
+        <item name="android:textColor">@color/cinza_medio</item>
         <item name="counterTextColor">@color/roxo_medio</item>
-        <item name="shapeAppearance">@style/ShapeAppearance.MaterialComponents.SmallComponent</item>
+
         <item name="errorTextColor">@color/roxo_medio</item>
         <item name="colorControlNormal">@color/cinza_escuro</item>
-        <item name="fontFamily">@font/montserrat_medium</item>
         <item name="android:textSize">@dimen/tamanho_menor</item>
         <item name="colorControlActivated">@color/roxo_medio</item>
         <item name="colorControlHighlight">@color/roxo_medio</item>
         <item name="colorBackgroundFloating">@color/roxo_medio</item>
         <item name="autoCompleteTextViewStyle">@color/roxo_medio</item>
-        <item name="android:textColorHint">@color/cinza_escuro</item>
+        <item name="android:textColorHint">@color/cinza_medio</item>
         <item name="paddingStart">10dp</item>
         <item name="android:drawablePadding">10dp</item>
+
     </style>
 
     <style name="Theme.Fullscreen" parent="Theme.AppCompat.Light.NoActionBar">

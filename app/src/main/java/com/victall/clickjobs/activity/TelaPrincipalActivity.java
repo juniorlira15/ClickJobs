@@ -5,21 +5,26 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.victall.clickjobs.R;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.victall.clickjobs.adapter.AnuncioAdapter;
@@ -41,6 +46,8 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     private String[] categorias;
     private ArrayList<String> categorias_list;
     private ExtendedFloatingActionButton actionButton;
+    private SlidingUpPanelLayout mUpPanelLayout;
+    private ImageView imgFiltro,imgAdd,imgPesquisar;
 
 
 
@@ -53,6 +60,10 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
 
         inicializaViews();
+
+        mUpPanelLayout = findViewById(R.id.sliding_panel);
+        mUpPanelLayout.setAnchorPoint(1.0f);
+        mUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
 
         // Configuraçoes Iniciais
         estados = getResources().getStringArray(R.array.estados);
@@ -89,6 +100,26 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
             }
         });
 
+        imgFiltro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+            }
+        });
+
+        imgAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TelaPrincipalActivity.this,CadastrarServicoActivity.class));
+            }
+        });
+
+        mUpPanelLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            }
+        });
 
     }
 
@@ -96,6 +127,9 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         anuncios_list = AnunciosDAO.getAnuncios();
         recyclerView = findViewById(R.id.recyclerTelaPrincipal);
         actionButton = findViewById(R.id.fabTelaPrincipal);
+        imgFiltro = findViewById(R.id.img_filtro);
+        imgAdd = findViewById(R.id.img_add);
+        imgPesquisar = findViewById(R.id.img_lupa);
 
     }
 
@@ -109,6 +143,21 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //After instantiating your ActionBarDrawerToggle
+        toggle.setDrawerIndicatorEnabled(false);
+        Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.logo_drawer, getApplicationContext().getTheme());
+        toggle.setHomeAsUpIndicator(drawable);
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawer.isDrawerVisible(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    drawer.openDrawer(GravityCompat.START);
+                }
+            }
+        });
     }
 
     private void detalhesAnuncio(Anuncio anuncio) {

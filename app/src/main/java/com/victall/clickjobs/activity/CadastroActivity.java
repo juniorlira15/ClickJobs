@@ -41,7 +41,6 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
 
 
 
-    private TextInputEditText campoCelular;
     private FirebaseAuth firebaseAuth;
     private static final String TAG = "EmailPassword";
     private EditText edtNome,edtSobrenome,edtEmail,edtTelefone,edtSenha;
@@ -62,12 +61,12 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
 
         //Criando Máscara do Campo de Telefone
         SimpleMaskFormatter smf = new SimpleMaskFormatter("(NN)NNNNN-NNNN");  // cria o formato desejado
-        MaskTextWatcher mtw = new MaskTextWatcher(campoCelular, smf);  // insere o formato no campo a ser preenchido
-        campoCelular.addTextChangedListener(mtw);  // seta o formato no campo texto
+        MaskTextWatcher mtw = new MaskTextWatcher(edtTelefone, smf);  // insere o formato no campo a ser preenchido
+        edtTelefone.addTextChangedListener(mtw);  // seta o formato no campo texto
     }
 
     private void inicializaViews() {
-        campoCelular = findViewById(R.id.campoTelefone);
+//        campoCelular = findViewById(R.id.campoTelefone);
         edtNome = findViewById(R.id.campoNome);
         edtSobrenome = findViewById(R.id.campoSobrenome);
         edtEmail = findViewById(R.id.campoEmail);

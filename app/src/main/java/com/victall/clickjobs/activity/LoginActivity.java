@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText edtEmail,edtSenha;
     private TextView txtEsqueciSenha;
     private LoginButton loginButton;
-    private Button btnLogin,btnLoginGoogle;
+    private Button btnLogin,btnLoginGoogle,btnLoginFace;
     private CallbackManager callbackManager;
     private FirebaseUser firebaseUser;
     private ProgressBar bar;
@@ -77,11 +77,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         edtSenha = findViewById(R.id.edtSenhaLogin);
         txtEsqueciSenha = findViewById(R.id.txtEsqueciSenhaLogin);
         btnLogin = findViewById(R.id.btnLogin);
-        loginButton = findViewById(R.id.btnFacebook);
+        loginButton = findViewById(R.id.btnfacebookFake);
         bar = findViewById(R.id.progressBarLogin);
         firebaseUser = firebaseAuth.getCurrentUser();
         btnLoginGoogle = findViewById(R.id.sign_in_button);
         bar_google = findViewById(R.id.barGoogle);
+        btnLoginFace = findViewById(R.id.btnFace);
 
         if(firebaseUser == null){
 
@@ -95,6 +96,38 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         configLoginGoogle();
 
         //UsuarioFirebase.verificaUsuarioLogado(this);
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+
+                        Toast.makeText(LoginActivity.this, "Sucesso", Toast.LENGTH_SHORT).show();
+                        handleFacebookToken(loginResult.getAccessToken());
+
+                        // definir algumas mudanças no Layout antes de entrar na tela principal
+
+                        loginButton.setVisibility(View.INVISIBLE);
+                        //barFacebook.setVisibility(View.VISIBLE);
+
+
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Toast.makeText(LoginActivity.this, "Cancel", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+                        Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
 
     }
@@ -111,7 +144,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId()){
             case R.id.txtCadastrar : cadastrar(); break;
             case R.id.btnLogin: login(); break;
-            case R.id.btnFacebook: loginFace(); break;
+            case R.id.btnFace: loginFace(); break;
 
         }
     }
@@ -205,32 +238,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void loginFace() {
 
-        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-
-                Toast.makeText(LoginActivity.this, "Sucesso", Toast.LENGTH_SHORT).show();
-                handleFacebookToken(loginResult.getAccessToken());
-
-                // definir algumas mudanças no Layout antes de entrar na tela principal
-
-                loginButton.setVisibility(View.INVISIBLE);
-                //barFacebook.setVisibility(View.VISIBLE);
-
-
-
-            }
-
-            @Override
-            public void onCancel() {
-                Toast.makeText(LoginActivity.this, "Cancel", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
-            }
-        });
+        loginButton.performClick();
 
 
     }

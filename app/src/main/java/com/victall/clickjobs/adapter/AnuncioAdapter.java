@@ -12,13 +12,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.squareup.picasso.Callback;
+
 import com.squareup.picasso.Picasso;
 import com.victall.clickjobs.R;
 import com.victall.clickjobs.model.Anuncio;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioViewHolder> {
 
@@ -64,13 +70,21 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
 
         String titulo = anunciosList.get(position).getTitulo();
 
+
+        List<SlideModel> slideModels = new ArrayList<>();
+
+        for(int i=0; i<anunciosList.get(position).getFoto().size();i++){
+            slideModels.add(new SlideModel(anunciosList.get(position).getFoto().get(i), anunciosList.get(position).getNomeAnunciante()));
+        }
+        holder.imgAnuncio.setImageList(slideModels,true);
+
+
+
         Picasso.get().
-                load(String.valueOf(anunciosList.get(position).getFoto().get(0)))
+                load("https://mkt.io/wp-content/uploads/2021/03/Chief-Design-Officer-Buyer-Persona-profile-1.png")
                 .placeholder(R.drawable.img_placeholder)
-                .resize(100,100)
-                .centerCrop()
                 .error(R.drawable.img_placeholder_error)
-                .into(holder.imgAnuncio, new Callback() {
+                .into(holder.imgPerfil, new Callback() {
                     @Override
                     public void onSuccess() {
                         holder.shimmer_view_container.hideShimmer();
@@ -82,7 +96,6 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
                     }
                 });
 
-
         holder.txtValor.setText(anunciosList.get(position).getValor());
 
         if(titulo.length()>20){
@@ -92,10 +105,10 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
             holder.txtNome.setText(titulo);
         }
 
-        holder.txtEnd.setText(anunciosList.get(position).getEndereco());
+//        holder.txtEnd.setText(anunciosList.get(position).getEndereco());
         holder.txtCategoria.setText(anunciosList.get(position).getCategoria());
 
-
+        holder.shimmer_view_container.hideShimmer();
     }
 
     @Override
@@ -105,9 +118,10 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
 
     public class AnuncioViewHolder extends RecyclerView.ViewHolder{
 
-        private ImageView imgAnuncio;
+        private ImageSlider imgAnuncio;
         private TextView txtNome,txtValor,txtCategoria,txtEnd;
         private ShimmerFrameLayout shimmer_view_container;
+        private CircleImageView imgPerfil;
 
 
 
@@ -117,10 +131,11 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
 
             imgAnuncio = itemView.findViewById(R.id.imgAnuncio);
             txtCategoria = itemView.findViewById(R.id.txtCategProf);
-            txtEnd = itemView.findViewById(R.id.txtEndServ);
+//            txtEnd = itemView.findViewById(R.id.txtEndServ);
             txtNome = itemView.findViewById(R.id.txtNomeProf);
             txtValor = itemView.findViewById(R.id.txtFaixaPrecoServ);
             shimmer_view_container = (ShimmerFrameLayout) itemView.findViewById(R.id.shimmer_view_container);
+            imgPerfil = itemView.findViewById(R.id.imgAnunciante);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
