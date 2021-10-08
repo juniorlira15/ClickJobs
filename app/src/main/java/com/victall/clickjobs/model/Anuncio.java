@@ -19,6 +19,7 @@ public class Anuncio implements Serializable {
     private String endereco;
     private String descricao;
     private String data;
+    private String hora;
     private String idAnuncio;
     private String idAnunciante;
     private String nomeAnunciante;
@@ -26,6 +27,7 @@ public class Anuncio implements Serializable {
 
     {
         data = recuperaData();
+        hora = recuperaHora();
     }
 
 
@@ -36,6 +38,14 @@ public class Anuncio implements Serializable {
 
     public String getIdAnunciante() {
         return idAnunciante;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
     }
 
     public void setIdAnunciante(String idAnunciante) {
@@ -128,5 +138,14 @@ public class Anuncio implements Serializable {
 
 
         return data;
+    }
+
+    public String recuperaHora(){
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        Date hora = Calendar.getInstance().getTime(); // Ou qualquer outra forma que tem
+        String dataFormatada = sdf.format(hora);
+
+        return dataFormatada;
     }
 }

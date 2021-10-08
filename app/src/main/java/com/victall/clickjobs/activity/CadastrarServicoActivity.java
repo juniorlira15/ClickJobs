@@ -22,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.blackcat.currencyedittext.CurrencyEditText;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,17 +33,19 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.victall.clickjobs.R;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
+import com.victall.clickjobs.help.MoneyTextWatcher;
 import com.victall.clickjobs.help.Permissoes;
 import com.victall.clickjobs.help.UsuarioFirebase;
 import com.victall.clickjobs.model.Anuncio;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class CadastrarServicoActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText edtTitulo,edtDescricao;
-    private CurrencyEditText edtValor;
+    private EditText edtValor;
     private Spinner spnCategoria;
     private Spinner spnEstado;
     private ImageView img1,img2,img3;
@@ -57,6 +58,8 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
     private StorageReference storage;
     private ArrayList<String> listaURLFotos;
     private Anuncio anuncio;
+    private FirebaseUser firebaseUser;
+    private Locale mLocale;
 
 
     @Override
@@ -71,6 +74,8 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
         inicializaViews();
 
         carregaDadosString();
+
+        firebaseUser = UsuarioFirebase.getFirebaseUser();
 
         Permissoes.validarPermissoes(permissoes,this,1);
     }
@@ -105,9 +110,11 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
     }
     private void inicializaViews() {
 
+        mLocale = new Locale("pt", "BR");
         edtTitulo = findViewById(R.id.edtTituloCadServ);
         edtDescricao = findViewById(R.id.edtDescricaoCadServ);
         edtValor = findViewById(R.id.editValorCadServ);
+        edtValor.addTextChangedListener(new MoneyTextWatcher(edtValor, mLocale));
         spnCategoria = findViewById(R.id.spnCategoria);
         spnEstado = findViewById(R.id.spnUF);
         img1 = findViewById(R.id.img1CadServ);
@@ -124,7 +131,9 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
         String UF = spnEstado.getSelectedItem().toString();
         String titulo = edtTitulo.getText().toString();
         String descricao = edtDescricao.getText().toString();
-        String valor = String.valueOf(edtValor.getRawValue());
+        String valor = edtValor.getText().toString();
+        String idAnunciante = firebaseUser.getUid();
+        String nomeAnunciante = firebaseUser.getDisplayName();
 
 
         if(validaCampos()){
@@ -137,6 +146,9 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
             anuncio.setCategoria(categoria);
             anuncio.setDescricao(descricao);
             anuncio.setValor(valor);
+            anuncio.setIdAnunciante(idAnunciante);
+            anuncio.setNomeAnunciante(nomeAnunciante);
+
 
             for (int i=0; i < listaFotosRecuperadas.size(); i++){
                 String urlImagem = listaFotosRecuperadas.get(i);
@@ -206,7 +218,6 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
 
     private void gravaAnuncioFirebase(){
 
-        FirebaseUser firebaseUser = UsuarioFirebase.getFirebaseUser();
         DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
 
         // GRAVANDO NO ANUNCIOS GERAL
@@ -251,7 +262,7 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
     public boolean validaCampos(){
         if(!edtTitulo.getText().toString().equals("")){
             if(!edtDescricao.getText().toString().equals("")){
-                if(!String.valueOf(edtValor.getRawValue()).equals("")){
+                if(!edtValor.getText().toString().equals("")){
                     if(listaFotosRecuperadas.size() != 0){
                         return true;
                     }else {

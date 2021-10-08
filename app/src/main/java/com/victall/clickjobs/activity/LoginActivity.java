@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private CallbackManager callbackManager;
     private FirebaseUser firebaseUser;
     private ProgressBar bar;
-    private GoogleSignInClient mGoogleSignInClient;
+    private static GoogleSignInClient mGoogleSignInClient;
     private GoogleSignInOptions gso;
     private static final int RC_SIGN_IN = 9001;
     private ProgressBar bar_google;
@@ -109,7 +109,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         // definir algumas mudanças no Layout antes de entrar na tela principal
 
-                        loginButton.setVisibility(View.INVISIBLE);
+                        //
+                        //loginButton.setVisibility(View.INVISIBLE);
                         //barFacebook.setVisibility(View.VISIBLE);
 
 
@@ -292,7 +293,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                             Toast.makeText(LoginActivity.this, "Seja bem vindo", Toast.LENGTH_LONG).show();
                             fechaProgressBar(bar);
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            UsuarioFirebase.atualizaCadastroGoogle(user.getUid());
+                            Intent intent = new Intent(LoginActivity.this, TelaPrincipalActivity.class);
                             intent.putExtra("Key",user.getUid());
                             startActivity(intent);
                             finish();
@@ -375,8 +377,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         if(task.isSuccessful()){
 
-                            Toast.makeText(LoginActivity.this, "deu certo", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                            //Toast.makeText(LoginActivity.this, "deu certo", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(LoginActivity.this,TelaPrincipalActivity.class));
                             finish();
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             UsuarioFirebase.verificaUsuarioLogado(LoginActivity.this);
@@ -452,7 +454,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    public void logout(){
+    public static void logout(){
 
         // Logoff Google
         if(mGoogleSignInClient!=null){

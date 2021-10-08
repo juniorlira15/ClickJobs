@@ -24,7 +24,7 @@
 
     <style name="Theme.ClickJobs.NoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!--         Primary brand color. -->
-        <item name="colorPrimary">@color/branco</item>
+        <item name="colorPrimary">@color/roxo_medio</item>
         <item name="colorPrimaryDark">@color/roxo</item>
         <item name="colorAccent">@color/roxo_claro</item>
         <item name="android:statusBarColor">@color/branco</item>
@@ -33,6 +33,17 @@
         Customize your theme here.
     </style>
 
+    <style name="Theme.ClickJobs.NoActionBar.Tela.Principal" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!--         Primary brand color. -->
+        <item name="colorPrimary">@color/roxo_medio</item>
+        <item name="colorPrimaryDark">@color/roxo</item>
+        <item name="colorAccent">@color/roxo_claro</item>
+        <item name="android:statusBarColor">@color/branco</item>
+        <item name="statusBarBackground">@color/branco</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="fontFamily">@font/montserrat_medium</item>
+        Customize your theme here.
+    </style>
 
 
 

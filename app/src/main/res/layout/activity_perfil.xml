@@ -42,6 +42,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
+            android:onClick="alteraFoto"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
@@ -181,6 +182,7 @@
                 android:src="@drawable/ic_editar"
                 android:text="TextView" />
         </LinearLayout>
+
     </LinearLayout>
 
 

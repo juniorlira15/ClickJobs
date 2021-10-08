@@ -50,7 +50,7 @@
             android:name=".activity.TelaPrincipalActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.ClickJobs.NoActionBar" />
+            android:theme="@style/Theme.ClickJobs.NoActionBar.Tela.Principal" />
         <activity
             android:name=".activity.MeusServicosActivity"
             android:exported="true"

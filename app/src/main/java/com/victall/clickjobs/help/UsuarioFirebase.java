@@ -30,6 +30,7 @@ import com.iceteck.silicompressorr.SiliCompressor;
 import com.victall.clickjobs.activity.CadastroActivity;
 import com.victall.clickjobs.activity.MainActivity;
 import com.victall.clickjobs.activity.TelaPrincipalActivity;
+import com.victall.clickjobs.model.Anuncio;
 import com.victall.clickjobs.model.Usuario;
 
 
@@ -328,6 +329,53 @@ public class UsuarioFirebase {
                 Log.i("INFO", "Falha ao fazer upload: " + e.getMessage());
             }
         });
+    }
+
+    public static void atualizaFotoUsuario(final String foto, final Context context){
+
+        final FirebaseUser user = getFirebaseUser();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try{
+                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                            .setPhotoUri(Uri.parse(foto))
+                            .build();
+                    user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                            if (task.isSuccessful()) {
+                                Log.d("Perfil", "Erro ao atualizar a foto do Perfil");
+                            }
+                        }
+                    });
+                }catch (Exception e){
+                    e.printStackTrace();
+
+                }
+            }
+        }).start();
+
+
+    }
+
+    public static void atualizaCadastroGoogle(String key){
+
+        Usuario usuario = new Usuario();
+
+        FirebaseUser firebaseUser = getFirebaseUser();
+
+        usuario.setNome(firebaseUser.getDisplayName());
+        usuario.setEmail(firebaseUser.getEmail());
+        usuario.setFoto(firebaseUser.getPhotoUrl().toString());
+        usuario.setId(firebaseUser.getUid());
+        DatabaseReference databaseReference = ConfiguracaoFirebase.getDatabaseReference();
+        databaseReference.child("usuarios").child(key).setValue(usuario);
+
+
     }
 
 

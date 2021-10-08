@@ -37,7 +37,7 @@
 
                 <ImageView
                     android:id="@+id/img1CadServ"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:onClick="onClick"
@@ -45,7 +45,7 @@
 
                 <ImageView
                     android:id="@+id/img2CadServ"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:onClick="onClick"
@@ -53,7 +53,7 @@
 
                 <ImageView
                     android:id="@+id/img3CadServ"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:onClick="onClick"
@@ -84,16 +84,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
+                android:fontFamily="@font/nunito_semi_bold"
                 android:inputType="textPersonName"
                 android:padding="10dp"
                 android:hint="Título" />
 
-            <com.blackcat.currencyedittext.CurrencyEditText
+            <EditText
                 android:id="@+id/editValorCadServ"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:allow_negative_values="true"
                 android:layout_marginBottom="16dp"
+                android:inputType="number"
+                android:fontFamily="@font/nunito_semi_bold"
+                android:hint="R$ 0,00"
                 android:padding="10dp"
                 />
 
@@ -104,6 +107,7 @@
                 android:layout_height="200dp"
                 android:maxLength="300"
                 android:maxLines="20"
+                android:fontFamily="@font/nunito_semi_bold"
                 android:gravity="top"
                 android:layout_marginBottom="16dp"
                 android:inputType="textPersonName"

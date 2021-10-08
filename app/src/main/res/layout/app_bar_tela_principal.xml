@@ -11,6 +11,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/branco"
         android:theme="@style/AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
@@ -18,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_marginTop="40dp"
-            android:background="?attr/colorPrimary"
+            android:background="@color/branco"
             app:popupTheme="@style/PopupOverlay">
 
 <!--            <ImageView-->

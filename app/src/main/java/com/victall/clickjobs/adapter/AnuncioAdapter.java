@@ -60,7 +60,7 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
     @NonNull
     @Override
     public AnuncioViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_anuncio,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_anuncio2,parent,false);
         AnuncioViewHolder viewHolder = new AnuncioViewHolder(view,mListener);
         return viewHolder;
     }
@@ -68,7 +68,7 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
     @Override
     public void onBindViewHolder(@NonNull AnuncioViewHolder holder, int position) {
 
-        String titulo = anunciosList.get(position).getTitulo();
+        String titulo = anunciosList.get(position).getNomeAnunciante();
 
 
         List<SlideModel> slideModels = new ArrayList<>();

@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
+import com.facebook.login.Login;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -77,6 +78,11 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         recyclerView.setHasFixedSize(true);
         adapter = new AnuncioAdapter(anuncios_list, this);
         recyclerView.setAdapter( adapter );
+
+        AnunciosDAO anunciosDAO = new AnunciosDAO();
+        anunciosDAO.equals(this);
+        anuncios_list = AnunciosDAO.getAnuncios();
+        adapter.notifyDataSetChanged();
 
 
         // Config. Drawer
@@ -189,8 +195,11 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     }
 
     public void sair(){
-        FirebaseAuth firebaseAuth = ConfiguracaoFirebase.getFirebaseAuth();
-        firebaseAuth.signOut();
+
+        LoginActivity.logout();
+
+//        FirebaseAuth firebaseAuth = ConfiguracaoFirebase.getFirebaseAuth();
+//        firebaseAuth.signOut();
         startActivity(new Intent(TelaPrincipalActivity.this,LoginActivity.class));
         finish();
         //LoginActivity.logout();
