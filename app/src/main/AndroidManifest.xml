@@ -18,10 +18,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
-            android:name=".novas.Login2Activity"
+            android:name=".activity.ChatActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.ClickJobs.NoActionBar"/>
+        <activity
+            android:name=".novas.Login2Activity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ClickJobs.NoActionBar" />
         <activity
             android:name=".activity.PerfilActivity"
             android:exported="true"

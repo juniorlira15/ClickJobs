@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.helper.widget.Carousel;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +21,7 @@ import java.util.List;
 public class DetalhesAnuncioActivity extends AppCompatActivity {
 
     private Anuncio anuncio;
-    private TextView txtDesc,txtCategoria,txtValor,txtEndereco,txtTitulo;
+    private TextView txtDesc,txtCategoria,txtValor,txtEndereco,txtTitulo,txtNome;
     private Toolbar mToolbar;
     private ImageSlider slider;
 
@@ -33,13 +35,13 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
 
         inicializaToolbar();
 
-        txtDesc = findViewById(R.id.txtDescricao);
+        //txtDesc = findViewById(R.id.txtDescricao);
         txtCategoria = findViewById(R.id.txtCategoria);
-        txtEndereco = findViewById(R.id.txtEndereco);
+        //txtEndereco = findViewById(R.id.txtEndereco);
         txtValor = findViewById(R.id.txtValor);
         txtTitulo = findViewById(R.id.txtTitulo);
         slider = findViewById(R.id.imageSliderDetalhesAnuncio);
-
+        txtNome = findViewById(R.id.txtNomeAnunciante);
 
 
         if (bundle != null) {
@@ -48,10 +50,11 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
             this.anuncio = anuncio;
 
             txtValor.setText(anuncio.getValor());
-            txtEndereco.setText(anuncio.getEndereco());
+//            txtEndereco.setText(anuncio.getEndereco());
             txtCategoria.setText(anuncio.getCategoria());
-            txtDesc.setText(anuncio.getDescricao());
+    //        txtDesc.setText(anuncio.getDescricao());
             txtTitulo.setText(anuncio.getTitulo());
+            txtNome.setText(anuncio.getNomeAnunciante());
 
             List<SlideModel> slideModels = new ArrayList<>();
 
@@ -75,5 +78,11 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(null);
+    }
+
+    public void abrirChat(View view){
+
+        startActivity(new Intent(DetalhesAnuncioActivity.this,ChatActivity.class));
+
     }
 }

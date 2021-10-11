@@ -14,6 +14,7 @@
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/drawable/bg_button_branco.xml" value="1.0" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/drawable/bg_edt_text.xml" value="0.30234375" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/drawable/bg_login2.xml" value="0.30234375" />
+        <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/drawable/bg_mensagem_chat.xml" value="0.30234375" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/drawable/bg_ponta_redonda_filtro.xml" value="0.30234375" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/drawable/bg_textview_item_anuncio.xml" value="0.30234375" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/drawable/custom_title_dialog.xml" value="0.131640625" />
@@ -32,8 +33,10 @@
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout-w936dp/layout_alert_dialog.xml" value="0.36015625" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/activity_cadastrar_servico.xml" value="0.16" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/activity_cadastro.xml" value="0.25" />
+        <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/activity_chat.xml" value="0.22" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/activity_confirmacao_email.xml" value="0.290234375" />
-        <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/activity_detalhes_anuncio.xml" value="0.290234375" />
+        <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/activity_detalhe_meu_anuncio.xml" value="0.290234375" />
+        <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/activity_detalhes_anuncio.xml" value="0.25" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/activity_login2.xml" value="0.25" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/activity_main.xml" value="0.33" />
