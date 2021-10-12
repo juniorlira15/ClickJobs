@@ -37,6 +37,7 @@ import com.victall.clickjobs.help.MoneyTextWatcher;
 import com.victall.clickjobs.help.Permissoes;
 import com.victall.clickjobs.help.UsuarioFirebase;
 import com.victall.clickjobs.model.Anuncio;
+import com.victall.clickjobs.model.AnunciosDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -134,7 +135,10 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
         String valor = edtValor.getText().toString();
         String idAnunciante = firebaseUser.getUid();
         String nomeAnunciante = firebaseUser.getDisplayName();
-
+        String fotoAnunciante = "";
+        if(firebaseUser.getPhotoUrl()!=null) {
+            fotoAnunciante = firebaseUser.getPhotoUrl().toString();
+        }
 
         if(validaCampos()){
 
@@ -148,6 +152,7 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
             anuncio.setValor(valor);
             anuncio.setIdAnunciante(idAnunciante);
             anuncio.setNomeAnunciante(nomeAnunciante);
+            anuncio.setFotoAnunciante(fotoAnunciante);
 
 
             for (int i=0; i < listaFotosRecuperadas.size(); i++){
@@ -178,6 +183,8 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
 
 
     private void salvarFotoStorage(String urlString,int id,int contador){
+
+
 
         //Criar nÃ³ no storage
         StorageReference imagemAnuncio = storage.child("imagens")
@@ -219,6 +226,7 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
     private void gravaAnuncioFirebase(){
 
         DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
+        AnunciosDAO anunciosDAO = new AnunciosDAO();
 
         // GRAVANDO NO ANUNCIOS GERAL
         reference.child("anuncios").child(anuncio.getEndereco()).child(anuncio.getCategoria()).child(anuncio.getIdAnuncio()).setValue(anuncio)
@@ -246,6 +254,7 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(CadastrarServicoActivity.this, "Serviço inserido com sucesso!", Toast.LENGTH_SHORT).show();
+                //anunciosDAO.execute(getApplicationContext());
                 finish();
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -256,6 +265,8 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
                 finish();
             }
         });
+
+
     }
 
 

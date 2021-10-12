@@ -350,14 +350,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 fechaProgressBar(bar_google);
-                //Toast.makeText(this, "Problema desconhecido: "+e.getStatusCode(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Problema desconhecido: "+e.getStatusCode(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
 
             }
 
-
-
-
+        }else{
+            Toast.makeText(this, "Problema desconhecido", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -27,13 +27,14 @@
             app:popupTheme="@style/PopupOverlay">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imageView7"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:id="@+id/imgFotoAnunciante"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="10dp"
                 app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
             <TextView
-                android:id="@+id/txtTitulo"
+                android:id="@+id/txtChatNomeAnunciante"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -46,13 +47,14 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerMensagens"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginEnd="6dp"
       android:layout_marginBottom="10dp"
@@ -63,7 +65,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="6dp"
             android:paddingStart="16dp"
@@ -74,12 +76,16 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/textView16"
+                android:id="@+id/edtMensagemChat"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="3dp"
                 android:layout_marginBottom="3dp"
+                android:maxLines="30"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:layout_marginEnd="4dp"
                 android:layout_weight="1"
                 android:background="@color/branco" />
 
@@ -98,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:layout_gravity="center"
-
+            android:onClick="enviarMensagem"
             android:clickable="true"
             app:srcCompat="@drawable/ic_send" />
     </LinearLayout>

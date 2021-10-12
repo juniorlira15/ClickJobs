@@ -85,7 +85,7 @@ public class UsuarioFirebase {
                             usuario.setId(idUser);
 
                             DatabaseReference mRef = ConfiguracaoFirebase.getDatabaseReference()
-                                    .child("clientes").child(idUser);
+                                    .child("usuarios").child(idUser);
 
                             mRef.setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -243,8 +243,8 @@ public class UsuarioFirebase {
 
 
                 DatabaseReference foto_usuario = ConfiguracaoFirebase.getDatabaseReference()
-                        .child("clientes").child(user.getUid()).child("foto");
-                DatabaseReference telefone_usuario = ConfiguracaoFirebase.getDatabaseReference().child("clientes").child(user.getUid()).child("telefone");
+                        .child("usuarios").child(user.getUid()).child("foto");
+                DatabaseReference telefone_usuario = ConfiguracaoFirebase.getDatabaseReference().child("usuarios").child(user.getUid()).child("telefone");
 
                 foto_usuario.setValue(String.valueOf(foto)).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -265,7 +265,7 @@ public class UsuarioFirebase {
 
         final Usuario[] user = {new Usuario()};
         final FirebaseUser firebaseUser = UsuarioFirebase.getFirebaseUser();
-        DatabaseReference mRef = ConfiguracaoFirebase.getDatabaseReference().child("clientes");
+        DatabaseReference mRef = ConfiguracaoFirebase.getDatabaseReference().child("usuarios");
 
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -348,7 +348,7 @@ public class UsuarioFirebase {
                         public void onComplete(@NonNull Task<Void> task) {
 
                             if (task.isSuccessful()) {
-                                Log.d("Perfil", "Erro ao atualizar a foto do Perfil");
+                                //Log.d("Perfil", "Erro ao atualizar a foto do Perfil");
                             }
                         }
                     });

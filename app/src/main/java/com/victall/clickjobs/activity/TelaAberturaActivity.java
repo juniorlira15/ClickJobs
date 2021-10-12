@@ -26,7 +26,7 @@ public class TelaAberturaActivity extends AppCompatActivity {
 
         Animation animation = AnimationUtils.loadAnimation(this,R.anim.splash_transition);
 
-        logo_bb.startAnimation(animation);
+        //logo_bb.startAnimation(animation);
 
         final Intent intent = new Intent(TelaAberturaActivity.this, LoginActivity.class);
 

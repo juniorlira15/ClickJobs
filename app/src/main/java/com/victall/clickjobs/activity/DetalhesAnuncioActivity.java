@@ -2,7 +2,6 @@ package com.victall.clickjobs.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.helper.widget.Carousel;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,7 +38,7 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         txtCategoria = findViewById(R.id.txtCategoria);
         //txtEndereco = findViewById(R.id.txtEndereco);
         txtValor = findViewById(R.id.txtValor);
-        txtTitulo = findViewById(R.id.txtTitulo);
+        txtTitulo = findViewById(R.id.txtChatNomeAnunciante);
         slider = findViewById(R.id.imageSliderDetalhesAnuncio);
         txtNome = findViewById(R.id.txtNomeAnunciante);
 
@@ -82,7 +81,11 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
 
     public void abrirChat(View view){
 
-        startActivity(new Intent(DetalhesAnuncioActivity.this,ChatActivity.class));
+        Intent intent = new Intent(DetalhesAnuncioActivity.this,ChatActivity.class);
+        intent.putExtra("anuncio",anuncio);
+        startActivity(intent);
+
+
 
     }
 }

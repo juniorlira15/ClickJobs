@@ -23,6 +23,7 @@ public class Anuncio implements Serializable {
     private String idAnuncio;
     private String idAnunciante;
     private String nomeAnunciante;
+    private String fotoAnunciante;
 
 
     {
@@ -34,6 +35,14 @@ public class Anuncio implements Serializable {
     public Anuncio() {
         DatabaseReference anuncioRef = ConfiguracaoFirebase.getDatabaseReference().child("meus_anuncios");
         setIdAnuncio(anuncioRef.push().getKey());
+    }
+
+    public String getFotoAnunciante() {
+        return fotoAnunciante;
+    }
+
+    public void setFotoAnunciante(String fotoAnunciante) {
+        this.fotoAnunciante = fotoAnunciante;
     }
 
     public String getIdAnunciante() {

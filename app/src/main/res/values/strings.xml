@@ -76,8 +76,8 @@
     <string name="title_activity_tela_inicial">TelaInicialActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Anunciante</string>
+    <string name="nav_header_subtitle">seuemail@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="menu_meus_serv">Meus Serviços</string>
     <string name="menu_novo_serv">Novo Serviço</string>
@@ -136,6 +136,7 @@
 
     <string name="adicionar_an_ncio">Adicionar Anúncio</string>
     <string name="txtTExtoServico">Aqui será o espaço onde o anunciante descreverá seu serviço Aqui será o espaço onde o anunciante descreverá seu serviço Aqui será o espaço onde o anunciante descreverá seu serviço Aqui será o espaço onde o anunciante descreverá seu serviço Aqui será o espaço onde o anunciante descreverá seu serviço</string>
+    <string name="menu_chat">Chat</string>
     <!--    <string name="default_web_client_id">198997572123-p34d8hkrl0rbjtufd5a5js8q6upjguaf.apps.googleusercontent.com</string>-->
 
 

@@ -192,7 +192,7 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
                                 String id = task.getResult().getUser().getUid();
                                 usuario.setId(id);
                                 //usuarioPreferences.salvarIdUsuario(id);
-                                DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("clientes")
+                                DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("usuarios")
                                         .child(id);
 
                                 mRef.setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {

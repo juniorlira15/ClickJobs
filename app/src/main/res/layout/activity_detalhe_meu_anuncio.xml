@@ -25,7 +25,7 @@
             app:popupTheme="@style/PopupOverlay">
 
             <TextView
-                android:id="@+id/txtTitulo"
+                android:id="@+id/txtChatNomeAnunciante"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

@@ -21,7 +21,8 @@
             android:name=".activity.ChatActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.ClickJobs.NoActionBar"/>
+            android:theme="@style/Theme.ClickJobs.NoActionBar"
+            android:parentActivityName=".activity.DetalhesAnuncioActivity"/>
         <activity
             android:name=".novas.Login2Activity"
             android:exported="true"

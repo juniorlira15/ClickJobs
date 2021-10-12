@@ -187,6 +187,7 @@ public class PerfilActivity extends AppCompatActivity {
 
             salvarFotoStorage(caminhaImagem);
 
+            UsuarioFirebase.atualizaFotoUsuario(caminhaImagem,this);
 
 
         }
@@ -203,7 +204,7 @@ public class PerfilActivity extends AppCompatActivity {
                 .child("perfil");
 
         DatabaseReference databaseReference = ConfiguracaoFirebase.getDatabaseReference();
-        databaseReference.child("clientes").child(firebaseUser.getUid()).child("foto");
+        DatabaseReference fotoRef = databaseReference.child("usuarios").child(firebaseUser.getUid()).child("foto");
 
         //Fazer upload do arquivo
         UploadTask uploadTask = imagemAnuncio.putFile( Uri.parse(urlString) );
@@ -218,12 +219,13 @@ public class PerfilActivity extends AppCompatActivity {
 
                         UsuarioFirebase.atualizaFotoUsuario(urlConvertida, PerfilActivity.this);
 
-                        databaseReference.setValue(urlConvertida).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        fotoRef.setValue(urlConvertida).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(PerfilActivity.this, "Foto salva com sucesso.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PerfilActivity.this, "Foto salva com sucesso 5.", Toast.LENGTH_SHORT).show();
                             }
                         });
+
                     }
                 });
 
@@ -236,6 +238,8 @@ public class PerfilActivity extends AppCompatActivity {
                 Toast.makeText(PerfilActivity.this, "Algum erro ocorreu. Tente novamente.", Toast.LENGTH_SHORT).show();
             }
         });
+
+
 
     }
 

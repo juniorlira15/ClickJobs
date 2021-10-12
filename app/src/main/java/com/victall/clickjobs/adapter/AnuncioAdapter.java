@@ -74,28 +74,30 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
         List<SlideModel> slideModels = new ArrayList<>();
 
         for(int i=0; i<anunciosList.get(position).getFoto().size();i++){
-            slideModels.add(new SlideModel(anunciosList.get(position).getFoto().get(i), anunciosList.get(position).getNomeAnunciante()));
+            slideModels.add(new SlideModel(anunciosList.get(position).getFoto().get(i), ""));
         }
         holder.imgAnuncio.setImageList(slideModels,true);
 
+        if(anunciosList.get(position).getFotoAnunciante().isEmpty()){
+            Picasso.get().load(R.drawable.icon_perfil);
+        }else {
 
+            Picasso.get().
+                    load(anunciosList.get(position).getFotoAnunciante())
+                    .placeholder(R.drawable.img_placeholder)
+                    .error(R.drawable.img_placeholder_error)
+                    .into(holder.imgPerfil, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            holder.shimmer_view_container.hideShimmer();
+                        }
 
-        Picasso.get().
-                load("https://mkt.io/wp-content/uploads/2021/03/Chief-Design-Officer-Buyer-Persona-profile-1.png")
-                .placeholder(R.drawable.img_placeholder)
-                .error(R.drawable.img_placeholder_error)
-                .into(holder.imgPerfil, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        holder.shimmer_view_container.hideShimmer();
-                    }
+                        @Override
+                        public void onError(Exception e) {
 
-                    @Override
-                    public void onError(Exception e) {
-
-                    }
-                });
-
+                        }
+                    });
+        }
         holder.txtValor.setText(anunciosList.get(position).getValor());
 
         if(titulo.length()>20){

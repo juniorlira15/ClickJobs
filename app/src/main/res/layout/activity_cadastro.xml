@@ -87,6 +87,7 @@
             android:drawableStart="@drawable/ic_email"
             android:drawablePadding="8dp"
             android:hint="Email"
+            android:inputType="textEmailAddress"
             android:paddingStart="8dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
