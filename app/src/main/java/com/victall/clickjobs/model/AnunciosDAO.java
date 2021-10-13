@@ -28,11 +28,11 @@ public class AnunciosDAO extends AsyncTask {
 
         DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
 
-        ANUNCIOS.clear();
-
         reference.child("anuncios").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                ANUNCIOS.clear();
 
                 for(DataSnapshot estados : snapshot.getChildren()) {
                     for (DataSnapshot categorias : estados.getChildren()) {
@@ -43,9 +43,9 @@ public class AnunciosDAO extends AsyncTask {
                             ANUNCIOS.add(anuncio);
                         }
                     }
-
                 }
-                Collections.reverse( ANUNCIOS );
+
+                Collections.reverse(ANUNCIOS);
 
             }
 
@@ -65,4 +65,6 @@ public class AnunciosDAO extends AsyncTask {
         Log.d("ANUNCIOSDAO", "onPostExecute: "+"Anuncios atualizados");
 
     }
+
+
 }

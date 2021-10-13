@@ -117,7 +117,7 @@ public class PerfilActivity extends AppCompatActivity {
         sobrenome.setText(preferences.getSobrenomeUsuario());
         email.setText(preferences.getEmailUsuario());
         telefone.setText(preferences.getTelefoneUsuario());
-        nomeCompleto.setText(new StringBuilder().append(preferences.getNomeUsuarioCompleto()).append(" ").append(preferences.getSobrenomeUsuario()).toString());
+        nomeCompleto.setText(new StringBuilder().append(preferences.getNomeUsuarioCompleto()));
 
         String fotoPath=preferences.getFotoUsuario();
 

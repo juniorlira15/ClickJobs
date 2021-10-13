@@ -123,6 +123,8 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
             for(int i=0; i<anuncio.getFoto().size();i++){
                 slideModels.add(new SlideModel(anuncio.getFoto().get(i), ""));
             }
+
+
             slider.setImageList(slideModels,true);
 
 

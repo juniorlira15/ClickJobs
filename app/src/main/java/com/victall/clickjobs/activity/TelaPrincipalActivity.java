@@ -55,7 +55,7 @@ import java.util.Locale;
 
 public class TelaPrincipalActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,LocationListener{
 
-    private ArrayList<Anuncio> anuncios_list;
+    //private ArrayList<Anuncio> anuncios_list;
     private RecyclerView recyclerView;
     private AnuncioAdapter adapter;
     private String[] estados;
@@ -93,12 +93,12 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         //Configurar RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        adapter = new AnuncioAdapter(anuncios_list, this);
+        adapter = new AnuncioAdapter(AnunciosDAO.getAnuncios(), this);
         recyclerView.setAdapter( adapter );
 
         AnunciosDAO anunciosDAO = new AnunciosDAO();
         anunciosDAO.equals(this);
-        anuncios_list = AnunciosDAO.getAnuncios();
+        //anuncios_list = AnunciosDAO.getAnuncios();
         adapter.notifyDataSetChanged();
 
         geocoder = new Geocoder(this, Locale.getDefault());
@@ -150,7 +150,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     }
 
     private void inicializaViews(){
-        anuncios_list = AnunciosDAO.getAnuncios();
+        //anuncios_list = AnunciosDAO.getAnuncios();
         recyclerView = findViewById(R.id.recyclerTelaPrincipal);
         actionButton = findViewById(R.id.fabTelaPrincipal);
         imgFiltro = findViewById(R.id.img_filtro);
@@ -237,13 +237,13 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
         //Toast.makeText(this, estado, Toast.LENGTH_SHORT).show();
 
-        for(Anuncio anuncio : anuncios_list){
+        for(Anuncio anuncio : AnunciosDAO.getAnuncios()){
             if(anuncio.getEndereco().equals(estado)){
                 anuncios_filter.add(anuncio);
             }
         }
         if(estado.equals("TODOS")){
-            adapter.filterList(anuncios_list);
+            adapter.filterList(AnunciosDAO.getAnuncios());
         }else{
             adapter.filterList(anuncios_filter);
         }
@@ -254,14 +254,14 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
         ArrayList<Anuncio> anuncios_filter = new ArrayList<>();
 
-        for(Anuncio anuncio : anuncios_list){
+        for(Anuncio anuncio : AnunciosDAO.getAnuncios()){
             if(anuncio.getCategoria().equals(categoria)){
                 anuncios_filter.add(anuncio);
             }
         }
 
         if(categoria.equals("TODAS")){
-            adapter.filterList(anuncios_list);
+            adapter.filterList(AnunciosDAO.getAnuncios());
         }else{
             adapter.filterList(anuncios_filter);
         }
