@@ -15,10 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Callback;
 
 import com.squareup.picasso.Picasso;
 import com.victall.clickjobs.R;
+import com.victall.clickjobs.config.ConfiguracaoFirebase;
 import com.victall.clickjobs.model.Anuncio;
 
 import java.util.ArrayList;
@@ -69,7 +75,38 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
     public void onBindViewHolder(@NonNull AnuncioViewHolder holder, int position) {
 
         String titulo = anunciosList.get(position).getNomeAnunciante();
+        String idAnunciante = anunciosList.get(position).getIdAnunciante();
+        DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
+        DatabaseReference fotoAnunciante = reference.child("usuarios").child(idAnunciante).child("foto");
 
+        fotoAnunciante.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String urlFoto = snapshot.getValue(String.class);
+                if(urlFoto!=null){
+                    Picasso.get().
+                            load(urlFoto)
+                            .placeholder(R.drawable.img_placeholder)
+                            .error(R.drawable.img_placeholder_error)
+                            .into(holder.imgPerfil, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    holder.shimmer_view_container.hideShimmer();
+                                }
+
+                                @Override
+                                public void onError(Exception e) {
+
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         List<SlideModel> slideModels = new ArrayList<>();
 
@@ -78,26 +115,26 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
         }
         holder.imgAnuncio.setImageList(slideModels,true);
 
-        if(anunciosList.get(position).getFotoAnunciante().isEmpty()){
-            Picasso.get().load(R.drawable.icon_perfil);
-        }else {
-
-            Picasso.get().
-                    load(anunciosList.get(position).getFotoAnunciante())
-                    .placeholder(R.drawable.img_placeholder)
-                    .error(R.drawable.img_placeholder_error)
-                    .into(holder.imgPerfil, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            holder.shimmer_view_container.hideShimmer();
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-
-                        }
-                    });
-        }
+//        if(anunciosList.get(position).getFotoAnunciante().isEmpty()){
+//            Picasso.get().load(R.drawable.icon_perfil);
+//        }else {
+//
+//            Picasso.get().
+//                    load("gs://clickjobs-3378d.appspot.com/imagens/usuarios/95kgyg4M6bMCmWxjNU7xfsCSTQB2/perfil")
+//                    .placeholder(R.drawable.img_placeholder)
+//                    .error(R.drawable.img_placeholder_error)
+//                    .into(holder.imgPerfil, new Callback() {
+//                        @Override
+//                        public void onSuccess() {
+//                            holder.shimmer_view_container.hideShimmer();
+//                        }
+//
+//                        @Override
+//                        public void onError(Exception e) {
+//
+//                        }
+//                    });
+//        }
         holder.txtValor.setText(anunciosList.get(position).getValor());
 
         if(titulo.length()>20){

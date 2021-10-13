@@ -28,9 +28,7 @@ import com.google.firebase.storage.UploadTask;
 import com.iceteck.silicompressorr.FileUtils;
 import com.iceteck.silicompressorr.SiliCompressor;
 import com.victall.clickjobs.activity.CadastroActivity;
-import com.victall.clickjobs.activity.MainActivity;
 import com.victall.clickjobs.activity.TelaPrincipalActivity;
-import com.victall.clickjobs.model.Anuncio;
 import com.victall.clickjobs.model.Usuario;
 
 
@@ -94,7 +92,7 @@ public class UsuarioFirebase {
                                     if(task.isSuccessful()){
 
                                         CadastroActivity.acionaProgressBar(false);
-                                        activity.startActivity(new Intent(activity.getApplicationContext(),MainActivity.class));
+                                        activity.startActivity(new Intent(activity.getApplicationContext(), TelaPrincipalActivity.class));
                                         Toast.makeText(activity.getApplicationContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
 
                                     }else{

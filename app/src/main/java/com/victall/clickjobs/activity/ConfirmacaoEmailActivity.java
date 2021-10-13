@@ -41,21 +41,6 @@ public class ConfirmacaoEmailActivity extends AppCompatActivity implements View.
 
         txtMsgConfirmacao.setText(mensagem);
 
-        // verifica se o usuario existe e faz um reload na sessão
-        if(user!=null){
-            user.reload();
-
-            if(user.isEmailVerified()){
-                // Não faz nada
-                startActivity(new Intent(ConfirmacaoEmailActivity.this, MainActivity.class));
-                finish();
-            }else{
-                // Força usuario a confirmar email
-
-
-            }
-        }
-
 
     }
 
@@ -70,7 +55,7 @@ public class ConfirmacaoEmailActivity extends AppCompatActivity implements View.
 
             if(user.isEmailVerified()){
                 // Não faz nada
-                startActivity(new Intent(ConfirmacaoEmailActivity.this, MainActivity.class));
+                startActivity(new Intent(ConfirmacaoEmailActivity.this, TelaPrincipalActivity.class));
                 finish();
             }else{
                 // Força usuario a confirmar email

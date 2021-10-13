@@ -18,11 +18,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
+            android:name=".activity.ConfirmaEnderecoActivity"
+            android:exported="true"
+            android:parentActivityName=".activity.CadastroActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ClickJobs.NoActionBar" />
+        <activity
             android:name=".activity.ChatActivity"
             android:exported="true"
+            android:parentActivityName=".activity.DetalhesAnuncioActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.ClickJobs.NoActionBar"
-            android:parentActivityName=".activity.DetalhesAnuncioActivity"/>
+            android:theme="@style/Theme.ClickJobs.NoActionBar" />
         <activity
             android:name=".novas.Login2Activity"
             android:exported="true"
@@ -124,7 +130,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity" />
     </application>
 
 </manifest>

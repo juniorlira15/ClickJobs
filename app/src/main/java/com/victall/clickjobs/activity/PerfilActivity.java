@@ -19,6 +19,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -29,7 +31,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -37,6 +42,8 @@ import com.victall.clickjobs.R;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
 import com.victall.clickjobs.help.Permissoes;
 import com.victall.clickjobs.help.UsuarioFirebase;
+import com.victall.clickjobs.model.Endereco;
+import com.victall.clickjobs.model.Usuario;
 import com.victall.clickjobs.preferences.UsuarioPreferences;
 
 import java.io.File;
@@ -58,6 +65,9 @@ public class PerfilActivity extends AppCompatActivity {
     private String[] permissoes = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE
     };
+    private DatabaseReference databaseReference;
+    private Endereco endereco;
+    private TextView txtLogradouro,txtEstado,txtPais,txtCep;
 
 
     @Override
@@ -72,8 +82,36 @@ public class PerfilActivity extends AppCompatActivity {
 
         inicializaViews();
 
+        databaseReference = ConfiguracaoFirebase.getDatabaseReference();
 
         preferences = new UsuarioPreferences(this);
+
+        if(preferences.getNomeUsuario().equals("")){
+            recuperaPerfil();
+        }else{
+            recuperaPerfilPreferencias();
+        }
+
+        if(preferences.getCHAVE_LOGRADOURO().equals("Atualizar")){
+            recuperaEndereco();
+        }else{
+            recuperaEnderecoPreferences();
+        }
+
+
+        Permissoes.validarPermissoes(permissoes,this,1);
+
+    }
+
+    private void recuperaEnderecoPreferences() {
+
+        txtLogradouro.setText(preferences.getCHAVE_LOGRADOURO());
+        txtPais.setText(preferences.getCHAVE_PAIS());
+        txtEstado.setText(preferences.getCHAVE_ESTADO());
+        txtCep.setText(preferences.getCHAVE_CEP());
+    }
+
+    private void recuperaPerfilPreferencias() {
 
         nome.setText(preferences.getNomeUsuario());
         sobrenome.setText(preferences.getSobrenomeUsuario());
@@ -86,27 +124,9 @@ public class PerfilActivity extends AppCompatActivity {
         if(!fotoPath.equals("")) {
             loadImageFromStorage(fotoPath);
         }else{
-            // Se não tiver, busca uma foto salva no Perfil do Firebase
-            Uri imgFirebase = UsuarioFirebase.getFirebaseUser().getPhotoUrl();
-            if(imgFirebase!= null){
-                Picasso.get().load(String.valueOf(imgFirebase)).into(img1);
-                try {
-                    // Depois de achar a foto atualiza as preferencias e salva no armazenamento interno
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imgFirebase);
-                    preferences.salvarFotoUsuario(saveToInternalStorage(bitmap));
-                } catch (IOException e) {
-                    img1.setImageResource(R.drawable.ic_perfil);
-                    e.printStackTrace();
-                }
-            }else{
-                // se não encontrar nenhuma foto atualiza com a foto padrão
-                img1.setImageResource(R.drawable.ic_perfil);
-            }
+            // se não encontrar nenhuma foto atualiza com a foto padrão
+            img1.setImageResource(R.drawable.ic_perfil);
         }
-
-
-        Permissoes.validarPermissoes(permissoes,this,1);
-
     }
 
     @Override
@@ -147,8 +167,11 @@ public class PerfilActivity extends AppCompatActivity {
         img1 = findViewById(R.id.imgMeuPerfil);
         storage = ConfiguracaoFirebase.getFirebaseStorage();
         firebaseUser = UsuarioFirebase.getFirebaseUser();
+        txtLogradouro = findViewById(R.id.txtPerfilLogradouro);
+        txtEstado = findViewById(R.id.txtPerfilEstado);
+        txtPais = findViewById(R.id.txtPerfilPais);
+        txtCep  = findViewById(R.id.txtPerfilCep);
     }
-
 
     public void alteraFoto(View view){
 
@@ -203,7 +226,7 @@ public class PerfilActivity extends AppCompatActivity {
                 .child( firebaseUser.getUid() )
                 .child("perfil");
 
-        DatabaseReference databaseReference = ConfiguracaoFirebase.getDatabaseReference();
+
         DatabaseReference fotoRef = databaseReference.child("usuarios").child(firebaseUser.getUid()).child("foto");
 
         //Fazer upload do arquivo
@@ -280,5 +303,92 @@ public class PerfilActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    private void recuperaPerfil(){
+
+        databaseReference.child("usuarios").child(firebaseUser.getUid())
+        .addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Usuario usuario = snapshot.getValue(Usuario.class);
+
+                nome.setText(usuario.getNome());
+                sobrenome.setText(usuario.getSobrenome());
+                email.setText(usuario.getEmail());
+                telefone.setText(usuario.getTelefone());
+                nomeCompleto.setText(new StringBuilder().append(usuario.getNome()).append(" ").append(usuario.getSobrenome()).toString());
+
+                String fotoPath = usuario.getFoto();
+
+                if(!fotoPath.equals("")) {
+                    Picasso.get()
+                            .load(fotoPath)
+                            .into(img1);
+                }else{
+
+                    // Se não tiver, busca uma foto salva no Perfil do Firebase
+                    Uri imgFirebase = firebaseUser.getPhotoUrl();
+
+                    if(imgFirebase!= null){
+                        Picasso.get()
+                                .load(String.valueOf(imgFirebase))
+                                .into(img1);
+
+                        salvaFotoStorage(imgFirebase);
+
+                    }else{
+                        // se não encontrar nenhuma foto atualiza com a foto padrão
+                        img1.setImageResource(R.drawable.ic_perfil);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
+    }
+
+    private void recuperaEndereco(){
+
+        databaseReference.child("enderecos").child(firebaseUser.getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Endereco endereco = snapshot.getValue(Endereco.class);
+
+                        if(endereco!=null) {
+                            txtLogradouro.setText(endereco.getLogradouro());
+                            txtPais.setText(endereco.getPais());
+                            txtEstado.setText(endereco.getEstado());
+                            txtCep.setText(endereco.getCep());
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
+    private void salvaFotoStorage(Uri imgFirebase){
+
+        try {
+            // Depois de achar a foto atualiza as preferencias e salva no armazenamento interno
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imgFirebase);
+            preferences.salvarFotoUsuario(saveToInternalStorage(bitmap));
+        } catch (IOException e) {
+            //img1.setImageResource(R.drawable.ic_perfil);
+            e.printStackTrace();
+        }
     }
 }

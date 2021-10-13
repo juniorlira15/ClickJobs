@@ -72,17 +72,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        edtEmail = findViewById(R.id.edtEmailLogin);
-        edtSenha = findViewById(R.id.edtSenhaLogin);
-        txtEsqueciSenha = findViewById(R.id.txtEsqueciSenhaLogin);
-        btnLogin = findViewById(R.id.btnLogin);
-        loginButton = findViewById(R.id.btnfacebookFake);
-        bar = findViewById(R.id.progressBarLogin);
-        firebaseUser = firebaseAuth.getCurrentUser();
-        btnLoginGoogle = findViewById(R.id.sign_in_button);
-        bar_google = findViewById(R.id.barGoogle);
-        btnLoginFace = findViewById(R.id.btnFace);
+        inicializaViews();
 
         if(firebaseUser == null){
 
@@ -95,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         configLoginGoogle();
 
-        //UsuarioFirebase.verificaUsuarioLogado(this);
+        UsuarioFirebase.verificaUsuarioLogado(this);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,10 +120,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
-
     }
 
-
+    private void inicializaViews() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        edtEmail = findViewById(R.id.edtEmailLogin);
+        edtSenha = findViewById(R.id.edtSenhaLogin);
+        txtEsqueciSenha = findViewById(R.id.txtEsqueciSenhaLogin);
+        btnLogin = findViewById(R.id.btnLogin);
+        loginButton = findViewById(R.id.btnfacebookFake);
+        bar = findViewById(R.id.progressBarLogin);
+        firebaseUser = firebaseAuth.getCurrentUser();
+        btnLoginGoogle = findViewById(R.id.sign_in_button);
+        bar_google = findViewById(R.id.barGoogle);
+        btnLoginFace = findViewById(R.id.btnFace);
+    }
 
     public void cadastrar() {
         startActivity(new Intent(LoginActivity.this,CadastroActivity.class));
@@ -154,30 +155,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(new Intent(LoginActivity.this,RecuperarSenhaActivity.class));
     }
 
-    public void logar() {
-
-        if(!edtEmail.getText().toString().isEmpty()){
-            if(!edtSenha.getText().toString().isEmpty()) {
-
-                firebaseAuth.signInWithEmailAndPassword(this.edtEmail.getText().toString(), this.edtSenha.getText().toString()).
-                        addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-
-                                    startActivity(new Intent(LoginActivity.this, TelaPrincipalActivity.class));
-                                    finish();
-                                }
-                            }
-                        });
-            }else{
-                Toast.makeText(this, "Preencha o campo senha!", Toast.LENGTH_SHORT).show();
-            }
-        }else{
-            Toast.makeText(this, "Preencha o campo email!", Toast.LENGTH_SHORT).show();
-        }
-
-    }
+    // NAo usando
+//    public void logar() {
+//
+//        if(!edtEmail.getText().toString().isEmpty()){
+//            if(!edtSenha.getText().toString().isEmpty()) {
+//
+//                firebaseAuth.signInWithEmailAndPassword(this.edtEmail.getText().toString(), this.edtSenha.getText().toString()).
+//                        addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<AuthResult> task) {
+//                                if (task.isSuccessful()) {
+//
+//                                    startActivity(new Intent(LoginActivity.this, TelaPrincipalActivity.class));
+//                                    finish();
+//                                }
+//                            }
+//                        });
+//            }else{
+//                Toast.makeText(this, "Preencha o campo senha!", Toast.LENGTH_SHORT).show();
+//            }
+//        }else{
+//            Toast.makeText(this, "Preencha o campo email!", Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
 
     private void login() {
 
@@ -198,7 +200,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                                 if (task.isSuccessful()) {
                                     bar.setVisibility(View.GONE);
-                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    startActivity(new Intent(LoginActivity.this, TelaPrincipalActivity.class));
                                     finish();
                                 } else {
 
@@ -275,7 +277,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    // [START auth_with_google]
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 
         bar_google.setVisibility(View.VISIBLE);
@@ -329,8 +330,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
                 });
     }
-    // [END auth_with_google]
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

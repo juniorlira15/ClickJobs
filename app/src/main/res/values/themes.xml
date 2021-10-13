@@ -30,6 +30,7 @@
         <item name="android:statusBarColor">@color/branco</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="fontFamily">@font/montserrat_medium</item>
+        <item name="android:textColor">@color/cinza_escuro</item>
         Customize your theme here.
     </style>
 
