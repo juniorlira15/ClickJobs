@@ -22,7 +22,9 @@ import android.provider.MediaStore;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -67,8 +70,10 @@ public class PerfilActivity extends AppCompatActivity {
     };
     private DatabaseReference databaseReference;
     private Endereco endereco;
-    private TextView txtLogradouro,txtEstado,txtPais,txtCep;
-
+    private TextView txtLogradouro,txtEstado,txtPais,txtCep,txtNumero,txtComplemento,txtBairro,txtCidade;
+    private TextInputEditText edtRua,edtNumero,edtComplemento,edtBairro,edtCidade,edtEstado,edtCep,edtPais;
+    private AlertDialog.Builder builderProgress;
+    private AlertDialog dialogProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +106,13 @@ public class PerfilActivity extends AppCompatActivity {
 
         Permissoes.validarPermissoes(permissoes,this,1);
 
+        builderProgress = new AlertDialog.Builder(this);
+
+        View viewLayoutProgress = LayoutInflater.from(this).inflate(R.layout.layout_progress_bar,null);
+
+        builderProgress.setView(viewLayoutProgress);
+
+        dialogProgress = builderProgress.create();
     }
 
     private void recuperaEnderecoPreferences() {
@@ -167,10 +179,15 @@ public class PerfilActivity extends AppCompatActivity {
         img1 = findViewById(R.id.imgMeuPerfil);
         storage = ConfiguracaoFirebase.getFirebaseStorage();
         firebaseUser = UsuarioFirebase.getFirebaseUser();
+        // Campos de Endereco
         txtLogradouro = findViewById(R.id.txtPerfilLogradouro);
         txtEstado = findViewById(R.id.txtPerfilEstado);
         txtPais = findViewById(R.id.txtPerfilPais);
         txtCep  = findViewById(R.id.txtPerfilCep);
+        txtNumero = findViewById(R.id.txtPerfilNumero);
+        txtComplemento = findViewById(R.id.txtPerfilComplemento);
+        txtBairro = findViewById(R.id.txtPerfilBairro);
+        txtCidade = findViewById(R.id.txtPerfilCidade);
     }
 
     public void alteraFoto(View view){
@@ -186,6 +203,8 @@ public class PerfilActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if( resultCode == Activity.RESULT_OK){
+
+            dialogProgress.show();
 
             // RECUPERAR IMAGEM
             Uri imagemSelecionada = data.getData();
@@ -245,7 +264,8 @@ public class PerfilActivity extends AppCompatActivity {
                         fotoRef.setValue(urlConvertida).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(PerfilActivity.this, "Foto salva com sucesso 5.", Toast.LENGTH_SHORT).show();
+                                dialogProgress.dismiss();
+                                Toast.makeText(PerfilActivity.this, "Foto salva com sucesso.", Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -362,13 +382,18 @@ public class PerfilActivity extends AppCompatActivity {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Endereco endereco = snapshot.getValue(Endereco.class);
+
+                        endereco = snapshot.getValue(Endereco.class);
 
                         if(endereco!=null) {
                             txtLogradouro.setText(endereco.getLogradouro());
                             txtPais.setText(endereco.getPais());
                             txtEstado.setText(endereco.getEstado());
                             txtCep.setText(endereco.getCep());
+                            txtNumero.setText(endereco.getNumero());
+                            txtComplemento.setText(endereco.getComplemento());
+                            txtBairro.setText(endereco.getBairro());
+                            txtCidade.setText(endereco.getCidade());
                         }
 
                     }
@@ -391,4 +416,90 @@ public class PerfilActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    public void atualizaEndereco(View view){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Atualizar endereço");
+
+        View viewLayout = LayoutInflater.from(this).inflate(R.layout.layout_dialog_conf_endereco,null);
+
+
+        if (endereco != null) {
+
+            edtBairro = viewLayout.findViewById(R.id.edtBairro1);
+            edtCep = viewLayout.findViewById(R.id.edtCep1);
+            edtCidade = viewLayout.findViewById(R.id.edtCidade1);
+            edtComplemento = viewLayout.findViewById(R.id.edtComplemento1);
+            edtEstado = viewLayout.findViewById(R.id.edtEstado1);
+            edtNumero = viewLayout.findViewById(R.id.edtNumero1);
+            edtPais = viewLayout.findViewById(R.id.edtPais1);
+            edtRua = viewLayout.findViewById(R.id.edtRua1);
+
+            edtRua.setText(endereco.getLogradouro());
+            edtNumero.setText(endereco.getNumero());
+            edtComplemento.setText(endereco.getComplemento());
+            edtBairro.setText(endereco.getBairro());
+            edtCidade.setText(endereco.getCidade());
+            edtEstado.setText(endereco.getEstado());
+            edtPais.setText(endereco.getPais());
+            edtCep.setText(endereco.getCep());
+
+        }
+
+        builder.setView(viewLayout);
+        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialogProgress.show();
+
+                Endereco endereco = new Endereco();
+
+                endereco.setLogradouro(edtRua.getText().toString());
+                endereco.setNumero(edtNumero.getText().toString());
+                if(edtComplemento.getText().toString().isEmpty()) {
+                    endereco.setComplemento("");
+                }else{
+                    endereco.setComplemento(edtComplemento.getText().toString());
+                }
+                endereco.setCidade(edtCidade.getText().toString());
+                endereco.setCep(edtCep.getText().toString());
+                endereco.setEstado(edtEstado.getText().toString());
+                endereco.setPais(edtPais.getText().toString());
+                endereco.setBairro(edtBairro.getText().toString());
+
+                DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
+                DatabaseReference referenceEnd = reference.child("enderecos").child(UsuarioFirebase.getFirebaseUser().getUid());
+
+                referenceEnd.setValue(endereco).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if(task.isSuccessful()){
+
+                            recuperaEndereco();
+                            Toast.makeText(PerfilActivity.this, "Endereco atualizado com sucesso.", Toast.LENGTH_SHORT).show();
+                            dialogProgress.dismiss();
+
+                        }
+                    }
+                });
+
+            }
+        }).setCancelable(true).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
+
+    }
+
+
 }

@@ -122,6 +122,7 @@ public class ConfirmaEnderecoActivity extends AppCompatActivity {
         endereco.setCep(edtCep.getText().toString());
         endereco.setEstado(edtEstado.getText().toString());
         endereco.setPais(edtPais.getText().toString());
+        endereco.setBairro(edtBairro.getText().toString());
 
         DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
         DatabaseReference referenceEnd = reference.child("enderecos").child(idUsuario);

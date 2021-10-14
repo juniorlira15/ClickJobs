@@ -59,7 +59,7 @@ public class MeusServicosActivity extends AppCompatActivity {
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MeusServicosActivity.this, "asdsadsd", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MeusServicosActivity.this, "asdsadsd", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MeusServicosActivity.this,CadastrarServicoActivity.class));
             }
         });

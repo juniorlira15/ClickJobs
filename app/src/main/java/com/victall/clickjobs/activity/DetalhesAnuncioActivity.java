@@ -23,6 +23,7 @@ import com.victall.clickjobs.R;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
 import com.victall.clickjobs.help.UsuarioFirebase;
 import com.victall.clickjobs.model.Anuncio;
+import com.victall.clickjobs.model.Endereco;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class DetalhesAnuncioActivity extends AppCompatActivity {
 
     private Anuncio anuncio;
-    private TextView txtDesc,txtCategoria,txtValor,txtEndereco,txtTitulo,txtNome;
+    private TextView txtDesc,txtCategoria,txtValor,txtEndereco,txtTitulo,txtNome,txtTellefone,txtServico;
     private Toolbar mToolbar;
     private ImageSlider slider;
     private Button btnAtualizar;
@@ -57,6 +58,8 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         slider = findViewById(R.id.imageSliderDetalhesAnuncio);
         txtNome = findViewById(R.id.txtNomeAnunciante);
         imgAnunciante = findViewById(R.id.imgAnuncianteDetalhesAnuncio);
+        txtTellefone = findViewById(R.id.txtTelefoneDetAnunc);
+        txtServico = findViewById(R.id.txtServico);
 
 
         if (bundle != null) {
@@ -65,23 +68,28 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
             this.anuncio = anuncio;
 
             txtValor.setText(anuncio.getValor());
-            txtEndereco.setText(anuncio.getEndereco());
             txtCategoria.setText(anuncio.getCategoria());
             txtDesc.setText(anuncio.getDescricao());
             txtTitulo.setText(anuncio.getTitulo());
             txtNome.setText(anuncio.getNomeAnunciante());
+            txtServico.setText(anuncio.getTitulo());
 
             String idAnunciante = anuncio.getIdAnunciante();
             DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
             DatabaseReference fotoAnunciante = reference.child("usuarios").child(idAnunciante).child("foto");
-            DatabaseReference enderecoAnunciante = reference.child("enderecos").child(idAnunciante).child("logradouro");
+            DatabaseReference enderecoAnunciante = reference.child("enderecos").child(idAnunciante);
+            DatabaseReference telefoneAnunciante = reference.child("usuarios").child(idAnunciante).child("telefone");
 
             enderecoAnunciante.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String endereco = snapshot.getValue(String.class);
+                    Endereco endereco = snapshot.getValue(Endereco.class);
                     if(endereco!=null){
-                        txtEndereco.setText(endereco);
+                        String bairro = endereco.getBairro();
+                        if(bairro == null){
+                            bairro = "";
+                        }
+                        txtEndereco.setText(bairro+","+endereco.getCidade()+" - "+endereco.getCep());
                     }
                 }
 
@@ -103,6 +111,21 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
                                 .into(imgAnunciante);
                     }else{
                         Picasso.get().load(R.drawable.icon_perfil).into(imgAnunciante);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            telefoneAnunciante.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String telefone = snapshot.getValue(String.class);
+                    if(!telefone.isEmpty()){
+                        txtTellefone.setText(telefone);
                     }
                 }
 
@@ -152,8 +175,6 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         Intent intent = new Intent(DetalhesAnuncioActivity.this,ChatActivity.class);
         intent.putExtra("anuncio",anuncio);
         startActivity(intent);
-
-
 
     }
 }
