@@ -18,6 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
+            android:name=".activity.ConversasActivity"
+            android:exported="true"
+            android:parentActivityName=".activity.TelaPrincipalActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ClickJobs.NoActionBar"/>
+        <activity
             android:name=".activity.ConfirmaEnderecoActivity"
             android:exported="true"
             android:parentActivityName=".activity.CadastroActivity"

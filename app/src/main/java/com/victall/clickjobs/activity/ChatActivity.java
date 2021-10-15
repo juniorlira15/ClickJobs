@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +24,7 @@ import com.victall.clickjobs.adapter.MensagensAdapter;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
 import com.victall.clickjobs.help.UsuarioFirebase;
 import com.victall.clickjobs.model.Anuncio;
+import com.victall.clickjobs.model.Conversa;
 import com.victall.clickjobs.model.Mensagem;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class ChatActivity extends AppCompatActivity {
     private TextView nome;
     private EditText edtMensagem;
     private String idUsuarioRemetente;
-    private String udUsuarioDestinatario;
+    private String idUsuarioDestinatario;
     private RecyclerView recyclerView;
     private MensagensAdapter adapter;
     private List<Mensagem> mensagemList;
@@ -74,7 +74,7 @@ public class ChatActivity extends AppCompatActivity {
                         .into(fotoAnunciante);
             }
             nome.setText(anuncio.getNomeAnunciante());
-            udUsuarioDestinatario = anuncio.getIdAnunciante();
+            idUsuarioDestinatario = anuncio.getIdAnunciante();
 
 
         }
@@ -89,7 +89,7 @@ public class ChatActivity extends AppCompatActivity {
         databaseReference = ConfiguracaoFirebase.getDatabaseReference();
         mensagensRef = databaseReference.child("mensagens")
                 .child(idUsuarioRemetente)
-                .child(udUsuarioDestinatario);
+                .child(idUsuarioDestinatario);
 
 
 
@@ -119,10 +119,29 @@ public class ChatActivity extends AppCompatActivity {
             mensagem.setMensagem(textoMsg);
             mensagem.setIdUsuario(idUsuarioRemetente);
 
-            salvarMensagem(idUsuarioRemetente,udUsuarioDestinatario,mensagem);
+            salvarMensagem(idUsuarioRemetente, idUsuarioDestinatario,mensagem);
 
-            salvarMensagem(udUsuarioDestinatario,idUsuarioRemetente,mensagem);
+            salvarMensagem(idUsuarioDestinatario,idUsuarioRemetente,mensagem);
+
+            salvarConversa(mensagem);
         }
+
+    }
+
+    private void salvarConversa(Mensagem mensagem) {
+
+        Conversa conversa = new Conversa();
+
+        conversa.setIdRemetente(idUsuarioRemetente);
+        conversa.setIdDestinatario(idUsuarioDestinatario);
+        conversa.setUltimaMensagem(mensagem.getMensagem());
+        conversa.setUsuario(anuncio);
+
+
+        DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
+        DatabaseReference conversasRef = reference.child("conversas");
+        conversasRef.child(idUsuarioRemetente).child(idUsuarioDestinatario)
+                .setValue(conversa);
 
     }
 

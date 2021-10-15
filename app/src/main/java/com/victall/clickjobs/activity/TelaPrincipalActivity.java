@@ -211,6 +211,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         if(id == R.id.nav_novo_servico){startActivity(new Intent(TelaPrincipalActivity.this,CadastrarServicoActivity.class));}
         if(id == R.id.nav_meu_perfil){abrePerfil();}
         if(id == R.id.nav_sair){sair();}
+        if(id == R.id.nav_chat){startActivity(new Intent(TelaPrincipalActivity.this,ConversasActivity.class));}
         return true;
     }
 
