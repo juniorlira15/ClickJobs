@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/dragview"
+<RelativeLayout android:id="@+id/dragview"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="@drawable/bg_ponta_redonda_filtro"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:rsb="http://schemas.android.com/tools">
 
 
     <LinearLayout
@@ -35,16 +36,16 @@
             android:textColor="@color/branco"
             android:textSize="20dp" />
 
-        <SeekBar
+        <org.florescu.android.rangeseekbar.RangeSeekBar
             android:id="@+id/seekBarPreco"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="45dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="45dp"
-            android:progressBackgroundTint="@color/roxo_rose"
-            android:progressTint="@color/amarelo"
-            android:thumbTint="@color/amarelo" />
+
+            />
+
 
         <TextView
             android:id="@+id/textView14"
@@ -58,15 +59,15 @@
             android:textColor="@color/branco"
             android:textSize="20dp" />
 
-        <SeekBar
+        <org.florescu.android.rangeseekbar.RangeSeekBar
             android:id="@+id/seekBarProximidade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="45dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="45dp"
-            android:progressBackgroundTint="@color/roxo_rose"
-            android:progressTint="@color/amarelo"
-            android:thumbTint="@color/amarelo" />
+            app:singleThumb="true"
+
+             />
     </LinearLayout>
 </RelativeLayout>

@@ -57,7 +57,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
     //private ArrayList<Anuncio> anuncios_list;
     private RecyclerView recyclerView;
-    private AnuncioAdapter adapter;
+    public static AnuncioAdapter adapter;
     private String[] estados;
     private ArrayList<String> estados_list;
     private String[] categorias;
@@ -77,6 +77,9 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         setContentView(R.layout.activity_tela_principal);
 
 
+        AnunciosDAO anunciosDAO = new AnunciosDAO();
+        anunciosDAO.execute(this);
+
         inicializaViews();
 
         mUpPanelLayout = findViewById(R.id.sliding_panel);
@@ -95,11 +98,6 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         recyclerView.setHasFixedSize(true);
         adapter = new AnuncioAdapter(AnunciosDAO.getAnuncios(), this);
         recyclerView.setAdapter( adapter );
-
-        AnunciosDAO anunciosDAO = new AnunciosDAO();
-        anunciosDAO.equals(this);
-        //anuncios_list = AnunciosDAO.getAnuncios();
-        adapter.notifyDataSetChanged();
 
         geocoder = new Geocoder(this, Locale.getDefault());
 
@@ -146,6 +144,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         });
 
         //recuperaEndereco();
+
 
     }
 

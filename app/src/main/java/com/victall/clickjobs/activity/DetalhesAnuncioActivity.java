@@ -1,10 +1,19 @@
 package com.victall.clickjobs.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +30,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.victall.clickjobs.R;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
+import com.victall.clickjobs.help.Permissoes;
 import com.victall.clickjobs.help.UsuarioFirebase;
 import com.victall.clickjobs.model.Anuncio;
 import com.victall.clickjobs.model.Endereco;
@@ -38,6 +48,9 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
     private ImageSlider slider;
     private Button btnAtualizar;
     private CircleImageView imgAnunciante;
+    private String[] permissoes = new String[]{
+            Manifest.permission.CALL_PHONE
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +173,8 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
             Toast.makeText(this, "Erro ao consultar informações.", Toast.LENGTH_SHORT).show();
         }
 
+        Permissoes.validarPermissoes(permissoes,this,2);
+
 
     }
 
@@ -177,4 +192,15 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    public void ligarAnunciante(View view) {
+
+        String telefone = txtTellefone.getText().toString();
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + telefone));
+        startActivity(intent);
+
+    }
+
+
+
 }

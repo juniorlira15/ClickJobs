@@ -22,6 +22,7 @@ import com.victall.clickjobs.R;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
 import com.victall.clickjobs.help.UsuarioFirebase;
 import com.victall.clickjobs.model.Anuncio;
+import com.victall.clickjobs.model.AnunciosDAO;
 
 public class DetalheMeuAnuncioActivity extends AppCompatActivity {
 
@@ -57,7 +58,7 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 deletarAnuncio(anuncio);
-                finish();
+
             }
         });
 
@@ -86,6 +87,9 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Toast.makeText(DetalheMeuAnuncioActivity.this, "Anúncio removido com Sucesso..", Toast.LENGTH_SHORT).show();
+                AnunciosDAO.deleteItem(anuncio);
+                TelaPrincipalActivity.adapter.notifyDataSetChanged();
+                finish();
             }
         });
     }

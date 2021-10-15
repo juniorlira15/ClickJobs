@@ -109,6 +109,7 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
         alertDialog.show();
 
     }
+
     private void inicializaViews() {
 
         mLocale = new Locale("pt", "BR");
@@ -180,7 +181,6 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
 
 
     }
-
 
     private void salvarFotoStorage(String urlString,int id,int contador){
 
@@ -266,9 +266,11 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
             }
         });
 
+        // Atualizando Lista da Tela Principal
+        AnunciosDAO.addItem(anuncio);
+        TelaPrincipalActivity.adapter.notifyDataSetChanged();
 
     }
-
 
     public boolean validaCampos(){
         if(!edtTitulo.getText().toString().equals("")){

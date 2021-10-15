@@ -9,6 +9,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.victall.clickjobs.activity.TelaPrincipalActivity;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
 
 import java.util.ArrayList;
@@ -22,13 +23,12 @@ public class AnunciosDAO extends AsyncTask {
         return ANUNCIOS;
     }
 
-
     @Override
     protected ArrayList<Anuncio> doInBackground(Object[] objects) {
 
         DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
 
-        reference.child("anuncios").addValueEventListener(new ValueEventListener() {
+        reference.child("anuncios").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -41,9 +41,11 @@ public class AnunciosDAO extends AsyncTask {
                             Anuncio anuncio = anuncios.getValue(Anuncio.class);
                             Log.d("ANUNCIO", "onDataChange: " + anuncio.getTitulo());
                             ANUNCIOS.add(anuncio);
+                            //TelaPrincipalActivity.adapter.notifyDataSetChanged();
                         }
                     }
                 }
+
 
                 Collections.reverse(ANUNCIOS);
 
@@ -64,6 +66,14 @@ public class AnunciosDAO extends AsyncTask {
         super.onPostExecute(o);
         Log.d("ANUNCIOSDAO", "onPostExecute: "+"Anuncios atualizados");
 
+    }
+
+    public static void addItem(Anuncio anuncio){
+        ANUNCIOS.add(anuncio);
+    }
+
+    public static void deleteItem(Anuncio anuncio){
+        ANUNCIOS.remove(anuncio);
     }
 
 
