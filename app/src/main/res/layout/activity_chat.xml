@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/bg_chat"
+    android:background="@drawable/fundo_whats2"
     tools:context=".activity.ChatActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -106,7 +106,7 @@
             android:layout_gravity="center"
             android:onClick="enviarMensagem"
             android:clickable="true"
-            app:srcCompat="@drawable/ic_send" />
+            android:src="@drawable/ic_send" />
     </LinearLayout>
 
 </LinearLayout>

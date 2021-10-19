@@ -5,6 +5,8 @@ public class Mensagem {
     private String idUsuario;
     private String mensagem;
     private String imagem;
+    private String horario;
+    private boolean isSeen;
 
     public Mensagem() {
     }
@@ -31,5 +33,21 @@ public class Mensagem {
 
     public void setImagem(String imagem) {
         this.imagem = imagem;
+    }
+
+    public String getHorario() {
+        return horario;
+    }
+
+    public void setHorario(String horario) {
+        this.horario = horario;
+    }
+
+    public boolean isSeen() {
+        return isSeen;
+    }
+
+    public void setSeen(boolean seen) {
+        isSeen = seen;
     }
 }

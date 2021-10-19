@@ -54,6 +54,15 @@ public class MensagensAdapter extends RecyclerView.Adapter<MensagensAdapter.MyVi
         String msg = mensagem.getMensagem();
         String imagem = mensagem.getImagem();
 
+        holder.txtHorario.setText(mensagem.getHorario());
+
+//        if(mensagem.isSeen()){
+//            holder.imgCheck.setVisibility(View.VISIBLE);
+//        }else{
+//            holder.imgCheck.setVisibility(View.GONE);
+//        }
+
+
         if(imagem!=null){
 
             Picasso.get().load(imagem).into(holder.imagem);
@@ -91,12 +100,16 @@ public class MensagensAdapter extends RecyclerView.Adapter<MensagensAdapter.MyVi
 
         TextView mensagem;
         ImageView imagem;
+        TextView txtHorario;
+        ImageView imgCheck;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mensagem = itemView.findViewById(R.id.txtMensagemTexto);
             imagem = itemView.findViewById(R.id.imgMensagemFoto);
+            txtHorario = itemView.findViewById(R.id.txtHorarioMsg);
+            imgCheck = itemView.findViewById(R.id.imgCheckVisualizacao);
         }
     }
 }

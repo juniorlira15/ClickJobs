@@ -96,6 +96,8 @@ dependencies {
     //Seekbar Range
     implementation 'org.florescu.android.rangeseekbar:rangeseekbar-library:0.3.0'
 
+    implementation 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
+
 
 }
 apply plugin: 'com.android.application'

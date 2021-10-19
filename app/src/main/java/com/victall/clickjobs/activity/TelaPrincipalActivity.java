@@ -23,10 +23,16 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -48,8 +54,10 @@ import com.victall.clickjobs.model.AnunciosDAO;
 import com.victall.clickjobs.model.Endereco;
 
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -70,6 +78,10 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     private LatLng currentLocationLatLong;
     private static int ALL_PERMISSIONS_RESULT = 101;
     private Endereco endereco;
+    private EditText edtPesquisar;
+    private AlertDialog alertDialogPesquisa;
+    private ImageView imgPesquisaEdt,imgApagaPesquisa;
+    private static String pesquisaAtual="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +148,16 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
             }
         });
 
+        imgPesquisar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                abreDialogPesquisa();
+
+            }
+        });
+
+
         mUpPanelLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,6 +167,77 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
         //recuperaEndereco();
 
+
+    }
+
+    private void abreDialogPesquisa() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.layout_dialog_pesquisa,null);
+        builder.setView(view);
+
+        edtPesquisar = view.findViewById(R.id.edtPesquisar);
+        imgPesquisaEdt = view.findViewById(R.id.imgEdtPesquisa);
+        imgApagaPesquisa = view.findViewById(R.id.imgApagarPesquisa);
+
+        if(!pesquisaAtual.equals("")){
+            edtPesquisar.setText(pesquisaAtual);
+            imgApagaPesquisa.setVisibility(View.VISIBLE);
+        }else{
+            imgApagaPesquisa.setVisibility(View.GONE);
+        }
+
+        alertDialogPesquisa = builder.create();
+
+
+        Window window = alertDialogPesquisa.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+
+        wlp.gravity = Gravity.TOP;
+        wlp.flags &= ~WindowManager.LayoutParams.FIRST_SUB_WINDOW;
+        window.setAttributes(wlp);
+
+        alertDialogPesquisa.show();
+
+        edtPesquisar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if(s.toString().equals("")){
+                    imgApagaPesquisa.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if(!s.toString().equals("")) {
+                    pesquisaAtual = s.toString();
+                    filtrarPesquisa(s.toString());
+                    imgApagaPesquisa.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        imgPesquisaEdt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialogPesquisa.dismiss();
+            }
+        });
+
+        imgApagaPesquisa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edtPesquisar.setText("");
+                filtrarPesquisa("");
+            }
+        });
 
     }
 
@@ -266,6 +359,35 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
             adapter.filterList(anuncios_filter);
         }
     }
+
+    private void filtrarPesquisa(String pesquisa){
+
+        pesquisa = normaliza(pesquisa);
+
+        ArrayList<Anuncio> anuncios_filter = new ArrayList<>();
+
+        for(Anuncio anuncio : AnunciosDAO.getAnuncios()){
+            if((normaliza(anuncio.getTitulo().toLowerCase())).contains(pesquisa.toLowerCase())
+                    || normaliza(anuncio.getCategoria().toLowerCase()).contains(pesquisa.toLowerCase())
+                    || normaliza(anuncio.getDescricao().toLowerCase()).contains(pesquisa.toLowerCase())){
+                anuncios_filter.add(anuncio);
+            }
+        }
+
+        adapter.filterList(anuncios_filter);
+
+
+
+    }
+
+    private String normaliza(String texto){
+
+        texto = Normalizer.normalize(texto, Normalizer.Form.NFD);
+        texto = texto.replaceAll("[^\\p{ASCII}]", "");
+
+        return texto;
+    }
+
 
     public void abrirDialogCategoria(View view){
 
@@ -411,5 +533,24 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     @Override
     public void onProviderDisabled(@NonNull String provider) {
 
+    }
+
+    private void status(String status){
+        DatabaseReference databaseReference = ConfiguracaoFirebase.getDatabaseReference().child("usuarios").child(UsuarioFirebase.getFirebaseUser().getUid());
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("status",status);
+        databaseReference.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("onffline");
     }
 }

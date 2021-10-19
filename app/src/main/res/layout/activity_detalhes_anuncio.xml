@@ -1,238 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/branco"
-        tools:context=".activity.DetalhesAnuncioActivity">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppBarOverlay"
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarDetalhesAnuncio"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppBarOverlay"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbarDetalhesAnuncio"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/PopupOverlay">
-
-                <TextView
-                    android:id="@+id/txtChatNomeAnunciante"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:textColor="@color/branco"
-                    android:textSize="18sp"
-                    android:text="TextView" />
-
-            </androidx.appcompat.widget.Toolbar>
-
-
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-
-        <com.denzcoskun.imageslider.ImageSlider
-            android:id="@+id/imageSliderDetalhesAnuncio"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:auto_cycle="true"
-            app:corner_radius="5"
-            app:delay="0"
-            app:error_image="@drawable/placeholder_error"
-            app:period="1000"
-            app:placeholder="@drawable/placeholder" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/PopupOverlay">
 
             <TextView
-                android:id="@+id/txtServico"
-                android:layout_width="wrap_content"
+                android:id="@+id/txtChatNomeAnunciante"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textColor="@color/branco"
+                android:textSize="18sp"
+                android:text="TextView" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/branco"
+            tools:context=".activity.DetalhesAnuncioActivity">
+
+
+
+
+            <com.denzcoskun.imageslider.ImageSlider
+                android:id="@+id/imageSliderDetalhesAnuncio"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:auto_cycle="true"
+                app:corner_radius="5"
+                app:delay="0"
+                app:error_image="@drawable/placeholder_error"
+                app:period="1000"
+                app:placeholder="@drawable/placeholder" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtServico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/nunito_bold"
+                    android:text="O Serviço"
+                    android:textColor="@color/azul_escuro"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtValor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/bg_textview_item_anuncio"
+                    android:fontFamily="@font/nunito_bold"
+                    android:padding="5dp"
+                    android:text="Valor"
+                    android:textColor="@color/azul_escuro"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtCategoria" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtDescricaoServico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txtTExtoServico"
+                android:textColor="@color/azul_escuro"
+                android:padding="12dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/nunito_regular"
+                android:textSize="12sp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/bg_textview_item_anuncio"
+                app:srcCompat="@drawable/img_servivo_sobre" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:elevation="2dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_rouded"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtNomeAnunciante"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/nunito_bold"
+                    android:text="Nome Anunciante"
+                    android:textColor="@color/azul_escuro"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtCategoria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/nunito_semi_bold"
+                    android:text="Categoria"
+                    android:textColor="@color/cinza_medio"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtNomeAnunciante" />
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imgAnuncianteDetalhesAnuncio"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtNomeAnunciante"
+                    app:srcCompat="@drawable/ic_perfil" />
+
+                <TextView
+                    android:id="@+id/txtEndAnuncio"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/nunito_semi_bold"
+                    android:text="Endereço"
+                    android:textColor="@color/cinza_medio"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toStartOf="@+id/imgAnuncianteDetalhesAnuncio"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/txtCategoria"
+                    app:layout_constraintTop_toBottomOf="@+id/txtCategoria" />
+
+                <!--            <TextView-->
+                <!--                android:id="@+id/textView26"-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_marginStart="8dp"-->
+                <!--                android:layout_marginTop="8dp"-->
+                <!--                android:elevation="3dp"-->
+                <!--                android:shadowColor="@color/azul_escuro"-->
+                <!--                android:text="Informações sobre o Profissional"-->
+                <!--                app:layout_constraintStart_toStartOf="parent"-->
+                <!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+                <TextView
+                    android:id="@+id/txtTelefoneDetAnunc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/nunito_semi_bold"
+                    android:text="Telefone"
+                    android:textColor="@color/cinza_medio"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtEndAnuncio" />
+
+                <ImageView
+                    android:id="@+id/imgWhatsapp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:padding="10dp"
+                    android:onClick="ligarAnunciante"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtTelefoneDetAnunc"
+                    app:layout_constraintStart_toEndOf="@+id/txtTelefoneDetAnunc"
+                    app:layout_constraintTop_toTopOf="@+id/txtTelefoneDetAnunc"
+                    app:srcCompat="@drawable/whatsapp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/nunito_bold"
-                android:text="O Serviço"
-                android:textColor="@color/azul_escuro"
-                android:textSize="22sp"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:layout_marginEnd="20dp"
+                app:srcCompat="@drawable/img_avaliacoes" />
 
-            <TextView
-                android:id="@+id/txtValor"
+
+            <Button
+                android:id="@+id/btnChat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/bg_textview_item_anuncio"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:drawableEnd="@drawable/ic_chat"
                 android:fontFamily="@font/nunito_bold"
-                android:padding="5dp"
-                android:text="Valor"
-                android:textColor="@color/azul_escuro"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtCategoria" />
+                android:onClick="abrirChat"
+                android:text="Chat" />
+
+
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/txtDescricaoServico"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/txtTExtoServico"
-            android:textColor="@color/azul_escuro"
-            android:padding="12dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/nunito_regular"
-            android:textSize="12sp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/bg_textview_item_anuncio"
-            app:srcCompat="@drawable/img_servivo_sobre" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:elevation="2dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_rouded"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txtNomeAnunciante"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/nunito_bold"
-                android:text="Nome Anunciante"
-                android:textColor="@color/azul_escuro"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/txtCategoria"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="Categoria"
-                android:textColor="@color/cinza_medio"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtNomeAnunciante" />
+    </androidx.core.widget.NestedScrollView>
 
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imgAnuncianteDetalhesAnuncio"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtNomeAnunciante"
-                app:srcCompat="@drawable/ic_perfil" />
 
-            <TextView
-                android:id="@+id/txtEndAnuncio"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="Endereço"
-                android:textColor="@color/cinza_medio"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toStartOf="@+id/imgAnuncianteDetalhesAnuncio"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/txtCategoria"
-                app:layout_constraintTop_toBottomOf="@+id/txtCategoria" />
-
-<!--            <TextView-->
-<!--                android:id="@+id/textView26"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="8dp"-->
-<!--                android:layout_marginTop="8dp"-->
-<!--                android:elevation="3dp"-->
-<!--                android:shadowColor="@color/azul_escuro"-->
-<!--                android:text="Informações sobre o Profissional"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
-
-            <TextView
-                android:id="@+id/txtTelefoneDetAnunc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/nunito_semi_bold"
-                android:text="Telefone"
-                android:textColor="@color/cinza_medio"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtEndAnuncio" />
-
-            <ImageView
-                android:id="@+id/imgWhatsapp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:padding="10dp"
-                android:onClick="ligarAnunciante"
-                app:layout_constraintBottom_toBottomOf="@+id/txtTelefoneDetAnunc"
-                app:layout_constraintStart_toEndOf="@+id/txtTelefoneDetAnunc"
-                app:layout_constraintTop_toTopOf="@+id/txtTelefoneDetAnunc"
-                app:srcCompat="@drawable/whatsapp" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            app:srcCompat="@drawable/img_avaliacoes" />
-
-
-        <Button
-            android:id="@+id/btnChat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:drawableEnd="@drawable/ic_chat"
-            android:fontFamily="@font/nunito_bold"
-            android:onClick="abrirChat"
-            android:text="Chat" />
-
-
-    </LinearLayout>
-
-</androidx.core.widget.NestedScrollView>
+</LinearLayout>

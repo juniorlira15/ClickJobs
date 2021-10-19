@@ -18,6 +18,7 @@ public class Usuario {
     private String ultimaAtualizacao;
     private String latitude;
     private String longitude;
+    private String status;
 
     {
         this.setFoto("");
@@ -106,5 +107,11 @@ public class Usuario {
         this.senha = senha;
     }
 
+    public String getStatus() {
+        return status;
+    }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

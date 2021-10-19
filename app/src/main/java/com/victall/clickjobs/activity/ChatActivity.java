@@ -14,20 +14,24 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.victall.clickjobs.R;
 import com.victall.clickjobs.adapter.MensagensAdapter;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
+import com.victall.clickjobs.help.DataHora;
 import com.victall.clickjobs.help.UsuarioFirebase;
 import com.victall.clickjobs.model.Anuncio;
 import com.victall.clickjobs.model.Conversa;
 import com.victall.clickjobs.model.Mensagem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -48,6 +52,7 @@ public class ChatActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private DatabaseReference mensagensRef;
     private ChildEventListener childEventListenerMensagem;
+    private ValueEventListener seenListener;
 
 
     @Override
@@ -91,6 +96,7 @@ public class ChatActivity extends AppCompatActivity {
                 .child(idUsuarioRemetente)
                 .child(idUsuarioDestinatario);
 
+        //seenMessage();
 
 
     }
@@ -118,6 +124,8 @@ public class ChatActivity extends AppCompatActivity {
             Mensagem mensagem = new Mensagem();
             mensagem.setMensagem(textoMsg);
             mensagem.setIdUsuario(idUsuarioRemetente);
+            mensagem.setHorario(DataHora.recuperaHora());
+            mensagem.setSeen(false);
 
             salvarMensagem(idUsuarioRemetente, idUsuarioDestinatario,mensagem);
 
@@ -136,6 +144,7 @@ public class ChatActivity extends AppCompatActivity {
         conversa.setIdDestinatario(idUsuarioDestinatario);
         conversa.setUltimaMensagem(mensagem.getMensagem());
         conversa.setUsuario(anuncio);
+        conversa.setHorario(mensagem.getHorario());
 
 
         DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
@@ -145,6 +154,36 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+    private void seenMessage(){
+
+        databaseReference = ConfiguracaoFirebase.getDatabaseReference().child("mensagens").child(idUsuarioRemetente).child(idUsuarioDestinatario);
+
+        seenListener = databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+
+                    Mensagem mensagem = dataSnapshot.getValue(Mensagem.class);
+                    if(mensagem.getIdUsuario().equals(idUsuarioDestinatario)){
+
+                        HashMap<String,Object> hashMap = new HashMap<>();
+                        hashMap.put("isSeen",true);
+                        snapshot.getRef().updateChildren(hashMap);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+    }
 
     private void salvarMensagem(String idRemetente, String idDestinatario,Mensagem mensagem){
 
@@ -184,6 +223,17 @@ public class ChatActivity extends AppCompatActivity {
                         Mensagem mensagem = snapshot.getValue(Mensagem.class);
                         mensagemList.add(mensagem);
                         adapter.notifyDataSetChanged();
+
+                        if(mensagem.getIdUsuario().equals(idUsuarioDestinatario)){
+
+                            HashMap<String,Object> hashMap = new HashMap<>();
+                            hashMap.put("seen",true);
+                            snapshot.getRef().updateChildren(hashMap);
+
+                        }
+
+
+
                     }
 
                     @Override
@@ -208,5 +258,24 @@ public class ChatActivity extends AppCompatActivity {
                 }
         );
 
+    }
+
+    private void status(String status){
+        DatabaseReference databaseReference = ConfiguracaoFirebase.getDatabaseReference().child("usuarios").child(UsuarioFirebase.getFirebaseUser().getUid());
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("status",status);
+        databaseReference.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("onffline");
     }
 }

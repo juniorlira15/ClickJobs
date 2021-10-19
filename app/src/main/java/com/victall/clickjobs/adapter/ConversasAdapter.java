@@ -11,8 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.victall.clickjobs.R;
+import com.victall.clickjobs.config.ConfiguracaoFirebase;
+import com.victall.clickjobs.help.DataHora;
 import com.victall.clickjobs.model.Conversa;
 
 import java.util.ArrayList;
@@ -52,8 +58,30 @@ public class ConversasAdapter extends RecyclerView.Adapter<ConversasAdapter.Conv
 
         Conversa conversa = conversas_list.get(position);
 
+
         holder.nome.setText(conversa.getUsuario().getNomeAnunciante());
         holder.ultimaMesg.setText(conversa.getUltimaMensagem());
+        holder.horarioUltMsg.setText(conversa.getHorario());
+
+        DatabaseReference databaseReference = ConfiguracaoFirebase.getDatabaseReference()
+                .child("usuarios").child(conversa.getUsuario().getIdAnunciante()).child("status");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue().equals("online")){
+                    holder.imgOnline.setVisibility(View.VISIBLE);
+                }else{
+                    holder.imgOnline.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         Picasso.get()
                 .load(conversa.getUsuario().getFotoAnunciante())
@@ -72,7 +100,8 @@ public class ConversasAdapter extends RecyclerView.Adapter<ConversasAdapter.Conv
     public static class ConversasViewHolder extends RecyclerView.ViewHolder {
 
         CircleImageView fotoConversa;
-        TextView nome,ultimaMesg;
+        TextView nome,ultimaMesg,naoLida,horarioUltMsg;
+        ImageView imgOnline;
 
 
         public ConversasViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
@@ -81,6 +110,10 @@ public class ConversasAdapter extends RecyclerView.Adapter<ConversasAdapter.Conv
             fotoConversa = itemView.findViewById(R.id.imgFotoConversa);
             nome = itemView.findViewById(R.id.txtNomeConversa);
             ultimaMesg = itemView.findViewById(R.id.txtMsgConversa);
+            naoLida = itemView.findViewById(R.id.txtMsgNaoLida);
+            horarioUltMsg = itemView.findViewById(R.id.txtHorarioUltMsg);
+            imgOnline = itemView.findViewById(R.id.imgOnline);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

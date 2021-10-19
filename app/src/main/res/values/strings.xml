@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Click Jobs</string>
+    <string name="app_name">Clique Jobs</string>
     <string name="logomarca_clickjobs">logomarca clickjobs</string>
     <string name="hint_email">Email</string>
     <string name="hint_senha">Senha</string>

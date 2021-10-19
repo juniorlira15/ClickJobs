@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/dragview"
+<RelativeLayout
+    android:id="@+id/dragview"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="@drawable/bg_ponta_redonda_filtro"
@@ -36,7 +37,7 @@
             android:textColor="@color/branco"
             android:textSize="20dp" />
 
-        <org.florescu.android.rangeseekbar.RangeSeekBar
+        <SeekBar
             android:id="@+id/seekBarPreco"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,20 +55,23 @@
             android:layout_marginStart="45dp"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/nunito_semi_bold"
-
             android:text="Proximidade"
             android:textColor="@color/branco"
             android:textSize="20dp" />
 
-        <org.florescu.android.rangeseekbar.RangeSeekBar
+
+        <SeekBar
             android:id="@+id/seekBarProximidade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="45dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="45dp"
-            app:singleThumb="true"
+            android:thumbTint="@color/amarelo"
+            android:max="10"
+            android:tickMark="@color/branco"
 
-             />
+            android:progressTint="@color/branco"
+        />
     </LinearLayout>
 </RelativeLayout>

@@ -7,8 +7,18 @@ public class Conversa {
     private String idDestinatario;
     private String ultimaMensagem;
     private Anuncio anuncio;
+    private String horario;
+
 
     public Conversa() {
+    }
+
+    public String getHorario() {
+        return horario;
+    }
+
+    public void setHorario(String horario) {
+        this.horario = horario;
     }
 
     public String getIdRemetente() {

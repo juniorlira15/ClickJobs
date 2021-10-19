@@ -92,8 +92,6 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
         DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
         DatabaseReference fotoAnunciante = reference.child("usuarios").child(idAnunciante).child("foto");
 
-
-
         fotoAnunciante.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -126,35 +124,32 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
             }
         });
 
-
-
         List<SlideModel> slideModels = new ArrayList<>();
 
-        for(int i=0; i<anunciosList.get(position).getFoto().size();i++){
-            slideModels.add(new SlideModel(anunciosList.get(position).getFoto().get(i), ""));
+        // Pega Somente a primeira foto
+        for(int i=0; i<1;i++){
+            int posicao=i+1;
+            int total = anunciosList.get(position).getFoto().size();
+            slideModels.add(new SlideModel(anunciosList.get(position).getFoto().get(i),""));
         }
         holder.imgAnuncio.setImageList(slideModels,true);
+//        Picasso.get().
+//                load(anunciosList.get(position).getFoto().get(0))
+//                .placeholder(R.drawable.img_place_logo)
+//                .error(R.drawable.img_placeholder_error)
+//                .into(holder.imgPerfil, new Callback() {
+//                    @Override
+//                    public void onSuccess() {
+//                        holder.shimmer_view_container.hideShimmer();
+//                    }
+//
+//                    @Override
+//                    public void onError(Exception e) {
+//
+//                    }
+//           });
+//
 
-//        if(anunciosList.get(position).getFotoAnunciante().isEmpty()){
-//            Picasso.get().load(R.drawable.icon_perfil);
-//        }else {
-//
-//            Picasso.get().
-//                    load("gs://clickjobs-3378d.appspot.com/imagens/usuarios/95kgyg4M6bMCmWxjNU7xfsCSTQB2/perfil")
-//                    .placeholder(R.drawable.img_placeholder)
-//                    .error(R.drawable.img_placeholder_error)
-//                    .into(holder.imgPerfil, new Callback() {
-//                        @Override
-//                        public void onSuccess() {
-//                            holder.shimmer_view_container.hideShimmer();
-//                        }
-//
-//                        @Override
-//                        public void onError(Exception e) {
-//
-//                        }
-//                    });
-//        }
         holder.txtValor.setText(anunciosList.get(position).getValor());
 
         if(titulo.length()>20){
@@ -167,7 +162,7 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
 //        holder.txtEnd.setText(anunciosList.get(position).getEndereco());
         holder.txtCategoria.setText(anunciosList.get(position).getCategoria());
 
-        holder.shimmer_view_container.hideShimmer();
+        //holder.shimmer_view_container.hideShimmer();
     }
 
     @Override
