@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.stfalcon.imageviewer.StfalconImageViewer;
 import com.victall.clickjobs.R;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
 import com.victall.clickjobs.help.Permissoes;
@@ -154,14 +155,14 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
 //                Picasso.get().load(R.drawable.icon_perfil).into(imgAnunciante);
 //            }
 
-            List<SlideModel> slideModels = new ArrayList<>();
+            List<SlideModel> slideModelList = new ArrayList<>();
 
             for(int i=0; i<anuncio.getFoto().size();i++){
-                slideModels.add(new SlideModel(anuncio.getFoto().get(i), ""));
+                slideModelList.add(new SlideModel(anuncio.getFoto().get(i), ""));
             }
 
 
-            slider.setImageList(slideModels,true);
+            slider.setImageList(slideModelList,true);
 
 
             if(idAnunciante.equals(UsuarioFirebase.getFirebaseUser().getUid())){
@@ -174,6 +175,16 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         }
 
         Permissoes.validarPermissoes(permissoes,this,2);
+
+
+
+    }
+
+    public void abrirImagem(View vIew){
+
+
+
+
 
 
     }

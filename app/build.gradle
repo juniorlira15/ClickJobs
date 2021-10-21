@@ -98,6 +98,10 @@ dependencies {
 
     implementation 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
 
+    // visualizador de Imagens em Fullscreen + Zoom
+    implementation 'com.github.stfalcon-studio:StfalconImageViewer:v1.0.1'
+
+
 
 }
 apply plugin: 'com.android.application'

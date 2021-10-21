@@ -61,6 +61,7 @@
                 app:auto_cycle="true"
                 app:corner_radius="5"
                 app:delay="0"
+                android:onClick="onClick"
                 app:error_image="@drawable/placeholder_error"
                 app:period="1000"
                 app:placeholder="@drawable/placeholder" />

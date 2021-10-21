@@ -21,6 +21,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.text.Editable;
@@ -37,11 +38,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
-import com.facebook.login.Login;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.victall.clickjobs.R;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -50,13 +52,13 @@ import com.victall.clickjobs.adapter.FiltroAdapter;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
 import com.victall.clickjobs.help.UsuarioFirebase;
 import com.victall.clickjobs.model.Anuncio;
-import com.victall.clickjobs.model.AnunciosDAO;
 import com.victall.clickjobs.model.Endereco;
 
 import java.io.IOException;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -82,6 +84,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     private AlertDialog alertDialogPesquisa;
     private ImageView imgPesquisaEdt,imgApagaPesquisa;
     private static String pesquisaAtual="";
+    private static final ArrayList<Anuncio> ANUNCIOS = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +92,8 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         setContentView(R.layout.activity_tela_principal);
 
 
-        AnunciosDAO anunciosDAO = new AnunciosDAO();
-        anunciosDAO.execute(this);
+//        AnunciosDAO anunciosDAO = new AnunciosDAO();
+//        anunciosDAO.execute(this);
 
         inicializaViews();
 
@@ -108,7 +111,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         //Configurar RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        adapter = new AnuncioAdapter(AnunciosDAO.getAnuncios(), this);
+        adapter = new AnuncioAdapter(ANUNCIOS, this);
         recyclerView.setAdapter( adapter );
 
         geocoder = new Geocoder(this, Locale.getDefault());
@@ -169,6 +172,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
 
     }
+
 
     private void abreDialogPesquisa() {
 
@@ -322,6 +326,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     protected void onRestart() {
         super.onRestart();
 
+        Toast.makeText(this, "OnRestart", Toast.LENGTH_SHORT).show();
     }
 
     private void filtrarEstado(String estado){
@@ -330,13 +335,13 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
         //Toast.makeText(this, estado, Toast.LENGTH_SHORT).show();
 
-        for(Anuncio anuncio : AnunciosDAO.getAnuncios()){
+        for(Anuncio anuncio : ANUNCIOS){
             if(anuncio.getEndereco().equals(estado)){
                 anuncios_filter.add(anuncio);
             }
         }
         if(estado.equals("TODOS")){
-            adapter.filterList(AnunciosDAO.getAnuncios());
+            adapter.filterList(ANUNCIOS);
         }else{
             adapter.filterList(anuncios_filter);
         }
@@ -347,14 +352,14 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
         ArrayList<Anuncio> anuncios_filter = new ArrayList<>();
 
-        for(Anuncio anuncio : AnunciosDAO.getAnuncios()){
+        for(Anuncio anuncio : ANUNCIOS){
             if(anuncio.getCategoria().equals(categoria)){
                 anuncios_filter.add(anuncio);
             }
         }
 
         if(categoria.equals("TODAS")){
-            adapter.filterList(AnunciosDAO.getAnuncios());
+            adapter.filterList(ANUNCIOS);
         }else{
             adapter.filterList(anuncios_filter);
         }
@@ -366,7 +371,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
         ArrayList<Anuncio> anuncios_filter = new ArrayList<>();
 
-        for(Anuncio anuncio : AnunciosDAO.getAnuncios()){
+        for(Anuncio anuncio : ANUNCIOS){
             if((normaliza(anuncio.getTitulo().toLowerCase())).contains(pesquisa.toLowerCase())
                     || normaliza(anuncio.getCategoria().toLowerCase()).contains(pesquisa.toLowerCase())
                     || normaliza(anuncio.getDescricao().toLowerCase()).contains(pesquisa.toLowerCase())){
@@ -546,11 +551,74 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     protected void onResume() {
         super.onResume();
         status("online");
+
+        AnunciosDAO anunciosDAO = new AnunciosDAO();
+        anunciosDAO.execute(this);
+
+        Toast.makeText(this, "OnResume", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         status("onffline");
+        Toast.makeText(this, "OnPause", Toast.LENGTH_SHORT).show();
     }
+
+    class AnunciosDAO extends AsyncTask {
+
+          @Override
+        protected ArrayList<Anuncio> doInBackground(Object[] objects) {
+
+            DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
+
+            reference.child("anuncios").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    ANUNCIOS.clear();
+
+                    for (DataSnapshot estados : snapshot.getChildren()) {
+                        for (DataSnapshot categorias : estados.getChildren()) {
+                            for (DataSnapshot anuncios : categorias.getChildren()) {
+
+                                Anuncio anuncio = anuncios.getValue(Anuncio.class);
+                                Log.d("ANUNCIO", "onDataChange: " + anuncio.getTitulo());
+                                ANUNCIOS.add(anuncio);
+                                TelaPrincipalActivity.adapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+
+
+                    Collections.reverse(ANUNCIOS);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            Log.d("ANUNCIOSDAO", "onPostExecute: " + "Anuncios atualizados");
+
+        }
+    }
+
+    public static void addItem(Anuncio anuncio){
+        ANUNCIOS.add(anuncio);
+    }
+
+    public static void deleteItem(Anuncio anuncio){
+        ANUNCIOS.remove(anuncio);
+    }
+
 }
