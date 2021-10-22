@@ -155,31 +155,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(new Intent(LoginActivity.this,RecuperarSenhaActivity.class));
     }
 
-    // NAo usando
-//    public void logar() {
-//
-//        if(!edtEmail.getText().toString().isEmpty()){
-//            if(!edtSenha.getText().toString().isEmpty()) {
-//
-//                firebaseAuth.signInWithEmailAndPassword(this.edtEmail.getText().toString(), this.edtSenha.getText().toString()).
-//                        addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<AuthResult> task) {
-//                                if (task.isSuccessful()) {
-//
-//                                    startActivity(new Intent(LoginActivity.this, TelaPrincipalActivity.class));
-//                                    finish();
-//                                }
-//                            }
-//                        });
-//            }else{
-//                Toast.makeText(this, "Preencha o campo senha!", Toast.LENGTH_SHORT).show();
-//            }
-//        }else{
-//            Toast.makeText(this, "Preencha o campo email!", Toast.LENGTH_SHORT).show();
-//        }
-//
-//    }
 
     private void login() {
 
@@ -376,8 +351,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if(task.isSuccessful()){
 
                             //Toast.makeText(LoginActivity.this, "deu certo", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this,TelaPrincipalActivity.class));
-                            finish();
+
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             UsuarioFirebase.verificaUsuarioLogado(LoginActivity.this);
                             Usuario usuario = new Usuario();
@@ -416,6 +390,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //                                usuarioPreferences.salvarFotoUsuario(fotoUrl);
 
                                 UsuarioFirebase.atualizaCadastroFacebook(usuario,LoginActivity.this);
+
+                                startActivity(new Intent(LoginActivity.this,TelaPrincipalActivity.class));
+                                finish();
 //
                             }else{
                                 Toast.makeText(LoginActivity.this, "Não foi possível obter dados de acesso do Facebook.", Toast.LENGTH_SHORT).show();

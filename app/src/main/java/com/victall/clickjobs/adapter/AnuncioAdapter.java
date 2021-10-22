@@ -98,7 +98,7 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
                 String urlFoto = snapshot.getValue(String.class);
                 saveToInternalStorage(Uri.parse(urlFoto),idAnunciante);
 
-                if(urlFoto!=null){
+                if(urlFoto!=null && !urlFoto.equals("")){
                     Picasso.get().
                             load(urlFoto)
                             .placeholder(R.drawable.img_placeholder)
