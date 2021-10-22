@@ -33,6 +33,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.victall.clickjobs.R;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
+import com.victall.clickjobs.help.CheckConnection;
 import com.victall.clickjobs.help.MoneyTextWatcher;
 import com.victall.clickjobs.help.Permissoes;
 import com.victall.clickjobs.help.UsuarioFirebase;
@@ -142,26 +143,30 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
 
         if(validaCampos()){
 
-            abreDialog();
+            if(CheckConnection.isOnline(this)) {
 
-            anuncio = new Anuncio();
-            anuncio.setTitulo(titulo);
-            anuncio.setEndereco(UF);
-            anuncio.setCategoria(categoria);
-            anuncio.setDescricao(descricao);
-            anuncio.setValor(valor);
-            anuncio.setIdAnunciante(idAnunciante);
-            anuncio.setNomeAnunciante(nomeAnunciante);
-            anuncio.setFotoAnunciante(fotoAnunciante);
+                abreDialog();
+
+                anuncio = new Anuncio();
+                anuncio.setTitulo(titulo);
+                anuncio.setEndereco(UF);
+                anuncio.setCategoria(categoria);
+                anuncio.setDescricao(descricao);
+                anuncio.setValor(valor);
+                anuncio.setIdAnunciante(idAnunciante);
+                anuncio.setNomeAnunciante(nomeAnunciante);
+                anuncio.setFotoAnunciante(fotoAnunciante);
 
 
-            for (int i=0; i < listaFotosRecuperadas.size(); i++){
-                String urlImagem = listaFotosRecuperadas.get(i);
-                int contador = i+1;
-                salvarFotoStorage(urlImagem,i,contador);
+                for (int i = 0; i < listaFotosRecuperadas.size(); i++) {
+                    String urlImagem = listaFotosRecuperadas.get(i);
+                    int contador = i + 1;
+                    salvarFotoStorage(urlImagem, i, contador);
+                }
+
+            }else{
+                Toast.makeText(this, "Verifique sua conexão de Internet.", Toast.LENGTH_SHORT).show();
             }
-
-
 
         }
 
@@ -224,49 +229,55 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
 
     private void gravaAnuncioFirebase(){
 
-        DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
+        if(CheckConnection.isOnline(this)) {
 
-        // GRAVANDO NO ANUNCIOS GERAL
-        reference.child("anuncios").child(anuncio.getEndereco()).child(anuncio.getCategoria()).child(anuncio.getIdAnuncio()).setValue(anuncio)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
+            DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
 
-                            //Toast.makeText(CadastrarServicoActivity.this, "Serviço inserido com sucesso!", Toast.LENGTH_SHORT).show();
-                            //finish();
+            // GRAVANDO NO ANUNCIOS GERAL
+            reference.child("anuncios").child(anuncio.getEndereco()).child(anuncio.getCategoria()).child(anuncio.getIdAnuncio()).setValue(anuncio)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+
+                                //Toast.makeText(CadastrarServicoActivity.this, "Serviço inserido com sucesso!", Toast.LENGTH_SHORT).show();
+                                //finish();
+                            }
                         }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                alertDialog.dismiss();
-                Toast.makeText(CadastrarServicoActivity.this, "Um erro inesperado ocorreu durante o cadastro.", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    alertDialog.dismiss();
+                    Toast.makeText(CadastrarServicoActivity.this, "Um erro inesperado ocorreu durante o cadastro.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            });
 
 
-        // GRAVANDO NOS ANUNCIOS DE CADA USUARIO
-        reference.child("meus_anuncios").child(firebaseUser.getUid()).child(anuncio.getIdAnuncio()).setValue(anuncio).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(CadastrarServicoActivity.this, "Serviço inserido com sucesso!", Toast.LENGTH_SHORT).show();
-                //anunciosDAO.execute(getApplicationContext());
-                finish();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                alertDialog.dismiss();
-                Toast.makeText(CadastrarServicoActivity.this, "Um erro inesperado ocorreu durante o cadastro.", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
+            // GRAVANDO NOS ANUNCIOS DE CADA USUARIO
+            reference.child("meus_anuncios").child(firebaseUser.getUid()).child(anuncio.getIdAnuncio()).setValue(anuncio).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Toast.makeText(CadastrarServicoActivity.this, "Serviço inserido com sucesso!", Toast.LENGTH_SHORT).show();
+                    //anunciosDAO.execute(getApplicationContext());
+                    finish();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    alertDialog.dismiss();
+                    Toast.makeText(CadastrarServicoActivity.this, "Um erro inesperado ocorreu durante o cadastro.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            });
 
-        // Atualizando Lista da Tela Principal
-        TelaPrincipalActivity.addItem(anuncio);
-        TelaPrincipalActivity.adapter.notifyDataSetChanged();
+            // Atualizando Lista da Tela Principal
+            TelaPrincipalActivity.addItem(anuncio);
+            TelaPrincipalActivity.adapter.notifyDataSetChanged();
+
+        }else{
+            Toast.makeText(this, "Verifique sua conexão de internet e tente novamente.", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

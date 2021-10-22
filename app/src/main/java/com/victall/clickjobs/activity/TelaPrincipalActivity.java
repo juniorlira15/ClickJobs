@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -35,6 +37,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -50,6 +54,8 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.victall.clickjobs.adapter.AnuncioAdapter;
 import com.victall.clickjobs.adapter.FiltroAdapter;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
+import com.victall.clickjobs.help.CheckConnection;
+import com.victall.clickjobs.help.OnSwipeTouchListener;
 import com.victall.clickjobs.help.UsuarioFirebase;
 import com.victall.clickjobs.model.Anuncio;
 import com.victall.clickjobs.model.Endereco;
@@ -85,15 +91,18 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     private ImageView imgPesquisaEdt,imgApagaPesquisa;
     private static String pesquisaAtual="";
     private static final ArrayList<Anuncio> ANUNCIOS = new ArrayList<>();
+    private static final String ONLINE = "online";
+    private static final String OFFLINE = "offline";
+    private ConstraintLayout constraintLayout;
+    private ProgressBar progressBarAtualizar;
+    private ImageView imgAtualizar;
+    private TextView txtAtualzizar;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_principal);
-
-
-//        AnunciosDAO anunciosDAO = new AnunciosDAO();
-//        anunciosDAO.execute(this);
 
         inicializaViews();
 
@@ -170,7 +179,56 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
         //recuperaEndereco();
 
+        constraintLayout.setOnTouchListener(new OnSwipeTouchListener(TelaPrincipalActivity.this) {
 
+            @Override
+            public void onSwipeBottom() {
+                super.onSwipeBottom();
+
+                progressBarAtualizar.setVisibility(View.VISIBLE);
+
+                if(CheckConnection.isOnline(TelaPrincipalActivity.this)) {
+                    AnunciosDAO anunciosDAO = new AnunciosDAO();
+                    anunciosDAO.execute(this);
+                }else{
+                    Toast.makeText(TelaPrincipalActivity.this, "Verifique sua conexão com a internet e tente novamente.", Toast.LENGTH_SHORT).show();
+
+                    txtAtualzizar.setVisibility(View.GONE);
+                    imgAtualizar.setVisibility(View.GONE);
+                    Thread time = new Thread(){
+
+                        public void run(){
+
+                            try{
+                                sleep(1500);
+                            }catch (InterruptedException e){
+                                e.printStackTrace();
+                            }
+
+                            finally {
+
+
+                            }
+                        }
+                    };
+
+                    time.start();
+
+                    atualizaViews();
+                }
+
+
+            }
+        });
+
+
+
+    }
+
+    private void atualizaViews(){
+        progressBarAtualizar.setVisibility(View.GONE);
+        txtAtualzizar.setVisibility(View.VISIBLE);
+        imgAtualizar.setVisibility(View.VISIBLE);
     }
 
 
@@ -252,6 +310,10 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         imgFiltro = findViewById(R.id.img_filtro);
         imgAdd = findViewById(R.id.img_add);
         imgPesquisar = findViewById(R.id.img_lupa);
+        constraintLayout = findViewById(R.id.constraintSliderPanel);
+        progressBarAtualizar = findViewById(R.id.progressBarAtualizar);
+        txtAtualzizar = findViewById(R.id.txtAtualizar);
+        imgAtualizar = findViewById(R.id.imgSwipeAtualizar);
 
     }
 
@@ -293,9 +355,13 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         anuncio.setData(anuncio.getData());
         anuncio.setEndereco(anuncio.getEndereco());
 
-        Intent intent = new Intent(getApplicationContext(),DetalhesAnuncioActivity.class);
-        intent.putExtra("anuncio", anuncio);
-        startActivity(intent);
+        if(CheckConnection.isOnline(this)) {
+            Intent intent = new Intent(getApplicationContext(), DetalhesAnuncioActivity.class);
+            intent.putExtra("anuncio", anuncio);
+            startActivity(intent);
+        }else{
+            Toast.makeText(this, "Verifique sua conexão com a internet", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -313,20 +379,22 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
     public void sair(){
 
-        LoginActivity.logout();
+        if(CheckConnection.isOnline(this)) {
+            status(OFFLINE);
+            LoginActivity.logout();
+            startActivity(new Intent(TelaPrincipalActivity.this, LoginActivity.class));
+            finish();
+        }else{
+            Toast.makeText(this, "Verifique sua conexão com a internet.", Toast.LENGTH_SHORT).show();
+        }
 
-//        FirebaseAuth firebaseAuth = ConfiguracaoFirebase.getFirebaseAuth();
-//        firebaseAuth.signOut();
-        startActivity(new Intent(TelaPrincipalActivity.this,LoginActivity.class));
-        finish();
-        //LoginActivity.logout();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
 
-        Toast.makeText(this, "OnRestart", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "OnRestart", Toast.LENGTH_SHORT).show();
     }
 
     private void filtrarEstado(String estado){
@@ -392,7 +460,6 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
         return texto;
     }
-
 
     public void abrirDialogCategoria(View view){
 
@@ -550,24 +617,40 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     @Override
     protected void onResume() {
         super.onResume();
-        status("online");
+        status(ONLINE);
 
-        AnunciosDAO anunciosDAO = new AnunciosDAO();
-        anunciosDAO.execute(this);
-
-        Toast.makeText(this, "OnResume", Toast.LENGTH_SHORT).show();
+        if(CheckConnection.isOnline(this)) {
+            AnunciosDAO anunciosDAO = new AnunciosDAO();
+            anunciosDAO.execute(this);
+        }else{
+            Toast.makeText(this, "Verifique sua conexão com a internet e tente novamente.", Toast.LENGTH_SHORT).show();
+            txtAtualzizar.setVisibility(View.VISIBLE);
+            imgAtualizar.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            //mUpPanelLayout.setVisibility(View.GONE);
+        }
+        //Toast.makeText(this, "OnResume", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        status("onffline");
-        Toast.makeText(this, "OnPause", Toast.LENGTH_SHORT).show();
+
+        if(UsuarioFirebase.getFirebaseUser()!=null) {
+            status(OFFLINE);
+        }
+        //Toast.makeText(this, "OnPause", Toast.LENGTH_SHORT).show();
     }
 
     class AnunciosDAO extends AsyncTask {
 
-          @Override
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBarAtualizar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
         protected ArrayList<Anuncio> doInBackground(Object[] objects) {
 
             DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
@@ -577,6 +660,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                     ANUNCIOS.clear();
+                    recyclerView.setVisibility(View.VISIBLE);
 
                     for (DataSnapshot estados : snapshot.getChildren()) {
                         for (DataSnapshot categorias : estados.getChildren()) {
@@ -597,7 +681,8 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    progressBarAtualizar.setVisibility(View.GONE);
+                    Toast.makeText(TelaPrincipalActivity.this, "Erro desconhecido", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -609,6 +694,9 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
             Log.d("ANUNCIOSDAO", "onPostExecute: " + "Anuncios atualizados");
+            progressBarAtualizar.setVisibility(View.GONE);
+            txtAtualzizar.setVisibility(View.GONE);
+            imgAtualizar.setVisibility(View.GONE);
 
         }
     }

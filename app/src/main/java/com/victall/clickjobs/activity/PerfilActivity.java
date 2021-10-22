@@ -43,6 +43,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.victall.clickjobs.R;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
+import com.victall.clickjobs.help.CheckConnection;
 import com.victall.clickjobs.help.Permissoes;
 import com.victall.clickjobs.help.UsuarioFirebase;
 import com.victall.clickjobs.model.Endereco;
@@ -327,52 +328,56 @@ public class PerfilActivity extends AppCompatActivity {
 
     private void recuperaPerfil(){
 
-        databaseReference.child("usuarios").child(firebaseUser.getUid())
-        .addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Usuario usuario = snapshot.getValue(Usuario.class);
+        if(CheckConnection.isOnline(this)) {
 
-                nome.setText(usuario.getNome());
-                sobrenome.setText(usuario.getSobrenome());
-                email.setText(usuario.getEmail());
-                telefone.setText(usuario.getTelefone());
-                nomeCompleto.setText(new StringBuilder().append(usuario.getNome()).append(" ").append(usuario.getSobrenome()).toString());
+            databaseReference.child("usuarios").child(firebaseUser.getUid())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            Usuario usuario = snapshot.getValue(Usuario.class);
 
-                String fotoPath = usuario.getFoto();
+                            nome.setText(usuario.getNome());
+                            sobrenome.setText(usuario.getSobrenome());
+                            email.setText(usuario.getEmail());
+                            telefone.setText(usuario.getTelefone());
+                            nomeCompleto.setText(new StringBuilder().append(usuario.getNome()).append(" ").append(usuario.getSobrenome()).toString());
 
-                if(!fotoPath.equals("")) {
-                    Picasso.get()
-                            .load(fotoPath)
-                            .into(img1);
-                }else{
+                            String fotoPath = usuario.getFoto();
 
-                    // Se não tiver, busca uma foto salva no Perfil do Firebase
-                    Uri imgFirebase = firebaseUser.getPhotoUrl();
+                            if (!fotoPath.equals("")) {
+                                Picasso.get()
+                                        .load(fotoPath)
+                                        .into(img1);
+                            } else {
 
-                    if(imgFirebase!= null){
-                        Picasso.get()
-                                .load(String.valueOf(imgFirebase))
-                                .into(img1);
+                                // Se não tiver, busca uma foto salva no Perfil do Firebase
+                                Uri imgFirebase = firebaseUser.getPhotoUrl();
 
-                        salvaFotoStorage(imgFirebase);
+                                if (imgFirebase != null) {
+                                    Picasso.get()
+                                            .load(String.valueOf(imgFirebase))
+                                            .into(img1);
 
-                    }else{
-                        // se não encontrar nenhuma foto atualiza com a foto padrão
-                        img1.setImageResource(R.drawable.ic_perfil);
-                    }
-                }
+                                    salvaFotoStorage(imgFirebase);
 
-            }
+                                } else {
+                                    // se não encontrar nenhuma foto atualiza com a foto padrão
+                                    img1.setImageResource(R.drawable.ic_perfil);
+                                }
+                            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                        }
 
-            }
-        });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
 
 
-
+        }else{
+            Toast.makeText(this, "Não foi possível recuperar o perfil. Verfique a conexão de internet.", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
