@@ -617,7 +617,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     @Override
     protected void onResume() {
         super.onResume();
-        status(ONLINE);
+        //status(ONLINE);
 
         if(CheckConnection.isOnline(this)) {
             AnunciosDAO anunciosDAO = new AnunciosDAO();
@@ -637,7 +637,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         super.onPause();
 
         if(UsuarioFirebase.getFirebaseUser()!=null) {
-            status(OFFLINE);
+            //status(OFFLINE);
         }
         //Toast.makeText(this, "OnPause", Toast.LENGTH_SHORT).show();
     }

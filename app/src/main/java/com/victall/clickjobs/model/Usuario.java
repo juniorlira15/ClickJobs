@@ -8,17 +8,17 @@ public class Usuario {
 
 
 
-    private String nome;
-    private String email;
-    private String sobrenome;
-    private String telefone;
+    private String nome="nome";
+    private String email="email@email.com";
+    private String sobrenome="sobrenome";
+    private String telefone="(11)1111-1111";
     private String senha;
-    private String id;
-    private String foto;
-    private String ultimaAtualizacao;
-    private String latitude;
-    private String longitude;
-    private String status;
+    private String id="";
+    private String foto="";
+    private String ultimaAtualizacao="";
+    private String latitude="";
+    private String longitude="";
+    private String status="offline";
 
     {
         this.setFoto("");

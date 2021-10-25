@@ -28,6 +28,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.rtoshiro.util.format.SimpleMaskFormatter;
+import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -55,6 +57,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -73,8 +77,10 @@ public class PerfilActivity extends AppCompatActivity {
     private Endereco endereco;
     private TextView txtLogradouro,txtEstado,txtPais,txtCep,txtNumero,txtComplemento,txtBairro,txtCidade;
     private TextInputEditText edtRua,edtNumero,edtComplemento,edtBairro,edtCidade,edtEstado,edtCep,edtPais;
+    private TextInputEditText edtNome,edtSobrenome,edtEmail,edtTelefone;
     private AlertDialog.Builder builderProgress;
     private AlertDialog dialogProgress;
+    private Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -334,7 +340,8 @@ public class PerfilActivity extends AppCompatActivity {
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            Usuario usuario = snapshot.getValue(Usuario.class);
+
+                            usuario = snapshot.getValue(Usuario.class);
 
                             nome.setText(usuario.getNome());
                             sobrenome.setText(usuario.getSobrenome());
@@ -486,6 +493,85 @@ public class PerfilActivity extends AppCompatActivity {
                             recuperaEndereco();
                             Toast.makeText(PerfilActivity.this, "Endereco atualizado com sucesso.", Toast.LENGTH_SHORT).show();
                             dialogProgress.dismiss();
+
+                        }
+                    }
+                });
+
+            }
+        }).setCancelable(true).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
+
+    }
+
+    public void atualizaDados(View view){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Atualizar dados pessoais");
+
+        View viewLayout = LayoutInflater.from(this).inflate(R.layout.layout_dialog_dados_pessoais,null);
+
+        //Criando Máscara do Campo de Telefone
+        SimpleMaskFormatter smf = new SimpleMaskFormatter("(NN)NNNNN-NNNN");  // cria o formato desejado
+
+
+        if (usuario != null) {
+
+            edtNome = viewLayout.findViewById(R.id.edtNomePerfil);
+            edtSobrenome = viewLayout.findViewById(R.id.edtSobrenomePerfil);
+            edtTelefone = viewLayout.findViewById(R.id.edtTelefonePerfil);
+            // Configura o campo de telefone com a mascara
+            MaskTextWatcher mtw = new MaskTextWatcher(edtTelefone, smf);  // insere o formato no campo a ser preenchido
+            edtTelefone.addTextChangedListener(mtw);  // seta o formato no campo texto
+            //***
+            edtEmail = viewLayout.findViewById(R.id.edtEmailPerfil);
+
+
+
+
+            edtNome.setText(usuario.getNome());
+            edtSobrenome.setText(usuario.getSobrenome());
+            edtTelefone.setText(usuario.getTelefone());
+            edtEmail.setText(usuario.getEmail());
+
+        }
+
+        builder.setView(viewLayout);
+        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialogProgress.show();
+
+                HashMap<String,Object> hashMap = new HashMap<>();
+
+                hashMap.put("nome",edtNome.getText().toString());
+                hashMap.put("sobrenome",edtSobrenome.getText().toString());
+                hashMap.put("telefone",edtTelefone.getText().toString());
+                hashMap.put("email",edtEmail.getText().toString());
+
+                DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
+                DatabaseReference referenceEnd = reference.child("usuarios").child(UsuarioFirebase.getFirebaseUser().getUid());
+
+                referenceEnd.updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if(task.isSuccessful()){
+
+                            recuperaEndereco();
+                            Toast.makeText(PerfilActivity.this, "Dados atualizados com sucesso.", Toast.LENGTH_SHORT).show();
+                            dialogProgress.dismiss();
+                            recuperaPerfil();
 
                         }
                     }

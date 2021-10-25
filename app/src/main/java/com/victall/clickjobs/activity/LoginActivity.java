@@ -17,6 +17,9 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -50,6 +53,9 @@ import com.victall.clickjobs.help.CheckConnection;
 import com.victall.clickjobs.help.UsuarioFirebase;
 import com.victall.clickjobs.model.Usuario;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -77,15 +83,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(firebaseUser == null){
 
             FacebookSdk.sdkInitialize(LoginActivity.this);
-            loginButton.setReadPermissions(Arrays.asList("email"));
+            loginButton.setPermissions(Arrays.asList("email"));
 
+        }else{
+            UsuarioFirebase.verificaUsuarioLogado(this);
         }
 
         callbackManager = CallbackManager.Factory.create();
 
         configLoginGoogle();
-
-        UsuarioFirebase.verificaUsuarioLogado(this);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,16 +100,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onSuccess(LoginResult loginResult) {
 
-                        Toast.makeText(LoginActivity.this, "Sucesso", Toast.LENGTH_SHORT).show();
                         handleFacebookToken(loginResult.getAccessToken());
-
-                        // definir algumas mudanças no Layout antes de entrar na tela principal
-
-                        //
-                        //loginButton.setVisibility(View.INVISIBLE);
-                        //barFacebook.setVisibility(View.VISIBLE);
-
-
+                        bar.setVisibility(View.VISIBLE);
 
                     }
 
@@ -329,8 +327,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             }
 
-        }else{
-            Toast.makeText(this, "Problema desconhecido", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -341,7 +337,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void  handleFacebookToken(AccessToken accessToken) {
 
         AuthCredential authCredential = FacebookAuthProvider.getCredential(accessToken.getToken());
-        final DatabaseReference mRef = ConfiguracaoFirebase.getDatabaseReference().child("clientes");
+        final DatabaseReference mRef = ConfiguracaoFirebase.getDatabaseReference().child("usuarios");
 
         firebaseAuth.signInWithCredential(authCredential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -350,10 +346,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         if(task.isSuccessful()){
 
-                            //Toast.makeText(LoginActivity.this, "deu certo", Toast.LENGTH_SHORT).show();
-
                             FirebaseUser user = firebaseAuth.getCurrentUser();
-                            UsuarioFirebase.verificaUsuarioLogado(LoginActivity.this);
                             Usuario usuario = new Usuario();
                             Log.d("FACEBOOK", "onComplete: Login Sucesso");
 
@@ -361,39 +354,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             if (user != null) {
 
                                 String nome = user.getDisplayName();
-                                String sobrenome = "";
-                                String telefone = user.getPhoneNumber();
-                                if(telefone == null || telefone.equals("")) telefone = "";
-                                String id = user.getUid();
-                                String email = user.getEmail();
                                 String fotoUrl = String.valueOf(user.getPhotoUrl());
 
-                                usuario.setId(id);
-                                usuario.setEmail(email);
+                                usuario.setId(user.getUid());
                                 usuario.setNome(nome);
-                                usuario.setSobrenome(sobrenome);
-                                usuario.setTelefone(telefone);
                                 usuario.setFoto(Objects.requireNonNull(fotoUrl));
                                 usuario.setUltimaAtualizacao(Calendar.getInstance().getTime().toString());
 
 
-                                Log.d("FACEBOOK", "User != NULL");
-                                Log.d("FACEBOOK", "ID: "+user.getUid()+"Email: "+user.getEmail()+"Nome: "+user.getDisplayName()+"Telefone: "+user.getPhoneNumber()+"Foto: "+user.getPhotoUrl());
+                            mRef.child(user.getUid()).setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
 
-                                mRef.child(id).setValue(usuario);
+                                    UsuarioFirebase.verificaUsuarioLogado(LoginActivity.this);
+                                }
+                            });
 
-                                // Gravando dados do usuario nas preferencias
-//                                usuarioPreferences.salvarNomeUsuario(nome);
-//                                usuarioPreferences.salvarSobrenome(sobrenome);
-//                                usuarioPreferences.salvarEmailUsuario(email);
-//                                usuarioPreferences.salvarTelefoneUsuario(telefone);
-//                                usuarioPreferences.salvarFotoUsuario(fotoUrl);
-
-                                UsuarioFirebase.atualizaCadastroFacebook(usuario,LoginActivity.this);
-
-                                startActivity(new Intent(LoginActivity.this,TelaPrincipalActivity.class));
-                                finish();
-//
                             }else{
                                 Toast.makeText(LoginActivity.this, "Não foi possível obter dados de acesso do Facebook.", Toast.LENGTH_SHORT).show();
                             }
