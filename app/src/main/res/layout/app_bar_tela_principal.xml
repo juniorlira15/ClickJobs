@@ -22,11 +22,6 @@
             android:background="@color/branco"
             app:popupTheme="@style/PopupOverlay">
 
-<!--            <ImageView-->
-<!--                android:id="@+id/imageView4"-->
-<!--                android:layout_width="90dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:srcCompat="@drawable/logo" />-->
 
             <ImageView
                 android:id="@+id/img_lupa"
@@ -61,50 +56,7 @@
             android:layout_height="1dp"
             android:background="?android:attr/listDivider" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/button6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAllCaps="false"
-                android:onClick="abrirDialogEstado"
-                android:text="Região" />
-
-            <View
-                android:id="@+id/divider2"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="?android:attr/listDivider" />
-
-            <Button
-                android:id="@+id/button7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAllCaps="false"
-                android:onClick="abrirDialogCategoria"
-                android:layout_weight="1"
-                android:text="Categoria" />
-
-            <View
-                android:id="@+id/divider3"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-
-                android:background="?android:attr/listDivider" />
-
-            <Button
-                android:id="@+id/button5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAllCaps="false"
-                android:text="Filtros" />
-        </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 

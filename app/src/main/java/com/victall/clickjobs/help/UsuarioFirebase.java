@@ -28,6 +28,7 @@ import com.google.firebase.storage.UploadTask;
 import com.iceteck.silicompressorr.FileUtils;
 import com.iceteck.silicompressorr.SiliCompressor;
 import com.victall.clickjobs.activity.CadastroActivity;
+import com.victall.clickjobs.activity.LoginActivity;
 import com.victall.clickjobs.activity.TelaPrincipalActivity;
 import com.victall.clickjobs.model.Usuario;
 
@@ -199,6 +200,8 @@ public class UsuarioFirebase {
 
                             if (task.isSuccessful()) {
                                 Log.d("Perfil", "Sucesso ao atualizar Perfil");
+                                context.startActivity(new Intent(context, TelaPrincipalActivity.class));
+                                ((LoginActivity )context).finish();
                             }
                         }
                     });

@@ -32,12 +32,14 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -97,6 +99,9 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     private ProgressBar progressBarAtualizar;
     private ImageView imgAtualizar;
     private TextView txtAtualzizar;
+    private SeekBar seekBar;
+    private TextView txtDistanciaKM,txtFiltroRegiao,txtFiltroCategoria;
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -173,7 +178,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         mUpPanelLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+                //mUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
             }
         });
 
@@ -220,6 +225,44 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
             }
         });
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+//                int distancia = Integer.parseInt(management.getEscalaCapitalIni())*i;
+//                String escala = round(valor);
+                txtDistanciaKM.setText(i+" KM");
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                //Toast.makeText(SimulacaoActivity.this, "Clicou", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                //Toast.makeText(SimulacaoActivity.this, "Parou", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        txtFiltroRegiao.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if(event.getAction() == 2) {
+                    Toast.makeText(getApplicationContext(), "Teste", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
+
+
 
 
 
@@ -314,7 +357,10 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         progressBarAtualizar = findViewById(R.id.progressBarAtualizar);
         txtAtualzizar = findViewById(R.id.txtAtualizar);
         imgAtualizar = findViewById(R.id.imgSwipeAtualizar);
-
+        seekBar = findViewById(R.id.seekBarProx);
+        txtDistanciaKM = findViewById(R.id.txtFiltroDistancia);
+        txtFiltroCategoria = findViewById(R.id.txtFiltroCategoria);
+        txtFiltroRegiao = findViewById(R.id.txtFiltroRegiao);
     }
 
     private void configDrawer(){
@@ -487,6 +533,8 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
             public void onItemClick(int position) {
                 alertDialog.dismiss();
                 filtrarCategoria(categorias_list.get(position));
+                txtFiltroCategoria.setText(estados_list.get(position));
+                txtFiltroCategoria.setVisibility(View.VISIBLE);
             }
         });
 
@@ -519,6 +567,8 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
             public void onItemClick(int position) {
                 alertDialog.dismiss();
                 filtrarEstado(estados_list.get(position));
+                txtFiltroRegiao.setText(estados_list.get(position));
+                txtFiltroRegiao.setVisibility(View.VISIBLE);
             }
         });
     }

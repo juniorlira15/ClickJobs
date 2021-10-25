@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/bg_ponta_redonda_filtro"
     android:layout_height="match_parent"
+    style="@style/Thema.EditText"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:rsb="http://schemas.android.com/tools">
 
@@ -26,52 +27,87 @@
             android:textColor="@color/branco"
             android:textSize="34sp" />
 
+        <include
+            layout="@layout/layout_filtro_prox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/nunito_regular"
+                android:text="Filtrar por"
+                android:textColor="@color/branco"
+                android:textSize="16sp" />
+
+
+            <Button
+                android:id="@+id/button6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:onClick="abrirDialogEstado"
+                android:text="Região"
+                android:textAllCaps="false" />
+
+
+            <Button
+                android:id="@+id/button7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="abrirDialogCategoria"
+                android:text="Categoria"
+                android:textAllCaps="false" />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/amarelo"
+            android:text="Filtrar" />
+
         <TextView
-            android:id="@+id/textView13"
-            android:layout_width="match_parent"
+            android:id="@+id/txtFiltroRegiao"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="45dp"
-            android:layout_marginTop="22dp"
-            android:fontFamily="@font/nunito_semi_bold"
-            android:text="Preço"
-            android:textColor="@color/branco"
-            android:textSize="20dp" />
-
-        <SeekBar
-            android:id="@+id/seekBarPreco"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="45dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="45dp"
-
-            />
-
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            android:layout_marginBottom="10dp"
+            android:drawableEnd="@drawable/com_facebook_tooltip_black_xout"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/amarelo"
+            android:text="TextView"
+            android:textColor="@color/branco" />
 
         <TextView
-            android:id="@+id/textView14"
-            android:layout_width="match_parent"
+            android:id="@+id/txtFiltroCategoria"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="45dp"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/nunito_semi_bold"
-            android:text="Proximidade"
-            android:textColor="@color/branco"
-            android:textSize="20dp" />
-
-
-        <SeekBar
-            android:id="@+id/seekBarProximidade"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="45dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="45dp"
-            android:thumbTint="@color/amarelo"
-            android:max="10"
-            android:tickMark="@color/branco"
-
-            android:progressTint="@color/branco"
-        />
+            android:layout_marginStart="20dp"
+            android:visibility="gone"
+            android:drawableEnd="@drawable/com_facebook_tooltip_black_xout"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/amarelo"
+            android:text="TextView"
+            android:textColor="@color/branco" />
     </LinearLayout>
 </RelativeLayout>

@@ -42,7 +42,7 @@
         <item name="android:statusBarColor">@color/branco</item>
         <item name="statusBarBackground">@color/branco</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="fontFamily">@font/montserrat_medium</item>
+        <item name="fontFamily">@font/nunito_regular</item>
         Customize your theme here.
     </style>
 
@@ -171,6 +171,11 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="botaofiltro">
+        <item name="background">@drawable/bg_btn_filtro</item>
+    </style>
+
 
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
