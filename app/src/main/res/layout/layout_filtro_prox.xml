@@ -11,11 +11,11 @@
         android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="11dp"
         android:layout_marginBottom="8dp"
         android:text="Raio de busca"
         android:textColor="@color/branco"
         android:textSize="16sp"
+        android:layout_marginStart="10dp"
         app:layout_constraintBottom_toTopOf="@+id/seekBarProx"
         app:layout_constraintStart_toStartOf="@+id/seekBarProx" />
 
@@ -35,7 +35,7 @@
         android:id="@+id/seekBarProx"
         android:layout_width="0dp"
         android:layout_height="31dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
         android:progressBackgroundTint="@color/branco"
         android:progressTint="@color/amarelo"

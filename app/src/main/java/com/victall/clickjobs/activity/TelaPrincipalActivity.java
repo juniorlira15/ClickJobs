@@ -101,6 +101,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     private TextView txtAtualzizar;
     private SeekBar seekBar;
     private TextView txtDistanciaKM,txtFiltroRegiao,txtFiltroCategoria;
+    private final int progressPadrao = 10;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -226,6 +227,9 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
             }
         });
 
+        seekBar.setProgress(progressPadrao);
+        txtDistanciaKM.setText(progressPadrao+" KM");
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -247,20 +251,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         });
 
 
-        txtFiltroRegiao.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final int DRAWABLE_LEFT = 0;
-                final int DRAWABLE_TOP = 1;
-                final int DRAWABLE_RIGHT = 2;
-                final int DRAWABLE_BOTTOM = 3;
 
-                if(event.getAction() == 2) {
-                    Toast.makeText(getApplicationContext(), "Teste", Toast.LENGTH_SHORT).show();
-                }
-                return false;
-            }
-        });
 
 
 
@@ -567,6 +558,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
             public void onItemClick(int position) {
                 alertDialog.dismiss();
                 filtrarEstado(estados_list.get(position));
+
                 txtFiltroRegiao.setText(estados_list.get(position));
                 txtFiltroRegiao.setVisibility(View.VISIBLE);
             }
@@ -757,6 +749,12 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
     public static void deleteItem(Anuncio anuncio){
         ANUNCIOS.remove(anuncio);
+    }
+
+    public void fechaPanel(View view){
+
+       mUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+
     }
 
 }
