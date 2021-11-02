@@ -38,6 +38,7 @@ import com.squareup.picasso.Picasso;
 import com.victall.clickjobs.R;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
 import com.victall.clickjobs.help.CheckConnection;
+import com.victall.clickjobs.help.DataHora;
 import com.victall.clickjobs.help.Permissoes;
 import com.victall.clickjobs.help.UsuarioFirebase;
 import com.victall.clickjobs.model.Anuncio;
@@ -56,7 +57,6 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
     private ImageView img1,img2,img3,imgEditTit,imgEditDesc;
     private ImageView imgDelete1,imgDelete2,imgDelete3;
     private List<String> listaFotosRecuperadas = new ArrayList<>();
-    private List<String> novaListaFotosRecuperadas = new ArrayList<>();
     private AlertDialog.Builder builder;
     private AlertDialog alertDialog;
     private String[] permissoes = new String[]{
@@ -216,18 +216,12 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
 
                     abreDialog();
 
-                    if(novaListaFotosRecuperadas.size()>0){
 
-                        for (int i = 0; i < novaListaFotosRecuperadas.size(); i++) {
-                            String urlImagem = novaListaFotosRecuperadas.get(i);
+                        for (int i = 0; i < listaFotosRecuperadas.size(); i++) {
+                            String urlImagem = listaFotosRecuperadas.get(i);
                             int contador = i + 1;
                             salvarFotoStorage(urlImagem, i, contador);
                         }
-
-                    }else{
-                        gravaAnuncioFirebase();
-                    }
-
 
 
             }else{
@@ -293,17 +287,33 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
                 Picasso.get().load(imagemSelecionada)
                         .into(img1);
                 imgDelete1.setEnabled(true);
+                if(anuncio.getFoto().size()>0) {
+                    listaFotosRecuperadas.set(0, caminhaImagem);
+                }else{
+                    listaFotosRecuperadas.add(0,caminhaImagem);
+                }
             }else if(requestCode == 2){
                 Picasso.get().load(imagemSelecionada)
                         .into(img2);
                 imgDelete2.setEnabled(true);
+                if(anuncio.getFoto().size()>1) {
+                    listaFotosRecuperadas.set(1, caminhaImagem);
+                }else{
+                    listaFotosRecuperadas.add(1,caminhaImagem);
+                }
             }else if(requestCode == 3){
                 Picasso.get().load(imagemSelecionada)
                         .into(img3);
                 imgDelete3.setEnabled(true);
+                if(anuncio.getFoto().size()>2) {
+                    listaFotosRecuperadas.set(2, caminhaImagem);
+                }else{
+                    listaFotosRecuperadas.add(2,caminhaImagem);
+                }
             }
 
-            novaListaFotosRecuperadas.add(caminhaImagem);
+
+
 
 
         }
@@ -322,8 +332,8 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
             case(R.id.img1EditServ) : escolherImagem(1); break;
             case(R.id.img2EditServ) : escolherImagem(2);break;
             case(R.id.img3EditServ) : escolherImagem(3);break;
-            case(R.id.imgEditDesc) : titulo.setEnabled(true); titulo.requestFocus();break;
-            case(R.id.imgEditTitulo) : descricao.setEnabled(true); descricao.requestFocus();break;
+            case(R.id.imgEditDesc) : descricao.setEnabled(true); descricao.requestFocus();break;
+            case(R.id.imgEditTitulo) : titulo.setEnabled(true); titulo.requestFocus();break;
             case(R.id.btnAlterar) : alterarDados();break;
         }
     }
@@ -334,13 +344,18 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
 
             DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
 
-            HashMap<String,Object> hashMap = new HashMap<>();
-            hashMap.put("descricao",descricao.getText().toString());
-            hashMap.put("titulo",titulo.getText().toString());
-            hashMap.put("foto",listaURLFotos);
+            anuncio.setDescricao(descricao.getText().toString());
+            anuncio.setTitulo(titulo.getText().toString());
+            anuncio.setData(DataHora.recuperaData());
+            anuncio.setHora(DataHora.recuperaHora());
+
+//            HashMap<String,Object> hashMap = new HashMap<>();
+//            hashMap.put("descricao",descricao.getText().toString());
+//            hashMap.put("titulo",titulo.getText().toString());
+//            hashMap.put("foto",listaURLFotos);
 
             // GRAVANDO NO ANUNCIOS GERAL
-            reference.child("anuncios").child(anuncio.getEndereco()).child(anuncio.getCategoria()).child(anuncio.getIdAnuncio()).updateChildren(hashMap)
+            reference.child("anuncios").child(anuncio.getEndereco()).child(anuncio.getCategoria()).child(anuncio.getIdAnuncio()).setValue(anuncio)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -361,7 +376,7 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
 
 
             // GRAVANDO NOS ANUNCIOS DE CADA USUARIO
-            reference.child("meus_anuncios").child(firebaseUser.getUid()).child(anuncio.getIdAnuncio()).updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+            reference.child("meus_anuncios").child(firebaseUser.getUid()).child(anuncio.getIdAnuncio()).setValue(anuncio).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
                     Toast.makeText(DetalheMeuAnuncioActivity.this, "Serviço alterado com sucesso!", Toast.LENGTH_SHORT).show();

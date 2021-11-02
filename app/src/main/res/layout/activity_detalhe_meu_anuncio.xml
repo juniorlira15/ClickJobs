@@ -73,6 +73,7 @@
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:onClick="onClick"
+                    android:padding="20dp"
                     app:srcCompat="@drawable/img_padrao" />
 
                 <ImageView
@@ -97,6 +98,7 @@
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:onClick="onClick"
+                    android:padding="20dp"
                     app:srcCompat="@drawable/img_padrao" />
 
                 <ImageView
@@ -121,6 +123,7 @@
                     android:layout_height="100dp"
                     android:layout_weight="1"
                     android:onClick="onClick"
+                    android:padding="20dp"
                     app:srcCompat="@drawable/img_padrao" />
 
                 <ImageView

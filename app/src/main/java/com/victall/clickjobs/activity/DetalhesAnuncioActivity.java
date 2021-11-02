@@ -180,12 +180,38 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putSerializable("anuncio",anuncio);
+
+
+
+    }
+
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+
+        if(savedInstanceState!=null) {
+            anuncio = (Anuncio) savedInstanceState.getSerializable("anuncio");
+
+            txtValor.setText(anuncio.getValor());
+            txtCategoria.setText(anuncio.getCategoria());
+            txtDesc.setText(anuncio.getDescricao());
+            txtTitulo.setText(anuncio.getTitulo());
+            txtNome.setText(anuncio.getNomeAnunciante());
+            txtServico.setText(anuncio.getTitulo());
+
+            String idAnunciante = anuncio.getIdAnunciante();
+        }
+
+    }
+
     public void abrirImagem(View vIew){
-
-
-
-
-
 
     }
 
