@@ -117,7 +117,7 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     String urlFoto = snapshot.getValue(String.class);
-                    if(urlFoto!=null){
+                    if(urlFoto!=null && !urlFoto.equals("")){
                         Picasso.get().
                                 load(urlFoto)
                                 .placeholder(R.drawable.img_placeholder)

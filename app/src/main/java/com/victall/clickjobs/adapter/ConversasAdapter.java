@@ -83,11 +83,19 @@ public class ConversasAdapter extends RecyclerView.Adapter<ConversasAdapter.Conv
         });
 
 
-        Picasso.get()
-                .load(conversa.getUsuario().getFotoAnunciante())
-                .placeholder(R.drawable.img_placeholder)
-                .error(R.drawable.placeholder_error)
-                .into(holder.fotoConversa);
+        if(conversa.getUsuario().getFotoAnunciante().equals("") || conversa.getUsuario().getFotoAnunciante() == null){
+            Picasso.get()
+                    .load(R.drawable.img_placeholder)
+                    .into(holder.fotoConversa);
+        }else{
+            Picasso.get()
+                    .load(conversa.getUsuario().getFotoAnunciante())
+                    .placeholder(R.drawable.img_placeholder)
+                    .error(R.drawable.placeholder_error)
+                    .into(holder.fotoConversa);
+        }
+
+
 
 
     }

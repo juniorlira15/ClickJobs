@@ -8,7 +8,7 @@
     android:layout_marginStart="4dp"
     android:layout_marginEnd="4dp"
     android:layout_marginBottom="8dp"
-
+    android:background="@color/cinza_muito_claro"
     >
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -34,14 +34,13 @@
             android:id="@+id/imgAnuncio"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:auto_cycle="true"
-            app:corner_radius="30"
             android:fadingEdgeLength="2dp"
+            app:auto_cycle="true"
             app:delay="@integer/material_motion_duration_long_2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/img_place_logo"/>
+            tools:srcCompat="@drawable/img_place_logo" />
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
@@ -93,6 +92,7 @@
         android:text="Carpinteiro"
         android:textColor="@color/azul_escuro"
         android:textSize="14sp"
+        android:visibility="gone"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/txtNomeProf"
         app:layout_constraintTop_toBottomOf="@+id/shimmer_view_container" />
@@ -102,6 +102,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/txtCategProf"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/txtCategProf"
@@ -111,14 +112,37 @@
         android:id="@+id/divider4"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
+        android:visibility="gone"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtFaixaPrecoServ" />
+
+    <TextView
+        android:id="@+id/txtEndereco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/cinza_escuro"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNomeProf" />
+
+    <TextView
+        android:id="@+id/txtDataPostagem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="@color/cinza_escuro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shimmer_view_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

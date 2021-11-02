@@ -524,7 +524,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
             public void onItemClick(int position) {
                 alertDialog.dismiss();
                 filtrarCategoria(categorias_list.get(position));
-                txtFiltroCategoria.setText(estados_list.get(position));
+                txtFiltroCategoria.setText(categorias_list.get(position));
                 txtFiltroCategoria.setVisibility(View.VISIBLE);
             }
         });

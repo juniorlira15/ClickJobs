@@ -89,6 +89,7 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
 
         String titulo = anunciosList.get(position).getNomeAnunciante();
         String idAnunciante = anunciosList.get(position).getIdAnunciante();
+        String categoria = anunciosList.get(position).getCategoria();
         DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
         DatabaseReference fotoAnunciante = reference.child("usuarios").child(idAnunciante).child("foto");
 
@@ -111,10 +112,15 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
 
                                 @Override
                                 public void onError(Exception e) {
-
+                                    holder.shimmer_view_container.hideShimmer();
                                 }
                             });
 
+                }else{
+                    Picasso.get().
+                            load(R.drawable.img_placeholder).
+                            into(holder.imgPerfil);
+                    holder.shimmer_view_container.hideShimmer();
                 }
             }
 
@@ -130,8 +136,10 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
         for(int i=0; i<1;i++){
             int posicao=i+1;
             int total = anunciosList.get(position).getFoto().size();
-            slideModels.add(new SlideModel(anunciosList.get(position).getFoto().get(i),""));
+            slideModels.add(new SlideModel(anunciosList.get(position).getFoto().get(i),categoria));
         }
+
+
         holder.imgAnuncio.setImageList(slideModels,true);
 //        Picasso.get().
 //                load(anunciosList.get(position).getFoto().get(0))
@@ -159,10 +167,12 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
             holder.txtNome.setText(titulo);
         }
 
-//        holder.txtEnd.setText(anunciosList.get(position).getEndereco());
-        holder.txtCategoria.setText(anunciosList.get(position).getCategoria());
+        holder.txtData.setText(anunciosList.get(position).getData()+" - "+anunciosList.get(position).getHora());
+        holder.txtEnd.setText(anunciosList.get(position).getEndereco());
+
 
         //holder.shimmer_view_container.hideShimmer();
+
     }
 
     @Override
@@ -173,7 +183,7 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
     public class AnuncioViewHolder extends RecyclerView.ViewHolder{
 
         private ImageSlider imgAnuncio;
-        private TextView txtNome,txtValor,txtCategoria,txtEnd;
+        private TextView txtNome,txtValor,txtCategoria,txtEnd,txtData;
         private ShimmerFrameLayout shimmer_view_container;
         private CircleImageView imgPerfil;
 
@@ -185,11 +195,12 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
 
             imgAnuncio = itemView.findViewById(R.id.imgAnuncio);
             txtCategoria = itemView.findViewById(R.id.txtCategProf);
-//            txtEnd = itemView.findViewById(R.id.txtEndServ);
+            txtEnd = itemView.findViewById(R.id.txtEndereco);
             txtNome = itemView.findViewById(R.id.txtNomeProf);
             txtValor = itemView.findViewById(R.id.txtFaixaPrecoServ);
             shimmer_view_container = (ShimmerFrameLayout) itemView.findViewById(R.id.shimmer_view_container);
             imgPerfil = itemView.findViewById(R.id.imgAnunciante);
+            txtData = itemView.findViewById(R.id.txtDataPostagem);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
