@@ -32,7 +32,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -60,6 +59,7 @@ import com.victall.clickjobs.help.CheckConnection;
 import com.victall.clickjobs.help.OnSwipeTouchListener;
 import com.victall.clickjobs.help.UsuarioFirebase;
 import com.victall.clickjobs.model.Anuncio;
+import com.victall.clickjobs.model.FiltragemCatEst;
 import com.victall.clickjobs.model.Endereco;
 
 import java.io.IOException;
@@ -77,9 +77,9 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     private RecyclerView recyclerView;
     public static AnuncioAdapter adapter;
     private String[] estados;
-    private ArrayList<String> estados_list;
+    private ArrayList<FiltragemCatEst> estados_list;
     private String[] categorias;
-    private ArrayList<String> categorias_list;
+    private ArrayList<FiltragemCatEst> categorias_list;
     private ExtendedFloatingActionButton actionButton;
     private SlidingUpPanelLayout mUpPanelLayout;
     private ImageView imgFiltro,imgAdd,imgPesquisar;
@@ -102,6 +102,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     private SeekBar seekBar;
     private TextView txtDistanciaKM,txtFiltroRegiao,txtFiltroCategoria;
     private final int progressPadrao = 10;
+    private String filtroEstado = "",filtroCategoria="";
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -118,11 +119,10 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
         // Configuraçoes Iniciais
         estados = getResources().getStringArray(R.array.estados);
-        estados_list = new ArrayList<>(Arrays.asList(estados));
+        estados_list = new ArrayList<>();
 
         categorias = getResources().getStringArray(R.array.categoria);
-        categorias_list = new ArrayList<>(Arrays.asList(categorias));
-
+        categorias_list = new ArrayList<>();
         //Configurar RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
@@ -436,7 +436,9 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
     private void filtrarEstado(String estado){
 
+        filtroEstado = estado;
         ArrayList<Anuncio> anuncios_filter = new ArrayList<>();
+        ArrayList<Anuncio> anuncios_filter_categoria = new ArrayList<>();
 
         //Toast.makeText(this, estado, Toast.LENGTH_SHORT).show();
 
@@ -445,17 +447,30 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
                 anuncios_filter.add(anuncio);
             }
         }
-        if(estado.equals("TODOS")){
-            adapter.filterList(ANUNCIOS);
-        }else{
-            adapter.filterList(anuncios_filter);
-        }
 
+        if(filtroCategoria.equals("") || filtroCategoria.equals("TODAS")) {
+
+            if (estado.equals("TODOS")) {
+                adapter.filterList(ANUNCIOS);
+            } else {
+                adapter.filterList(anuncios_filter);
+            }
+        }else{
+
+            for(Anuncio anuncio:anuncios_filter){
+                if(anuncio.getEndereco().equals(filtroEstado)){
+                    anuncios_filter_categoria.add(anuncio);
+                }
+            }
+            adapter.filterList(anuncios_filter_categoria);
+        }
     }
 
     private void filtrarCategoria(String categoria){
 
+        filtroCategoria = categoria;
         ArrayList<Anuncio> anuncios_filter = new ArrayList<>();
+        ArrayList<Anuncio> anuncios_filter_estado = new ArrayList<>();
 
         for(Anuncio anuncio : ANUNCIOS){
             if(anuncio.getCategoria().equals(categoria)){
@@ -463,11 +478,26 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
             }
         }
 
-        if(categoria.equals("TODAS")){
-            adapter.filterList(ANUNCIOS);
+        // Verifica se o Filtro de Estado está ativo
+        if(filtroEstado.equals("") || filtroEstado.equals("TODAS")){
+
+            if(categoria.equals("TODAS")){
+                adapter.filterList(ANUNCIOS);
+            }else{
+                adapter.filterList(anuncios_filter);
+            }
+
         }else{
-            adapter.filterList(anuncios_filter);
+
+            for(Anuncio anuncio:anuncios_filter){
+                if(anuncio.getEndereco().equals(filtroEstado)){
+                    anuncios_filter_estado.add(anuncio);
+                }
+            }
+            adapter.filterList(anuncios_filter_estado);
         }
+
+
     }
 
     private void filtrarPesquisa(String pesquisa){
@@ -523,8 +553,8 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
             @Override
             public void onItemClick(int position) {
                 alertDialog.dismiss();
-                filtrarCategoria(categorias_list.get(position));
-                txtFiltroCategoria.setText(categorias_list.get(position));
+                filtrarCategoria(categorias_list.get(position).getNome());
+                txtFiltroCategoria.setText(categorias_list.get(position).getNome());
                 txtFiltroCategoria.setVisibility(View.VISIBLE);
             }
         });
@@ -557,12 +587,22 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
             @Override
             public void onItemClick(int position) {
                 alertDialog.dismiss();
-                filtrarEstado(estados_list.get(position));
+                filtrarEstado(estados_list.get(position).getNome());
 
-                txtFiltroRegiao.setText(estados_list.get(position));
+                txtFiltroRegiao.setText(estados_list.get(position).getNome());
                 txtFiltroRegiao.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    public void abrirDialogCategoria2(View view){
+
+
+
+
+
+
+
     }
 
     private void recuperaEndereco(){
@@ -703,18 +743,50 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
                     ANUNCIOS.clear();
                     recyclerView.setVisibility(View.VISIBLE);
+                    categorias_list.clear();
+                    estados_list.clear();
+
+                    int contadorGeral = 0;
 
                     for (DataSnapshot estados : snapshot.getChildren()) {
+
+                        int contadorEstados = 0;
+
+                        FiltragemCatEst states = new FiltragemCatEst();
+                        states.setNome(estados.getRef().getKey());
+
+
+                        //Log.d("ESTADOS", "estados: "+estados.getRef().getKey());
+
+
                         for (DataSnapshot categorias : estados.getChildren()) {
+
+                            //contadorCategoria++;
+                            FiltragemCatEst categoria = new FiltragemCatEst();
+                            categoria.setNome(categorias.getRef().getKey());
+                            categoria.setContador((int) categorias.getChildrenCount());
+                            categorias_list.add(categoria);
+
+                            Log.d("ESTADOS", "categorias: "+categorias.getRef().getKey());
+
                             for (DataSnapshot anuncios : categorias.getChildren()) {
 
+                                contadorGeral++;
+                                contadorEstados++;
+
                                 Anuncio anuncio = anuncios.getValue(Anuncio.class);
-                                Log.d("ANUNCIO", "onDataChange: " + anuncio.getTitulo());
+                                Log.d("CONTADOR", "categorias: " + contadorGeral);
                                 ANUNCIOS.add(anuncio);
                                 TelaPrincipalActivity.adapter.notifyDataSetChanged();
                             }
+
+
                         }
+
+                        states.setContador(contadorEstados);
+                        estados_list.add(states);
                     }
+
 
 
                     Collections.reverse(ANUNCIOS);

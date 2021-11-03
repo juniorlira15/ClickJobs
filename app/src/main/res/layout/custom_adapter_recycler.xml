@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/txtCustomAdapterRecycler"
-    android:background="?android:attr/selectableItemBackground"
-    android:textAllCaps="true"
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textAppearance="?android:attr/textAppearanceListItemSmall"
-    android:gravity="center_vertical"
-    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-    android:minHeight="?android:attr/listPreferredItemHeightSmall" />
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+
+    <TextView
+        android:id="@+id/txtCustomAdapterRecycler"
+        android:background="?android:attr/selectableItemBackground"
+        android:textAllCaps="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:gravity="center_vertical"
+        android:layout_weight="1"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall" />
+
+    <TextView
+        android:id="@+id/txtContadorAnuncio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:background="@drawable/bg_textview_item_anuncio"
+        android:backgroundTint="@color/amarelo"
+        android:padding="5dp"
+        android:textColor="@color/cinza_escuro"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:layout_marginEnd="8dp"
+        android:text="10" />
+
+
+</LinearLayout>

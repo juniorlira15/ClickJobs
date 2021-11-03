@@ -286,7 +286,17 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
             if(!edtDescricao.getText().toString().equals("")){
                 if(!edtValor.getText().toString().equals("")){
                     if(listaFotosRecuperadas.size() != 0){
-                        return true;
+                        if(!spnCategoria.getSelectedItem().toString().equalsIgnoreCase("Todos")){
+                            if(!spnEstado.getSelectedItem().toString().equalsIgnoreCase("Todos")){
+                                return true;
+                            }else{
+                                Toast.makeText(CadastrarServicoActivity.this, "Escolha uma estado", Toast.LENGTH_SHORT).show();
+                                return false;
+                            }
+                        }else{
+                            Toast.makeText(CadastrarServicoActivity.this, "Escolha uma categoria", Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
                     }else {
                         Toast.makeText(CadastrarServicoActivity.this, "Escolha pelo menos 1 Foto", Toast.LENGTH_SHORT).show();
                         return false;

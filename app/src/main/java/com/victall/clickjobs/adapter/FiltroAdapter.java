@@ -1,26 +1,34 @@
 package com.victall.clickjobs.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.victall.clickjobs.R;
+import com.victall.clickjobs.model.FiltragemCatEst;
 
 import java.util.ArrayList;
 
 public class FiltroAdapter extends RecyclerView.Adapter<FiltroAdapter.FiltroAdapterViewHolder> {
 
-    private ArrayList<String> lista;
+    private ArrayList<FiltragemCatEst> lista;
     private OnItemClickListener mListener;
 
-    public FiltroAdapter(ArrayList<String> lista) {
+    public FiltroAdapter(ArrayList<FiltragemCatEst> lista) {
         this.lista = lista;
+    }
+
+    private int totalAnuncios(){
+        int total = 0;
+        for(FiltragemCatEst anuncios:lista){
+            total = total+anuncios.getContador();
+        }
+
+        return total;
     }
 
     @NonNull
@@ -44,7 +52,8 @@ public class FiltroAdapter extends RecyclerView.Adapter<FiltroAdapter.FiltroAdap
     @Override
     public void onBindViewHolder(@NonNull FiltroAdapterViewHolder holder, int position) {
 
-        holder.textView.setText(lista.get(position));
+        holder.textView.setText(lista.get(position).getNome());
+        holder.txtContador.setText(String.valueOf(lista.get(position).getContador()));
 
     }
 
@@ -56,12 +65,13 @@ public class FiltroAdapter extends RecyclerView.Adapter<FiltroAdapter.FiltroAdap
 
     class FiltroAdapterViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView textView;
+        private TextView textView,txtContador;
 
         public FiltroAdapterViewHolder(@NonNull View itemView, OnItemClickListener mListener) {
             super(itemView);
 
             textView = itemView.findViewById(R.id.txtCustomAdapterRecycler);
+            txtContador = itemView.findViewById(R.id.txtContadorAnuncio);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
