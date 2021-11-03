@@ -63,7 +63,7 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
             Manifest.permission.READ_EXTERNAL_STORAGE
     };
     private StorageReference storage;
-    private ArrayList<String> listaURLFotos;
+    private ArrayList<String> listaURLFotos = new ArrayList<>();
     private FirebaseUser firebaseUser;
     private Locale mLocale;
 
@@ -88,6 +88,7 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
             descricao.setText(anuncio.getDescricao());
             endereco.setText(anuncio.getEndereco());
             data.setText(anuncio.getData()+" "+anuncio.getHora());
+            listaFotosRecuperadas = anuncio.getFoto();
 
             for(int i=0; i<anuncio.getFoto().size();i++){
 
@@ -95,19 +96,16 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
                     Picasso.get().load(anuncio.getFoto().get(i))
                             .error(R.drawable.placeholder_error)
                             .into(img1);
-                    listaFotosRecuperadas.add(anuncio.getFoto().get(i));
                 }
                 if (i == 1) {
                     Picasso.get().load(anuncio.getFoto().get(i))
                             .error(R.drawable.placeholder_error)
                             .into(img2);
-                    listaFotosRecuperadas.add(anuncio.getFoto().get(i));
                 }
                 if (i == 2) {
                     Picasso.get().load(anuncio.getFoto().get(i))
                             .error(R.drawable.placeholder_error)
                             .into(img3);
-                    listaFotosRecuperadas.add(anuncio.getFoto().get(i));
                 }
 
             }
@@ -203,7 +201,7 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
         imgDelete1 = findViewById(R.id.imgDelete1);
         imgDelete2 = findViewById(R.id.imgDelete2);
         imgDelete3 = findViewById(R.id.imgDelete3);
-
+        storage = ConfiguracaoFirebase.getFirebaseStorage();
 
     }
 
@@ -215,6 +213,7 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
 
 
                     abreDialog();
+                    listaURLFotos.clear();
 
 
                         for (int i = 0; i < listaFotosRecuperadas.size(); i++) {
@@ -235,7 +234,7 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
     private void salvarFotoStorage(String urlString,int id,int contador){
 
 
-
+        Log.d("ID_AN", "ID: "+anuncio.getIdAnuncio()+" ID"+id);
         //Criar nÃ³ no storage
         StorageReference imagemAnuncio = storage.child("imagens")
                 .child("anuncios")
@@ -243,34 +242,24 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
                 .child("imagem"+id);
 
         //Fazer upload do arquivo
-        UploadTask uploadTask = imagemAnuncio.putFile( Uri.parse(urlString) );
-        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+        UploadTask uploadTask = imagemAnuncio.putFile(Uri.parse(urlString));
 
+        uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                 imagemAnuncio.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         String urlConvertida = uri.toString();
-                        listaURLFotos.add( urlConvertida );
-                        if(contador == listaFotosRecuperadas.size()){
-
+                        listaURLFotos.add(urlConvertida);
+                        if (contador == listaFotosRecuperadas.size()) {
                             anuncio.setFoto(listaURLFotos);
                             gravaAnuncioFirebase();
                         }
                     }
                 });
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //exibirMensagemErro("Falha ao fazer upload");
-                Log.i("INFO", "Falha ao fazer upload: " + e.getMessage());
-                alertDialog.dismiss();
             }
         });
-
     }
 
     @Override
@@ -287,29 +276,20 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
                 Picasso.get().load(imagemSelecionada)
                         .into(img1);
                 imgDelete1.setEnabled(true);
-                if(anuncio.getFoto().size()>0) {
-                    listaFotosRecuperadas.set(0, caminhaImagem);
-                }else{
-                    listaFotosRecuperadas.add(0,caminhaImagem);
-                }
+                listaFotosRecuperadas.set(0, caminhaImagem);
+
             }else if(requestCode == 2){
                 Picasso.get().load(imagemSelecionada)
                         .into(img2);
                 imgDelete2.setEnabled(true);
-                if(anuncio.getFoto().size()>1) {
-                    listaFotosRecuperadas.set(1, caminhaImagem);
-                }else{
-                    listaFotosRecuperadas.add(1,caminhaImagem);
-                }
+                listaFotosRecuperadas.set(1, caminhaImagem);
+
             }else if(requestCode == 3){
                 Picasso.get().load(imagemSelecionada)
                         .into(img3);
                 imgDelete3.setEnabled(true);
-                if(anuncio.getFoto().size()>2) {
-                    listaFotosRecuperadas.set(2, caminhaImagem);
-                }else{
-                    listaFotosRecuperadas.add(2,caminhaImagem);
-                }
+                listaFotosRecuperadas.set(2, caminhaImagem);
+
             }
 
 
@@ -329,7 +309,7 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case(R.id.img1EditServ) : escolherImagem(1); break;
+            case(R.id.img1EditServ) : escolherImagem(1);break;
             case(R.id.img2EditServ) : escolherImagem(2);break;
             case(R.id.img3EditServ) : escolherImagem(3);break;
             case(R.id.imgEditDesc) : descricao.setEnabled(true); descricao.requestFocus();break;
@@ -361,7 +341,7 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
 
-                                //Toast.makeText(CadastrarServicoActivity.this, "Serviço inserido com sucesso!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DetalheMeuAnuncioActivity.this, "Serviço alterado com sucesso!", Toast.LENGTH_SHORT).show();
                                 //finish();
                             }
                         }

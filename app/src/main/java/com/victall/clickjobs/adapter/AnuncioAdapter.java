@@ -96,10 +96,13 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
         fotoAnunciante.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 String urlFoto = snapshot.getValue(String.class);
-                saveToInternalStorage(Uri.parse(urlFoto),idAnunciante);
 
                 if(urlFoto!=null && !urlFoto.equals("")){
+
+                    saveToInternalStorage(Uri.parse(urlFoto),idAnunciante);
+
                     Picasso.get().
                             load(urlFoto)
                             .placeholder(R.drawable.img_placeholder)
