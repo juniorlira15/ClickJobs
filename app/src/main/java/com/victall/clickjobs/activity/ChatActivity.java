@@ -53,6 +53,7 @@ public class ChatActivity extends AppCompatActivity {
     private DatabaseReference mensagensRef;
     private ChildEventListener childEventListenerMensagem;
     private ValueEventListener seenListener;
+    private String idAnunciante,fotoPath;
 
 
     @Override
@@ -72,14 +73,38 @@ public class ChatActivity extends AppCompatActivity {
 
             anuncio = (Anuncio) bundle.getSerializable("anuncio");
 
-            if(anuncio.getFotoAnunciante().equals("")){
-                Picasso.get().load(R.drawable.icon_perfil);
-            }else {
-                Picasso.get().load(anuncio.getFotoAnunciante())
-                        .into(fotoAnunciante);
+            idAnunciante = (String) bundle.getSerializable("id");
+            fotoPath = (String) bundle.getSerializable("foto");
+
+            if(anuncio!=null){
+
+                if(anuncio.getFotoAnunciante().equals("")){
+                    Picasso.get().load(R.drawable.icon_perfil);
+                }else {
+                    Picasso.get().load(anuncio.getFotoAnunciante())
+                            .into(fotoAnunciante);
+                }
+                nome.setText(anuncio.getNomeAnunciante());
+                idUsuarioDestinatario = anuncio.getIdAnunciante();
+
             }
-            nome.setText(anuncio.getNomeAnunciante());
-            idUsuarioDestinatario = anuncio.getIdAnunciante();
+
+            if (idAnunciante != null && fotoPath != null) {
+
+                if(fotoPath.equals("")){
+                    Picasso.get().load(R.drawable.icon_perfil);
+                }else {
+                    Picasso.get().load(fotoPath)
+                            .into(fotoAnunciante);
+                }
+
+                nome.setText(anuncio.getNomeAnunciante());
+                idUsuarioDestinatario = idAnunciante;
+            }
+
+
+
+
 
 
         }

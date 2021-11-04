@@ -239,5 +239,13 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
     }
 
 
+    public void abrePerfilAnunciante(View view) {
 
+        Intent intent = new Intent(DetalhesAnuncioActivity.this,PerfilAnuncianteActivity.class);
+        intent.putExtra("id",anuncio.getIdAnunciante());
+        startActivity(intent);
+
+
+
+    }
 }

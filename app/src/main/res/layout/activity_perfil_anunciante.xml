@@ -24,25 +24,25 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbarPerfil"
+                android:id="@+id/toolbarPerfilAnunciante"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/PopupOverlay">
 
                 <TextView
-                    android:id="@+id/txtTituloPerfil"
+                    android:id="@+id/txtTituloPerfilAnunciante"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:textColor="@color/branco"
                     android:textSize="18sp"
-                    android:text="Meu Perfil" />
+                    android:text="Sobre o anunciante" />
 
             </androidx.appcompat.widget.Toolbar>
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imgPerfil"
+                android:id="@+id/imgPerfilAnunciante"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
@@ -50,7 +50,7 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
-                android:id="@+id/txtNomeCompletoPerfil"
+                android:id="@+id/txtNomeCompletoPerfilAnunciante"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -81,7 +81,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtNomePerfil"
+                    android:id="@+id/txtNomePerfilAnunciante"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -114,7 +114,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtSobrenomePerfil"
+                    android:id="@+id/txtSobrenomePerfilAnunciante"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -146,7 +146,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtEmailPerfil"
+                    android:id="@+id/txtEmailPerfilAnunciante"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -178,7 +178,7 @@
                     android:text="Telefone:" />
 
                 <TextView
-                    android:id="@+id/txtTelefonePerfil"
+                    android:id="@+id/txtTelefonePerfilAnunciante"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -201,9 +201,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:onClick="atualizaDados"
                 android:layout_marginBottom="10dp"
-                android:text="Atualizar dados" />
+                android:onClick="atualizaDados"
+                android:text="Atualizar dados"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textView16"
@@ -215,7 +216,8 @@
                 android:drawableEnd="@drawable/ic_location"
                 android:drawablePadding="15dp"
                 android:gravity="center"
-                android:text="Meu endereço"
+                android:text="Endereço"
+                android:textColor="@color/cinza_escuro"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -238,7 +240,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtPerfilLogradouro"
+                    android:id="@+id/txtPerfilLogradouroAnunciante"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -268,7 +270,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtPerfilNumero"
+                    android:id="@+id/txtPerfilNumeroAnunciante"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|center_vertical"
@@ -296,7 +298,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtPerfilComplemento"
+                    android:id="@+id/txtPerfilComplementoAnunciante"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -324,7 +326,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtPerfilBairro"
+                    android:id="@+id/txtPerfilBairroAnunciante"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -351,7 +353,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtPerfilCidade"
+                    android:id="@+id/txtPerfilCidadeAnunciante"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -378,7 +380,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtPerfilEstado"
+                    android:id="@+id/txtPerfilEstadoAnunciante"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -405,7 +407,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtPerfilPais"
+                    android:id="@+id/txtPerfilPaisAnunciante"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -432,7 +434,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtPerfilCep"
+                    android:id="@+id/txtPerfilCepAnunciante"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -442,13 +444,30 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/textView26"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Mais anúncios"
+            android:textColor="@color/cinza_escuro"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerAnunciante"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp" />
+
         <Button
-            android:id="@+id/btnChatA"
+            android:id="@+id/btnChatAnunciante"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:onClick="atualizaEndereco"
-            android:text="Atualizar endereço" />
+            android:layout_marginBottom="10dp"
+            android:drawableEnd="@drawable/ic_chat"
+            android:text="Chat" />
 
 
     </LinearLayout>
