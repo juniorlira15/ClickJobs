@@ -13,12 +13,12 @@ import com.victall.clickjobs.model.FiltragemCatEst;
 
 import java.util.ArrayList;
 
-public class FiltroAdapter extends RecyclerView.Adapter<FiltroAdapter.FiltroAdapterViewHolder> {
+public class FiltroAdapterCategoria extends RecyclerView.Adapter<FiltroAdapterCategoria.FiltroAdapterViewHolder> {
 
     private ArrayList<FiltragemCatEst> lista;
     private OnItemClickListener mListener;
 
-    public FiltroAdapter(ArrayList<FiltragemCatEst> lista) {
+    public FiltroAdapterCategoria(ArrayList<FiltragemCatEst> lista) {
         this.lista = lista;
     }
 

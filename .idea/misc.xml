@@ -11,6 +11,8 @@
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/drawable/ic_add.xml" value="0.30234375" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/drawable/ic_email.xml" value="0.403125" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/drawable/ic_password.xml" value="0.403125" />
+        <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout-w1240dp/layout_filtro_categoria.xml" value="0.32265625" />
+        <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/activity_cadastrar_servico.xml" value="0.3111111111111111" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/activity_cadastro.xml" value="0.33" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/activity_confirmacao_email.xml" value="0.290234375" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/activity_login.xml" value="0.25" />
@@ -32,13 +34,16 @@
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/fragment_gallery.xml" value="0.290234375" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/fragment_home.xml" value="0.290234375" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/fragment_slideshow.xml" value="0.290234375" />
+        <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/header_view.xml" value="0.141015625" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/item_anuncio.xml" value="0.290234375" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/item_anuncio2.xml" value="0.2" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/layout_alert_dialog.xml" value="0.290234375" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/layout_dialog_conf_endereco.xml" value="0.290234375" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/layout_dialog_dados_pessoais.xml" value="0.290234375" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/layout_dialog_pesquisa.xml" value="0.16944444444444445" />
+        <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/layout_filtro_estado.xml" value="0.3111111111111111" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/layout_filtro_prox.xml" value="0.290234375" />
+        <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/layout_filtros.xml" value="0.290234375" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/layout/layout_progress_bar.xml" value="0.290234375" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/menu/activity_main_drawer.xml" value="0.290234375" />
         <entry key="..\:/DRIVE_GOOGLE/ProjetosAndroidStudio/ClickJobs/app/src/main/res/menu/menu_scrolling.xml" value="0.290234375" />

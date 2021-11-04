@@ -286,7 +286,7 @@ public class CadastrarServicoActivity extends AppCompatActivity implements View.
             if(!edtDescricao.getText().toString().equals("")){
                 if(!edtValor.getText().toString().equals("")){
                     if(listaFotosRecuperadas.size() != 0){
-                        if(!spnCategoria.getSelectedItem().toString().equalsIgnoreCase("Todos")){
+                        if(!spnCategoria.getSelectedItem().toString().equalsIgnoreCase("Todas")){
                             if(!spnEstado.getSelectedItem().toString().equalsIgnoreCase("Todos")){
                                 return true;
                             }else{

@@ -53,7 +53,8 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.victall.clickjobs.R;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.victall.clickjobs.adapter.AnuncioAdapter;
-import com.victall.clickjobs.adapter.FiltroAdapter;
+import com.victall.clickjobs.adapter.FiltroAdapterCategoria;
+import com.victall.clickjobs.adapter.FiltroAdapterEstado;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
 import com.victall.clickjobs.help.CheckConnection;
 import com.victall.clickjobs.help.OnSwipeTouchListener;
@@ -65,7 +66,6 @@ import com.victall.clickjobs.model.Endereco;
 import java.io.IOException;
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -103,6 +103,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     private TextView txtDistanciaKM,txtFiltroRegiao,txtFiltroCategoria;
     private final int progressPadrao = 10;
     private String filtroEstado = "",filtroCategoria="";
+    private AlertDialog alertDialogEstado,alertDialogCategoria;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -437,6 +438,9 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     private void filtrarEstado(String estado){
 
         filtroEstado = estado;
+        if(estado.equals("TODAS")){
+            txtFiltroRegiao.setText("TODAS");
+        }
         ArrayList<Anuncio> anuncios_filter = new ArrayList<>();
         ArrayList<Anuncio> anuncios_filter_categoria = new ArrayList<>();
 
@@ -450,8 +454,9 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
         if(filtroCategoria.equals("") || filtroCategoria.equals("TODAS")) {
 
-            if (estado.equals("TODOS")) {
+            if (estado.equals("TODAS")) {
                 adapter.filterList(ANUNCIOS);
+                txtFiltroRegiao.setText("TODAS");
             } else {
                 adapter.filterList(anuncios_filter);
             }
@@ -469,6 +474,9 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     private void filtrarCategoria(String categoria){
 
         filtroCategoria = categoria;
+        if(categoria.equals("TODAS")){
+            txtFiltroCategoria.setText("TODAS");
+        }
         ArrayList<Anuncio> anuncios_filter = new ArrayList<>();
         ArrayList<Anuncio> anuncios_filter_estado = new ArrayList<>();
 
@@ -483,6 +491,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
             if(categoria.equals("TODAS")){
                 adapter.filterList(ANUNCIOS);
+                txtFiltroCategoria.setText("TODAS");
             }else{
                 adapter.filterList(anuncios_filter);
             }
@@ -534,30 +543,32 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         builder.setTitle("Categorias");
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View title = inflater.inflate(R.layout.layout_filtros,null);
+        View title = inflater.inflate(R.layout.layout_filtro_categoria,null);
 
         RecyclerView recyclerView = title.findViewById(R.id.recylerFiltros);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        FiltroAdapter adapter = new FiltroAdapter(categorias_list);
+        FiltroAdapterCategoria adapter = new FiltroAdapterCategoria(categorias_list);
 
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
         builder.setView(title);
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+        alertDialogCategoria = builder.create();
+        alertDialogCategoria.show();
 
-        adapter.setOnItemClickListener(new FiltroAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new FiltroAdapterCategoria.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                alertDialog.dismiss();
+                alertDialogCategoria.dismiss();
                 filtrarCategoria(categorias_list.get(position).getNome());
                 txtFiltroCategoria.setText(categorias_list.get(position).getNome());
                 txtFiltroCategoria.setVisibility(View.VISIBLE);
             }
         });
+
+
 
 
     }
@@ -568,25 +579,25 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         builder.setTitle("Estados");
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View title = inflater.inflate(R.layout.layout_filtros,null);
+        View title = inflater.inflate(R.layout.layout_filtro_estado,null);
 
         RecyclerView recyclerView = title.findViewById(R.id.recylerFiltros);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        FiltroAdapter adapter = new FiltroAdapter(estados_list);
+        FiltroAdapterEstado adapter = new FiltroAdapterEstado(estados_list);
 
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
         builder.setView(title);
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+        alertDialogEstado = builder.create();
+        alertDialogEstado.show();
 
-        adapter.setOnItemClickListener(new FiltroAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new FiltroAdapterEstado.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                alertDialog.dismiss();
+                alertDialogEstado.dismiss();
                 filtrarEstado(estados_list.get(position).getNome());
 
                 txtFiltroRegiao.setText(estados_list.get(position).getNome());
@@ -828,5 +839,17 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
        mUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
 
     }
+
+    public void selecionaTodosEstados(View view){
+        filtrarEstado("TODAS");
+        alertDialogEstado.dismiss();
+
+    }
+
+    public void selecionaTodasCategorias(View view){
+        filtrarCategoria("TODAS");
+        alertDialogCategoria.dismiss();
+    }
+
 
 }
