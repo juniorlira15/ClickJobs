@@ -52,6 +52,7 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
     private String[] permissoes = new String[]{
             Manifest.permission.CALL_PHONE
     };
+    private static final String TELEFONE = "38991155544";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,15 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         txtServico = findViewById(R.id.txtServico);
 
 
+        if(savedInstanceState!=null){
+
+            //Anuncio anuncio = (Anuncio) savedInstanceState.getSerializable("anuncio");
+            String telefone = savedInstanceState.getString(TELEFONE);
+
+            Toast.makeText(this, "Telefone."+telefone, Toast.LENGTH_SHORT).show();
+
+
+        }
 
 
 
@@ -106,6 +116,7 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
                             bairro = "";
                         }
                         txtEndereco.setText(bairro+","+endereco.getCidade()+" - "+endereco.getCep());
+                        anuncio.setEndereco(bairro+","+endereco.getCidade()+" - "+endereco.getCep());
                     }
                 }
 
@@ -119,6 +130,7 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     String urlFoto = snapshot.getValue(String.class);
+                    anuncio.setFotoAnunciante(urlFoto);
                     if(urlFoto!=null && !urlFoto.equals("")){
                         Picasso.get().
                                 load(urlFoto)
@@ -163,6 +175,7 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     String nome = snapshot.getValue(String.class);
                     txtNome.setText(nome);
+                    anuncio.setNomeAnunciante(nome);
                 }
 
                 @Override
@@ -186,8 +199,6 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
             }
 
 
-        }else{
-            Toast.makeText(this, "Erro ao consultar informações.", Toast.LENGTH_SHORT).show();
         }
 
         Permissoes.validarPermissoes(permissoes,this,2);
@@ -198,34 +209,15 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
+
+        //outState.putSerializable("anuncio",anuncio);
+        outState.putString(TELEFONE,txtTellefone.getText().toString());
         super.onSaveInstanceState(outState);
-
-        outState.putSerializable("anuncio",anuncio);
-
-
-
+        Toast.makeText(this, "salvou aqui", Toast.LENGTH_SHORT).show();
     }
 
 
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
 
-
-        if(savedInstanceState!=null) {
-            anuncio = (Anuncio) savedInstanceState.getSerializable("anuncio");
-
-            txtValor.setText(anuncio.getValor());
-            txtCategoria.setText(anuncio.getCategoria());
-            txtDesc.setText(anuncio.getDescricao());
-            txtTitulo.setText(anuncio.getTitulo());
-            txtNome.setText(anuncio.getNomeAnunciante());
-            txtServico.setText(anuncio.getTitulo());
-
-            String idAnunciante = anuncio.getIdAnunciante();
-        }
-
-    }
 
     public void abrirImagem(View vIew){
 

@@ -7,7 +7,7 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="$USER_HOME$/.android/avd/Nexus_5X_API_24.avd" />
+            <value value="C:\Users\junior\.android\avd\Pixel_4_API_11_.avd" />
           </Key>
         </deviceKey>
       </Target>
@@ -15,8 +15,8 @@
         <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
           <Key>
-            <type value="SERIAL_NUMBER" />
-            <value value="10b4368b" />
+            <type value="VIRTUAL_DEVICE_PATH" />
+            <value value="C:\Users\junior\.android\avd\Pixel_2_API_10_.avd" />
           </Key>
         </deviceKey>
       </Target>

@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +64,7 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
     private ArrayList<Anuncio> anuncios_list;
     private Anuncio anuncio;
     private String fotoPath;
+    private Button btnChat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +127,11 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        if(anuncio.getIdAnunciante().equals(UsuarioFirebase.getFirebaseUser().getUid())){
+            btnChat.setVisibility(View.GONE);
+        }
     }
 
     private void inicializaViews(){
@@ -145,6 +152,7 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
         txtComplemento = findViewById(R.id.txtPerfilComplementoAnunciante);
         txtBairro = findViewById(R.id.txtPerfilBairroAnunciante);
         txtCidade = findViewById(R.id.txtPerfilCidadeAnunciante);
+        btnChat = findViewById(R.id.btnChatAnunciante);
     }
 
     private void recuperaPerfil(){

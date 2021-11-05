@@ -4,7 +4,12 @@ import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +49,8 @@ import com.victall.clickjobs.R;
 
 import com.facebook.FacebookSdk;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Objects;
@@ -91,6 +98,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         callbackManager = CallbackManager.Factory.create();
 
+
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.victall.clickjobs",                  //Insert your own package name.
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.d("KeyHash:", "Excecao PAckgeManger:"+e.getMessage());
+
+        } catch (NoSuchAlgorithmException e) {
+            Log.d("KeyHash:", "Excecao NosuchAlgoritm:"+e.getMessage());
+        }
+
+
         configLoginGoogle();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +132,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     @Override
                     public void onCancel() {
-                        Toast.makeText(LoginActivity.this, "Cancel", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Login cancelado", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -322,7 +347,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 fechaProgressBar(bar_google);
-                Toast.makeText(this, "Problema desconhecido: "+e.getStatusCode(), Toast.LENGTH_SHORT).show();
+               Log.d("LOGINGOOGLE", "Problema desconhecido: "+e.getStatusCode());
                 e.printStackTrace();
 
             }
