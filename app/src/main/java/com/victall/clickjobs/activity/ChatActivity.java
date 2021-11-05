@@ -7,19 +7,21 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.victall.clickjobs.R;
 import com.victall.clickjobs.adapter.MensagensAdapter;
@@ -29,6 +31,7 @@ import com.victall.clickjobs.help.UsuarioFirebase;
 import com.victall.clickjobs.model.Anuncio;
 import com.victall.clickjobs.model.Conversa;
 import com.victall.clickjobs.model.Mensagem;
+import com.victall.clickjobs.model.Usuario;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +45,7 @@ public class ChatActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private Anuncio anuncio;
     private CircleImageView fotoAnunciante;
-    private TextView nome;
+    private TextView txtNome;
     private EditText edtMensagem;
     private String idUsuarioRemetente;
     private String idUsuarioDestinatario;
@@ -53,15 +56,12 @@ public class ChatActivity extends AppCompatActivity {
     private DatabaseReference mensagensRef;
     private ChildEventListener childEventListenerMensagem;
     private ValueEventListener seenListener;
-    private String idAnunciante,fotoPath;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
-
 
         inicializaToolbar();
 
@@ -73,40 +73,41 @@ public class ChatActivity extends AppCompatActivity {
 
             anuncio = (Anuncio) bundle.getSerializable("anuncio");
 
-            idAnunciante = (String) bundle.getSerializable("id");
-            fotoPath = (String) bundle.getSerializable("foto");
-
             if(anuncio!=null){
 
-                if(anuncio.getFotoAnunciante().equals("")){
-                    Picasso.get().load(R.drawable.icon_perfil);
-                }else {
-                    Picasso.get().load(anuncio.getFotoAnunciante())
-                            .into(fotoAnunciante);
-                }
-                nome.setText(anuncio.getNomeAnunciante());
                 idUsuarioDestinatario = anuncio.getIdAnunciante();
 
+                DatabaseReference anunciante = ConfiguracaoFirebase.getDatabaseReference().child("usuarios").child(idUsuarioDestinatario);
+
+                anunciante.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Usuario usuario = snapshot.getValue(Usuario.class);
+
+                        txtNome.setText(usuario.getNome());
+                        Picasso.get().load(usuario.getFoto())
+                                .error(R.drawable.placeholder_error)
+                                .placeholder(R.drawable.placeholder)
+                                .into(fotoAnunciante);
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+
+            }else{
+                Toast.makeText(ChatActivity.this, "Anuncio vazio", Toast.LENGTH_SHORT).show();
             }
 
-            if (idAnunciante != null && fotoPath != null) {
 
-                if(fotoPath.equals("")){
-                    Picasso.get().load(R.drawable.icon_perfil);
-                }else {
-                    Picasso.get().load(fotoPath)
-                            .into(fotoAnunciante);
-                }
-
-                nome.setText(anuncio.getNomeAnunciante());
-                idUsuarioDestinatario = idAnunciante;
-            }
-
-
-
-
-
-
+        }else{
+            Toast.makeText(ChatActivity.this, "Bundle Vazio", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -129,7 +130,7 @@ public class ChatActivity extends AppCompatActivity {
     public void inicializaToolbar(){
         edtMensagem = findViewById(R.id.edtMensagemChat);
         mToolbar = findViewById(R.id.toolbarChat);
-        nome = findViewById(R.id.txtChatNomeAnunciante);
+        txtNome = findViewById(R.id.txtChatNomeAnunciante);
         fotoAnunciante = findViewById(R.id.imgFotoAnunciante);
         recyclerView = findViewById(R.id.recyclerMensagens);
         setSupportActionBar(mToolbar);

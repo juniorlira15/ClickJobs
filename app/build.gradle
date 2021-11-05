@@ -57,7 +57,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
 
     // Login com o facebook
-    implementation 'com.facebook.android:facebook-android-sdk:8.2.0'
+    implementation 'com.facebook.android:facebook-android-sdk:11.1.1'
 
     // dependecias Firebase Database
     implementation 'com.google.firebase:firebase-analytics:17.4.4'

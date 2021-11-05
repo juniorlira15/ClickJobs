@@ -92,6 +92,20 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
         String categoria = anunciosList.get(position).getCategoria();
         DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
         DatabaseReference fotoAnunciante = reference.child("usuarios").child(idAnunciante).child("foto");
+        DatabaseReference nomeAnunciante = reference.child("usuarios").child(idAnunciante).child("nome");
+
+        nomeAnunciante.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String nome = snapshot.getValue(String.class);
+                holder.txtNome.setText(nome);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         fotoAnunciante.addValueEventListener(new ValueEventListener() {
             @Override

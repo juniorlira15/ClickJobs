@@ -56,12 +56,12 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
     private AlertDialog.Builder builderProgress;
     private AlertDialog dialogProgress;
     private Usuario usuario;
-    private String idAnunciante;
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager manager;
     private AnuncioAdapter adapter;
     private ArrayList<Anuncio> anuncios_list;
+    private Anuncio anuncio;
     private String fotoPath;
 
     @Override
@@ -86,7 +86,10 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
 
         if(bundle != null){
 
-            idAnunciante = (String) bundle.getSerializable("id");
+            anuncio = (Anuncio) bundle.getSerializable("anuncio");
+
+            anuncio.setIdAnunciante(anuncio.getIdAnunciante());
+            anuncio.setFotoAnunciante(anuncio.getFotoAnunciante());
 
 
         }
@@ -116,7 +119,7 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
 
                 Anuncio anuncio = anuncios_list.get(position);
 
-                Intent intent = new Intent(getApplicationContext(),DetalheMeuAnuncioActivity.class);
+                Intent intent = new Intent(getApplicationContext(),DetalhesAnuncioActivity.class);
                 intent.putExtra("anuncio", anuncio);
 
                 startActivity(intent);
@@ -148,7 +151,7 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
 
         if(CheckConnection.isOnline(this)) {
 
-            databaseReference.child("usuarios").child(idAnunciante)
+            databaseReference.child("usuarios").child(anuncio.getIdAnunciante())
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -200,7 +203,7 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
 
     private void recuperaEndereco(){
 
-        databaseReference.child("enderecos").child(idAnunciante)
+        databaseReference.child("enderecos").child(anuncio.getIdAnunciante())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -231,7 +234,7 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
 
         DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
 
-        reference.child("meus_anuncios").child(idAnunciante).addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.child("meus_anuncios").child(anuncio.getIdAnunciante()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -254,11 +257,10 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
 
     }
 
-    public void abrirChat(View view){
+    public void abrirChatAnunciante(View view){
 
         Intent intent = new Intent(PerfilAnuncianteActivity.this,ChatActivity.class);
-        intent.putExtra("id",idAnunciante);
-        intent.putExtra("foto",fotoPath);
+        intent.putExtra("anuncio",this.anuncio);
         startActivity(intent);
 
     }

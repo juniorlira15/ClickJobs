@@ -786,6 +786,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
                                 contadorEstados++;
 
                                 Anuncio anuncio = anuncios.getValue(Anuncio.class);
+
                                 Log.d("CONTADOR", "categorias: " + contadorGeral);
                                 ANUNCIOS.add(anuncio);
                                 TelaPrincipalActivity.adapter.notifyDataSetChanged();

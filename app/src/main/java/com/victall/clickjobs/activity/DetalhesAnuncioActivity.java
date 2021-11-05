@@ -76,16 +76,18 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         txtServico = findViewById(R.id.txtServico);
 
 
+
+
+
         if (bundle != null) {
 
             anuncio = (Anuncio) bundle.getSerializable("anuncio");
-            this.anuncio = anuncio;
 
             txtValor.setText(anuncio.getValor());
             txtCategoria.setText(anuncio.getCategoria());
             txtDesc.setText(anuncio.getDescricao());
             txtTitulo.setText(anuncio.getTitulo());
-            txtNome.setText(anuncio.getNomeAnunciante());
+            //txtNome.setText(anuncio.getNomeAnunciante());
             txtServico.setText(anuncio.getTitulo());
 
             String idAnunciante = anuncio.getIdAnunciante();
@@ -154,6 +156,20 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
 //            }else{
 //                Picasso.get().load(R.drawable.icon_perfil).into(imgAnunciante);
 //            }
+            DatabaseReference nomeAnunciante = ConfiguracaoFirebase.getDatabaseReference().child("usuarios").child(idAnunciante).child("nome");
+
+            nomeAnunciante.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String nome = snapshot.getValue(String.class);
+                    txtNome.setText(nome);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
 
             List<SlideModel> slideModelList = new ArrayList<>();
 
@@ -242,7 +258,7 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
     public void abrePerfilAnunciante(View view) {
 
         Intent intent = new Intent(DetalhesAnuncioActivity.this,PerfilAnuncianteActivity.class);
-        intent.putExtra("id",anuncio.getIdAnunciante());
+        intent.putExtra("anuncio",this.anuncio);
         startActivity(intent);
 
 

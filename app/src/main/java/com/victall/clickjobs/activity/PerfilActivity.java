@@ -557,6 +557,9 @@ public class PerfilActivity extends AppCompatActivity {
                 DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
                 DatabaseReference referenceEnd = reference.child("usuarios").child(UsuarioFirebase.getFirebaseUser().getUid());
 
+                DatabaseReference referenceAnuncianteAnuncio = reference.child("usuarios").child(UsuarioFirebase.getFirebaseUser().getUid());
+
+
                 referenceEnd.updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
