@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -35,6 +36,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -266,7 +268,6 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         imgAtualizar.setVisibility(View.VISIBLE);
     }
 
-
     private void abreDialogPesquisa() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -294,7 +295,12 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         wlp.flags &= ~WindowManager.LayoutParams.FIRST_SUB_WINDOW;
         window.setAttributes(wlp);
 
+
         alertDialogPesquisa.show();
+
+        showKeyboard(edtPesquisar);
+
+        edtPesquisar.requestFocus();
 
         edtPesquisar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -336,6 +342,18 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
             }
         });
 
+    }
+
+    public static void showKeyboard(EditText editText) {
+        editText.post(new Runnable() {
+            @Override
+            public void run() {
+                editText.requestFocus();
+                InputMethodManager imm = (InputMethodManager) editText.getContext()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
     }
 
     private void inicializaViews(){
