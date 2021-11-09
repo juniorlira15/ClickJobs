@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -186,7 +185,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
             }
         });
 
-        //recuperaEndereco();
+        recuperaLocalizacao();
 
         constraintLayout.setOnTouchListener(new OnSwipeTouchListener(TelaPrincipalActivity.this) {
 
@@ -634,7 +633,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
     }
 
-    private void recuperaEndereco(){
+    private void recuperaLocalizacao(){
 
         endereco = new Endereco();
 

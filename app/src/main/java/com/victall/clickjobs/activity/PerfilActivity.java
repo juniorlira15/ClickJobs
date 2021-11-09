@@ -431,17 +431,16 @@ public class PerfilActivity extends AppCompatActivity {
 
         View viewLayout = LayoutInflater.from(this).inflate(R.layout.layout_dialog_conf_endereco,null);
 
+        edtBairro = viewLayout.findViewById(R.id.edtBairro1);
+        edtCep = viewLayout.findViewById(R.id.edtCep1);
+        edtCidade = viewLayout.findViewById(R.id.edtCidade1);
+        edtComplemento = viewLayout.findViewById(R.id.edtComplemento1);
+        edtEstado = viewLayout.findViewById(R.id.edtEstado1);
+        edtNumero = viewLayout.findViewById(R.id.edtNumero1);
+        edtPais = viewLayout.findViewById(R.id.edtPais1);
+        edtRua = viewLayout.findViewById(R.id.edtRua1);
 
         if (endereco != null) {
-
-            edtBairro = viewLayout.findViewById(R.id.edtBairro1);
-            edtCep = viewLayout.findViewById(R.id.edtCep1);
-            edtCidade = viewLayout.findViewById(R.id.edtCidade1);
-            edtComplemento = viewLayout.findViewById(R.id.edtComplemento1);
-            edtEstado = viewLayout.findViewById(R.id.edtEstado1);
-            edtNumero = viewLayout.findViewById(R.id.edtNumero1);
-            edtPais = viewLayout.findViewById(R.id.edtPais1);
-            edtRua = viewLayout.findViewById(R.id.edtRua1);
 
             edtRua.setText(endereco.getLogradouro());
             edtNumero.setText(endereco.getNumero());
@@ -518,20 +517,16 @@ public class PerfilActivity extends AppCompatActivity {
         //Criando Máscara do Campo de Telefone
         SimpleMaskFormatter smf = new SimpleMaskFormatter("(NN)NNNNN-NNNN");  // cria o formato desejado
 
+        edtNome = viewLayout.findViewById(R.id.edtNomePerfil);
+        edtSobrenome = viewLayout.findViewById(R.id.edtSobrenomePerfil);
+        edtTelefone = viewLayout.findViewById(R.id.edtTelefonePerfil);
+        // Configura o campo de telefone com a mascara
+        MaskTextWatcher mtw = new MaskTextWatcher(edtTelefone, smf);  // insere o formato no campo a ser preenchido
+        edtTelefone.addTextChangedListener(mtw);  // seta o formato no campo texto
+        //***
+        edtEmail = viewLayout.findViewById(R.id.edtEmailPerfil);
 
         if (usuario != null) {
-
-            edtNome = viewLayout.findViewById(R.id.edtNomePerfil);
-            edtSobrenome = viewLayout.findViewById(R.id.edtSobrenomePerfil);
-            edtTelefone = viewLayout.findViewById(R.id.edtTelefonePerfil);
-            // Configura o campo de telefone com a mascara
-            MaskTextWatcher mtw = new MaskTextWatcher(edtTelefone, smf);  // insere o formato no campo a ser preenchido
-            edtTelefone.addTextChangedListener(mtw);  // seta o formato no campo texto
-            //***
-            edtEmail = viewLayout.findViewById(R.id.edtEmailPerfil);
-
-
-
 
             edtNome.setText(usuario.getNome());
             edtSobrenome.setText(usuario.getSobrenome());
@@ -556,8 +551,6 @@ public class PerfilActivity extends AppCompatActivity {
 
                 DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
                 DatabaseReference referenceEnd = reference.child("usuarios").child(UsuarioFirebase.getFirebaseUser().getUid());
-
-                DatabaseReference referenceAnuncianteAnuncio = reference.child("usuarios").child(UsuarioFirebase.getFirebaseUser().getUid());
 
 
                 referenceEnd.updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {

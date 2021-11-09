@@ -221,7 +221,12 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
 
-                                        recuperaEndereco(id);
+                                        if(task.isSuccessful()){
+
+                                            Toast.makeText(CadastroActivity.this, "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                        //recuperaEndereco(id);
 
                                     }
                                 });
@@ -276,13 +281,13 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
 
                         if(task.isSuccessful()) {
                             // Email sent
-                            //Toast.makeText(CadastroActivity.this, "Email de verificação enviado!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CadastroActivity.this, "Um Email de verificação foi enviado para o endereço cadastrado!", Toast.LENGTH_SHORT).show();
 //                            Intent intent = new Intent(CadastroActivity.this, ConfirmacaoEmailActivity.class);
 //                            startActivity(intent);
                         }else{
 //                            Intent intent = new Intent(CadastroActivity.this, LoginActivity.class);
 //                            startActivity(intent);
-//                            Toast.makeText(CadastroActivity.this, "Erro ao enviar mensagem de confirmação", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CadastroActivity.this, "Erro ao enviar mensagem de confirmação", Toast.LENGTH_SHORT).show();
 //                            finish();
 
                         }
