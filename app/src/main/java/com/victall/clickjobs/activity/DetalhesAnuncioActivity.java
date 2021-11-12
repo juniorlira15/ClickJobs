@@ -216,9 +216,6 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         Toast.makeText(this, "salvou aqui", Toast.LENGTH_SHORT).show();
     }
 
-
-
-
     public void abrirImagem(View vIew){
 
     }
@@ -245,7 +242,6 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
-
 
     public void abrePerfilAnunciante(View view) {
 

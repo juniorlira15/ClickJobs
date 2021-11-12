@@ -33,6 +33,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -40,6 +41,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthEmailException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
@@ -303,7 +305,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
 
-                            String excecao;
+                            String excecao="";
                             try {
                                 throw  task.getException();
                             } catch (FirebaseAuthInvalidUserException e){
@@ -312,9 +314,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             }catch (FirebaseAuthInvalidCredentialsException e){
                                 fechaProgressBar(bar);
                                 excecao = "Email ou Senha incorreta.";
-                            }catch (Exception e){
+                            }catch (FirebaseAuthEmailException e){
                                 fechaProgressBar(bar);
-                                excecao = "Erro ao cadastrar usuário: "+ e.getMessage();
+                                excecao = "Esse email já foi utilizado em outro cadastro: "+ e.getMessage();
+                                //e.printStackTrace();
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
@@ -326,7 +330,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
                     }
-                });
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(LoginActivity.this,"Erro de login "+e.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        }).addOnCanceledListener(new OnCanceledListener() {
+            @Override
+            public void onCanceled() {
+                Toast.makeText(LoginActivity.this,"Cancel",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -351,6 +366,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 e.printStackTrace();
 
             }
+
+        }else{
 
         }
     }

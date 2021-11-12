@@ -63,6 +63,7 @@
         <activity
             android:name=".activity.DetalhesAnuncioActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:parentActivityName=".activity.TelaPrincipalActivity"
 
             android:theme="@style/Theme.ClickJobs.NoActionBar" />

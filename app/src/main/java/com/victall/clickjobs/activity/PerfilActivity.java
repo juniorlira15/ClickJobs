@@ -93,18 +93,9 @@ public class PerfilActivity extends AppCompatActivity {
 
         preferences = new UsuarioPreferences(this);
 
-        if(preferences.getNomeUsuario().equals("")){
-            recuperaPerfil();
-        }else{
-            recuperaPerfilPreferencias();
-        }
+        recuperaPerfil();
 
-        if(preferences.getCHAVE_LOGRADOURO().equals("Atualizar")){
-            recuperaEndereco();
-        }else{
-            recuperaEnderecoPreferences();
-        }
-
+        recuperaEndereco();
 
         Permissoes.validarPermissoes(permissoes,this,1);
 

@@ -18,7 +18,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
@@ -45,6 +44,8 @@ import android.widget.Toast;
 
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,12 +65,11 @@ import com.victall.clickjobs.model.Anuncio;
 import com.victall.clickjobs.model.FiltragemCatEst;
 import com.victall.clickjobs.model.Endereco;
 
-import java.io.IOException;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 public class TelaPrincipalActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,LocationListener{
@@ -639,7 +639,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-            locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, new LocationListener() {
+            locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, new LocationListener() {
                 @Override
                 public void onLocationChanged(@NonNull Location location) {
                     Log.d("ENDERECO", "onLocationChanged: Latitude: " + location.getLatitude());
@@ -649,7 +649,24 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
                     double latitude = currentLocationLatLong.latitude;
                     double longitude = currentLocationLatLong.longitude;
 
-                    List<Address> addresses  = null;
+                    HashMap<String,Object> coordenadas = new HashMap<>();
+
+                    coordenadas.put("latitude",latitude);
+                    coordenadas.put("longitude",longitude);
+
+                    DatabaseReference databaseReference = ConfiguracaoFirebase.getDatabaseReference();
+                    DatabaseReference latlngRef = databaseReference.child("usuarios").child(UsuarioFirebase.getFirebaseUser().getUid());
+
+                    latlngRef.updateChildren(coordenadas).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Log.d("LATLNG", "coordenadas: Lat / Lng = "+latitude+" / "+longitude);
+                            }
+                        }
+                    });
+
+                    /*List<Address> addresses  = null;
                     try {
                         addresses = geocoder.getFromLocation(latitude,longitude, 1);
                     } catch (IOException e) {
@@ -674,7 +691,12 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
                     DatabaseReference enderecoRef = reference.child("enderecos");
 
                     enderecoRef.child(UsuarioFirebase.getFirebaseUser().getUid())
-                            .setValue(endereco);
+                            .setValue(endereco);*/
+                }
+
+                @Override
+                public void onProviderDisabled(@NonNull String provider) {
+                    //Toast.makeText(TelaPrincipalActivity.this, "Ative seu GPS!", Toast.LENGTH_SHORT).show();
                 }
             }, Looper.myLooper());
 
@@ -818,7 +840,12 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
 
 
-                    Collections.reverse(ANUNCIOS);
+                    Collections.sort(ANUNCIOS, new Comparator<Anuncio>() {
+                        @Override
+                        public int compare(Anuncio o1, Anuncio o2) {
+                            return o1.getData().compareTo(o2.getData());
+                        }
+                    });
 
                 }
 

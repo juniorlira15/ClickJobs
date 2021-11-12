@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Anuncio implements Serializable {
+public class Anuncio implements Serializable,Comparable<Anuncio> {
 
     private ArrayList<String> foto;
     private String titulo;
@@ -156,5 +156,10 @@ public class Anuncio implements Serializable {
         String dataFormatada = sdf.format(hora);
 
         return dataFormatada;
+    }
+
+    @Override
+    public int compareTo(Anuncio o) {
+        return getData().compareTo(o.getData());
     }
 }
