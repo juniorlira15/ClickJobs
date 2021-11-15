@@ -11,6 +11,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -83,26 +84,27 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        anuncio = new Anuncio();
 
         Bundle bundle = getIntent().getExtras();
 
-        if(bundle != null){
-
-            anuncio = (Anuncio) bundle.getSerializable("anuncio");
-
-            anuncio.setIdAnunciante(anuncio.getIdAnunciante());
-            anuncio.setFotoAnunciante(anuncio.getFotoAnunciante());
-
-
-        }
-
         inicializaViews();
 
-        databaseReference = ConfiguracaoFirebase.getDatabaseReference();
+        if(bundle != null){
 
-        recuperaPerfil();
+            Anuncio bundleAnuncio = (Anuncio) bundle.getSerializable("anuncio");
 
-        recuperaEndereco();
+            anuncio.setIdAnunciante(bundleAnuncio.getIdAnunciante());
+            anuncio.setFotoAnunciante(bundleAnuncio.getFotoAnunciante());
+
+            recuperaPerfil();
+
+            recuperaEndereco();
+
+            // recuperando anuncios do anunciante
+            getAnunciosAnunciante();
+        }
+
 
         builderProgress = new AlertDialog.Builder(this);
 
@@ -112,8 +114,7 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
 
         dialogProgress = builderProgress.create();
 
-        // recuperando anuncios do anunciante
-        getAnunciosAnunciante();
+
 
         adapter.setOnItemClickListener(new AnuncioAdapter.OnItemClickListener() {
             @Override
@@ -153,44 +154,52 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
         txtBairro = findViewById(R.id.txtPerfilBairroAnunciante);
         txtCidade = findViewById(R.id.txtPerfilCidadeAnunciante);
         btnChat = findViewById(R.id.btnChatAnunciante);
+        databaseReference = ConfiguracaoFirebase.getDatabaseReference();
     }
 
     private void recuperaPerfil(){
 
         if(CheckConnection.isOnline(this)) {
 
+
+
             databaseReference.child("usuarios").child(anuncio.getIdAnunciante())
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                    .addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                            usuario = snapshot.getValue(Usuario.class);
+                            if(snapshot !=null) {
 
-                            nome.setText(usuario.getNome());
-                            sobrenome.setText(usuario.getSobrenome());
-                            email.setText(usuario.getEmail());
-                            telefone.setText(usuario.getTelefone());
-                            nomeCompleto.setText(new StringBuilder().append(usuario.getNome()).append(" ").append(usuario.getSobrenome()).toString());
+                                Log.d("KEY", "caminho: "+anuncio.getIdAnunciante());
 
-                            fotoPath = usuario.getFoto();
+                                usuario = snapshot.getValue(Usuario.class);
 
-                            if (!fotoPath.equals("")) {
-                                Picasso.get()
-                                        .load(fotoPath)
-                                        .into(img1);
-                            } else {
+                                nome.setText(usuario.getNome());
+                                sobrenome.setText(usuario.getSobrenome().toString());
+                                email.setText(usuario.getEmail());
+                                telefone.setText(usuario.getTelefone().toString());
+                                nomeCompleto.setText(new StringBuilder().append(usuario.getNome()).append(" ").append(usuario.getSobrenome()).toString());
 
-                                // Se não tiver, busca uma foto salva no Perfil do Firebase
-                                Uri imgFirebase = firebaseUser.getPhotoUrl();
+                                fotoPath = usuario.getFoto();
 
-                                if (imgFirebase != null) {
+                                if (!fotoPath.equals("")) {
                                     Picasso.get()
-                                            .load(String.valueOf(imgFirebase))
+                                            .load(fotoPath)
                                             .into(img1);
-
                                 } else {
-                                    // se não encontrar nenhuma foto atualiza com a foto padrão
-                                    img1.setImageResource(R.drawable.ic_perfil);
+
+                                    // Se não tiver, busca uma foto salva no Perfil do Firebase
+                                    Uri imgFirebase = firebaseUser.getPhotoUrl();
+
+                                    if (imgFirebase != null) {
+                                        Picasso.get()
+                                                .load(String.valueOf(imgFirebase))
+                                                .into(img1);
+
+                                    } else {
+                                        // se não encontrar nenhuma foto atualiza com a foto padrão
+                                        img1.setImageResource(R.drawable.ic_perfil);
+                                    }
                                 }
                             }
 

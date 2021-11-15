@@ -840,12 +840,12 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
 
 
-                    Collections.sort(ANUNCIOS, new Comparator<Anuncio>() {
-                        @Override
-                        public int compare(Anuncio o1, Anuncio o2) {
-                            return o1.getData().compareTo(o2.getData());
-                        }
-                    });
+//                    Collections.sort(ANUNCIOS, new Comparator<Anuncio>() {
+//                        @Override
+//                        public int compare(Anuncio o1, Anuncio o2) {
+//                            return o1.getData().compareTo(o2.getData());
+//                        }
+//                    });
 
                 }
 

@@ -52,7 +52,8 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
     private String[] permissoes = new String[]{
             Manifest.permission.CALL_PHONE
     };
-    private static final String TELEFONE = "38991155544";
+    private static final String TELEFONE = "(xx) xxxx xxxx)";
+    private String idAnunciante;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,15 +78,15 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         txtServico = findViewById(R.id.txtServico);
 
 
-        if(savedInstanceState!=null){
-
-            //Anuncio anuncio = (Anuncio) savedInstanceState.getSerializable("anuncio");
-            String telefone = savedInstanceState.getString(TELEFONE);
-
-            Toast.makeText(this, "Telefone."+telefone, Toast.LENGTH_SHORT).show();
-
-
-        }
+//        if(savedInstanceState!=null){
+//
+//            //Anuncio anuncio = (Anuncio) savedInstanceState.getSerializable("anuncio");
+//            String telefone = savedInstanceState.getString(TELEFONE);
+//
+//            Toast.makeText(this, "Telefone."+telefone, Toast.LENGTH_SHORT).show();
+//
+//
+//        }
 
 
 
@@ -100,7 +101,7 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
             //txtNome.setText(anuncio.getNomeAnunciante());
             txtServico.setText(anuncio.getTitulo());
 
-            String idAnunciante = anuncio.getIdAnunciante();
+            idAnunciante = anuncio.getIdAnunciante();
             DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
             DatabaseReference fotoAnunciante = reference.child("usuarios").child(idAnunciante).child("foto");
             DatabaseReference enderecoAnunciante = reference.child("enderecos").child(idAnunciante);
@@ -213,7 +214,7 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         //outState.putSerializable("anuncio",anuncio);
         outState.putString(TELEFONE,txtTellefone.getText().toString());
         super.onSaveInstanceState(outState);
-        Toast.makeText(this, "salvou aqui", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "salvou aqui", Toast.LENGTH_SHORT).show();
     }
 
     public void abrirImagem(View vIew){
@@ -229,8 +230,12 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
 
     public void abrirChat(View view){
 
+
+        Anuncio anun = this.anuncio;
+        anun.setIdAnunciante(idAnunciante);
+
         Intent intent = new Intent(DetalhesAnuncioActivity.this,ChatActivity.class);
-        intent.putExtra("anuncio",anuncio);
+        intent.putExtra("anuncio",anun);
         startActivity(intent);
 
     }
@@ -244,6 +249,9 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
     }
 
     public void abrePerfilAnunciante(View view) {
+
+        Anuncio anun = this.anuncio;
+        anun.setIdAnunciante(idAnunciante);
 
         Intent intent = new Intent(DetalhesAnuncioActivity.this,PerfilAnuncianteActivity.class);
         intent.putExtra("anuncio",this.anuncio);

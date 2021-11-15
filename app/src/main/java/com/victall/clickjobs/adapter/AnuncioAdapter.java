@@ -115,7 +115,7 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
 
                 if(urlFoto!=null && !urlFoto.equals("")){
 
-                    saveToInternalStorage(Uri.parse(urlFoto),idAnunciante);
+                    //saveToInternalStorage(Uri.parse(urlFoto),idAnunciante);
 
                     Picasso.get().
                             load(urlFoto)
@@ -235,53 +235,53 @@ public class AnuncioAdapter extends RecyclerView.Adapter<AnuncioAdapter.AnuncioV
         }
     }
 
-    private String saveToInternalStorage(Uri uriImage, String idUsuario){
-
-        Bitmap bitmap = null;
-
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uriImage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        // path to /data/data/yourapp/app_data/imageDir
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        // Create imageDir
-        File mypath=new File(directory,idUsuario+".jpg");
-
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(mypath);
-            // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return directory.getAbsolutePath();
-    }
-
-    private Bitmap getImageFromStorage(String path,String idUsuario)
-    {
-        try {
-            File f=new File(path, "/"+idUsuario+".jpg");
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-            return b;
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-
-        return  null;
-
-    }
+//    private String saveToInternalStorage(Uri uriImage, String idUsuario){
+//
+//        Bitmap bitmap = null;
+//
+//        try {
+//            bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uriImage);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+//        // path to /data/data/yourapp/app_data/imageDir
+//        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+//        // Create imageDir
+//        File mypath=new File(directory,idUsuario+".jpg");
+//
+//        FileOutputStream fos = null;
+//        try {
+//            fos = new FileOutputStream(mypath);
+//            // Use the compress method on the BitMap object to write image to the OutputStream
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                fos.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return directory.getAbsolutePath();
+//    }
+//
+//    private Bitmap getImageFromStorage(String path,String idUsuario)
+//    {
+//        try {
+//            File f=new File(path, "/"+idUsuario+".jpg");
+//            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+//            return b;
+//        }
+//        catch (FileNotFoundException e)
+//        {
+//            e.printStackTrace();
+//        }
+//
+//        return  null;
+//
+//    }
 }

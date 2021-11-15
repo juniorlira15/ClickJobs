@@ -7,17 +7,16 @@ import com.google.firebase.database.Exclude;
 public class Usuario {
 
 
-
     private String nome="nome";
     private String email="email@email.com";
     private String sobrenome="sobrenome";
-    private String telefone="(11)1111-1111";
+    private String telefone="";
     private String senha;
     private String id="";
     private String foto="";
     private String ultimaAtualizacao="";
-    private String latitude="";
-    private String longitude="";
+    private double latitude;
+    private double longitude;
     private String status="offline";
 
     {
@@ -32,19 +31,19 @@ public class Usuario {
         this.ultimaAtualizacao = ultimaAtualizacao;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 

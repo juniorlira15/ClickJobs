@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,9 +18,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,6 +70,8 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
     private ArrayList<String> listaURLFotos = new ArrayList<>();
     private FirebaseUser firebaseUser;
     private Locale mLocale;
+    private Spinner spnCategoria;
+    private Spinner spnEstado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +83,8 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         inicializaViews();
+
+        carregaDadosString();
 
         Bundle bundle = getIntent().getExtras();
 
@@ -106,6 +114,28 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
                     Picasso.get().load(anuncio.getFoto().get(i))
                             .error(R.drawable.placeholder_error)
                             .into(img3);
+                }
+
+            }
+
+            String categoria = anuncio.getCategoria();
+            String estado = anuncio.getEndereco();
+
+            String[] estados = getResources().getStringArray(R.array.estados);
+            String[] categorias = getResources().getStringArray(R.array.categoria);
+
+            for(int i = 0; i < estados.length; i++){
+
+                if(estados[i].equals(estado)){
+                    spnEstado.setSelection(i);
+                }
+
+            }
+
+            for(int i = 0; i < categorias.length; i++){
+
+                if(categorias[i].equals(categoria)){
+                    spnCategoria.setSelection(i);
                 }
 
             }
@@ -202,6 +232,8 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
         imgDelete2 = findViewById(R.id.imgDelete2);
         imgDelete3 = findViewById(R.id.imgDelete3);
         storage = ConfiguracaoFirebase.getFirebaseStorage();
+        spnCategoria = findViewById(R.id.spnCategoriaEdit);
+        spnEstado = findViewById(R.id.spnEstadoEdit);
 
     }
 
@@ -210,19 +242,8 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
         // checar se nao tem campos vazios
         if(!titulo.getText().toString().isEmpty()){
             if(!descricao.getText().toString().isEmpty()){
-
-
-                    abreDialog();
-                    listaURLFotos.clear();
-
-
-                        for (int i = 0; i < listaFotosRecuperadas.size(); i++) {
-                            String urlImagem = listaFotosRecuperadas.get(i);
-                            int contador = i + 1;
-                            salvarFotoStorage(urlImagem, i, contador);
-                        }
-
-
+                 abreDialog();
+                 gravaAnuncioFirebase();
             }else{
                 Toast.makeText(this, "Preencha o campo Descrição.", Toast.LENGTH_SHORT).show();
             }
@@ -306,14 +327,36 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
         startActivityForResult(intent,requestCode);
     }
 
+    public static void showKeyboard(EditText editText) {
+        editText.post(new Runnable() {
+            @Override
+            public void run() {
+                editText.requestFocus();
+                InputMethodManager imm = (InputMethodManager) editText.getContext()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case(R.id.img1EditServ) : escolherImagem(1);break;
             case(R.id.img2EditServ) : escolherImagem(2);break;
             case(R.id.img3EditServ) : escolherImagem(3);break;
-            case(R.id.imgEditDesc) : descricao.setEnabled(true); descricao.requestFocus();break;
-            case(R.id.imgEditTitulo) : titulo.setEnabled(true); titulo.requestFocus();break;
+            case(R.id.imgEditDesc) :
+                descricao.setEnabled(true);
+                descricao.requestFocus();
+                descricao.setSelection(descricao.getText().length());
+                showKeyboard(descricao);
+                break;
+            case(R.id.imgEditTitulo) :
+                titulo.setEnabled(true);
+                titulo.requestFocus();
+                titulo.setSelection(titulo.getText().length());
+                showKeyboard(titulo);
+                break;
             case(R.id.btnAlterar) : alterarDados();break;
         }
     }
@@ -404,8 +447,20 @@ public class DetalheMeuAnuncioActivity extends AppCompatActivity implements View
             case R.id.imgDelete3: Picasso.get().load(R.drawable.img_padrao).into(img3); imgDelete3.setEnabled(false); break;
         }
 
+    }
 
+    private void carregaDadosString(){
 
+        String[] estados = getResources().getStringArray(R.array.estados);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,estados);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spnEstado.setAdapter(adapter);
+        spnEstado.setEnabled(false);
 
+        String[] categorias = getResources().getStringArray(R.array.categoria);
+        ArrayAdapter<String> adapterCategoria = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,categorias);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spnCategoria.setAdapter(adapterCategoria);
+        spnCategoria.setEnabled(false);
     }
 }

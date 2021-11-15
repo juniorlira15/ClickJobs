@@ -302,6 +302,6 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        status("onffline");
+        status("offline");
     }
 }
