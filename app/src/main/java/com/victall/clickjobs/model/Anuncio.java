@@ -31,7 +31,6 @@ public class Anuncio implements Serializable,Comparable<Anuncio> {
         hora = recuperaHora();
     }
 
-
     public Anuncio() {
         DatabaseReference anuncioRef = ConfiguracaoFirebase.getDatabaseReference().child("meus_anuncios");
         setIdAnuncio(anuncioRef.push().getKey());
@@ -92,7 +91,6 @@ public class Anuncio implements Serializable,Comparable<Anuncio> {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
 
     public ArrayList<String> getFoto() {
         return foto;
