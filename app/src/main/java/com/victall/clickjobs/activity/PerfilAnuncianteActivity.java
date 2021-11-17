@@ -92,10 +92,14 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
 
         if(bundle != null){
 
-            Anuncio bundleAnuncio = (Anuncio) bundle.getSerializable("anuncio");
+            anuncio = (Anuncio) bundle.getSerializable("anuncio");
 
-            anuncio.setIdAnunciante(bundleAnuncio.getIdAnunciante());
-            anuncio.setFotoAnunciante(bundleAnuncio.getFotoAnunciante());
+            Intent intent = new Intent();
+            intent.putExtra("anuncio",anuncio);
+            setResult(RESULT_OK,intent);
+
+            anuncio.setIdAnunciante(anuncio.getIdAnunciante());
+            anuncio.setFotoAnunciante(anuncio.getFotoAnunciante());
 
             recuperaPerfil();
 
@@ -134,6 +138,7 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
             btnChat.setVisibility(View.GONE);
         }
     }
+
 
     private void inicializaViews(){
         nome = findViewById(R.id.txtNomePerfilAnunciante);
@@ -281,4 +286,8 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+
+
+
 }

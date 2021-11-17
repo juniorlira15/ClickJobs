@@ -21,6 +21,7 @@
         <activity
             android:name=".activity.PerfilAnuncianteActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:label="Sobre o anunciante"
             android:parentActivityName=".activity.DetalhesAnuncioActivity"
             android:screenOrientation="portrait"
@@ -64,6 +65,7 @@
             android:name=".activity.DetalhesAnuncioActivity"
             android:exported="true"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:parentActivityName=".activity.TelaPrincipalActivity"
 
             android:theme="@style/Theme.ClickJobs.NoActionBar" />

@@ -54,6 +54,7 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
     };
     private static final String TELEFONE = "(xx) xxxx xxxx)";
     private String idAnunciante;
+    private static final int SECOND_ACTIVITY_REQUEST_CODE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,18 +77,6 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         imgAnunciante = findViewById(R.id.imgAnuncianteDetalhesAnuncio);
         txtTellefone = findViewById(R.id.txtTelefoneDetAnunc);
         txtServico = findViewById(R.id.txtServico);
-
-
-//        if(savedInstanceState!=null){
-//
-//            //Anuncio anuncio = (Anuncio) savedInstanceState.getSerializable("anuncio");
-//            String telefone = savedInstanceState.getString(TELEFONE);
-//
-//            Toast.makeText(this, "Telefone."+telefone, Toast.LENGTH_SHORT).show();
-//
-//
-//        }
-
 
 
         if (bundle != null) {
@@ -208,15 +197,6 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-
-        //outState.putSerializable("anuncio",anuncio);
-        outState.putString(TELEFONE,txtTellefone.getText().toString());
-        super.onSaveInstanceState(outState);
-        //Toast.makeText(this, "salvou aqui", Toast.LENGTH_SHORT).show();
-    }
-
     public void abrirImagem(View vIew){
 
     }
@@ -250,14 +230,10 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
 
     public void abrePerfilAnunciante(View view) {
 
-        Anuncio anun = this.anuncio;
-        anun.setIdAnunciante(idAnunciante);
-
         Intent intent = new Intent(DetalhesAnuncioActivity.this,PerfilAnuncianteActivity.class);
         intent.putExtra("anuncio",this.anuncio);
         startActivity(intent);
 
-
-
     }
+
 }
