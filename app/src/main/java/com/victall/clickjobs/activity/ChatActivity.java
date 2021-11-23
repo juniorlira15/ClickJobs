@@ -43,7 +43,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
     private Toolbar mToolbar;
-    private Anuncio anuncio;
+    private Usuario usuario;
     private CircleImageView fotoAnunciante;
     private TextView txtNome;
     private EditText edtMensagem;
@@ -56,6 +56,7 @@ public class ChatActivity extends AppCompatActivity {
     private DatabaseReference mensagensRef;
     private ChildEventListener childEventListenerMensagem;
     private ValueEventListener seenListener;
+    private Usuario userRemetente,userDestinatario;
 
 
     @Override
@@ -71,25 +72,51 @@ public class ChatActivity extends AppCompatActivity {
 
         if(bundle!=null){
 
-            anuncio = (Anuncio) bundle.getSerializable("anuncio");
+            usuario = (Usuario) bundle.getSerializable("usuario");
 
-            if(anuncio!=null){
+            if(usuario!=null){
 
-                idUsuarioDestinatario = anuncio.getIdAnunciante();
+                idUsuarioDestinatario = usuario.getId();
 
                 DatabaseReference anunciante = ConfiguracaoFirebase.getDatabaseReference().child("usuarios").child(idUsuarioDestinatario);
+                DatabaseReference remetente = ConfiguracaoFirebase.getDatabaseReference().child("usuarios").child(idUsuarioRemetente);
 
                 anunciante.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                         Usuario usuario = snapshot.getValue(Usuario.class);
 
-                        txtNome.setText(usuario.getNome());
-                        Picasso.get().load(usuario.getFoto())
-                                .error(R.drawable.placeholder_error)
-                                .placeholder(R.drawable.placeholder)
-                                .into(fotoAnunciante);
+                        userDestinatario = usuario;
 
+                        txtNome.setText(usuario.getNome());
+
+                        if(!usuario.getFoto().equals("")) {
+                            Picasso.get().load(usuario.getFoto())
+                                    .error(R.drawable.placeholder_error)
+                                    .placeholder(R.drawable.placeholder)
+                                    .into(fotoAnunciante);
+                        }else{
+                            // se não encontrar nenhuma foto atualiza com a foto padrão
+                            fotoAnunciante.setImageResource(R.drawable.ic_perfil);
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                remetente.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        Usuario usuario = snapshot.getValue(Usuario.class);
+
+                        userRemetente = usuario;
 
                     }
 
@@ -164,19 +191,35 @@ public class ChatActivity extends AppCompatActivity {
 
     private void salvarConversa(Mensagem mensagem) {
 
-        Conversa conversa = new Conversa();
+        Conversa conversaR = new Conversa();
+        Conversa conversaD = new Conversa();
 
-        conversa.setIdRemetente(idUsuarioRemetente);
-        conversa.setIdDestinatario(idUsuarioDestinatario);
-        conversa.setUltimaMensagem(mensagem.getMensagem());
-        conversa.setUsuario(anuncio);
-        conversa.setHorario(mensagem.getHorario());
+        // Quem ta mandando
+        conversaR.setIdRemetente(idUsuarioRemetente);
+        conversaR.setIdDestinatario(idUsuarioDestinatario);
+        conversaR.setUltimaMensagem(mensagem.getMensagem());
+        conversaR.setUsuario(userDestinatario);
+        conversaR.setHorario(mensagem.getHorario());
+
+        // QUem ta recebendo
+        conversaD.setIdRemetente(idUsuarioDestinatario);
+        conversaD.setIdDestinatario(idUsuarioRemetente);
+        conversaD.setUltimaMensagem(mensagem.getMensagem());
+        conversaD.setUsuario(userRemetente);
+        conversaD.setHorario(mensagem.getHorario());
+
 
 
         DatabaseReference reference = ConfiguracaoFirebase.getDatabaseReference();
+
         DatabaseReference conversasRef = reference.child("conversas");
+
         conversasRef.child(idUsuarioRemetente).child(idUsuarioDestinatario)
-                .setValue(conversa);
+                .setValue(conversaR);
+
+        conversasRef.child(idUsuarioDestinatario).child(idUsuarioRemetente)
+                .setValue(conversaD);
+
 
     }
 
@@ -241,6 +284,8 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void recuperarMensagens(){
+
+        mensagemList.clear();
 
         childEventListenerMensagem = mensagensRef.addChildEventListener(
                 new ChildEventListener() {

@@ -94,13 +94,6 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
 
             anuncio = (Anuncio) bundle.getSerializable("anuncio");
 
-            Intent intent = new Intent();
-            intent.putExtra("anuncio",anuncio);
-            setResult(RESULT_OK,intent);
-
-            anuncio.setIdAnunciante(anuncio.getIdAnunciante());
-            anuncio.setFotoAnunciante(anuncio.getFotoAnunciante());
-
             recuperaPerfil();
 
             recuperaEndereco();
@@ -166,8 +159,6 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
 
         if(CheckConnection.isOnline(this)) {
 
-
-
             databaseReference.child("usuarios").child(anuncio.getIdAnunciante())
                     .addValueEventListener(new ValueEventListener() {
                         @Override
@@ -193,18 +184,9 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
                                             .into(img1);
                                 } else {
 
-                                    // Se não tiver, busca uma foto salva no Perfil do Firebase
-                                    Uri imgFirebase = firebaseUser.getPhotoUrl();
+                                    // se não encontrar nenhuma foto atualiza com a foto padrão
+                                    img1.setImageResource(R.drawable.ic_perfil);
 
-                                    if (imgFirebase != null) {
-                                        Picasso.get()
-                                                .load(String.valueOf(imgFirebase))
-                                                .into(img1);
-
-                                    } else {
-                                        // se não encontrar nenhuma foto atualiza com a foto padrão
-                                        img1.setImageResource(R.drawable.ic_perfil);
-                                    }
                                 }
                             }
 
@@ -282,7 +264,7 @@ public class PerfilAnuncianteActivity extends AppCompatActivity {
     public void abrirChatAnunciante(View view){
 
         Intent intent = new Intent(PerfilAnuncianteActivity.this,ChatActivity.class);
-        intent.putExtra("anuncio",this.anuncio);
+        intent.putExtra("usuario",this.usuario);
         startActivity(intent);
 
     }

@@ -6,7 +6,7 @@ public class Conversa {
     private String idRemetente;
     private String idDestinatario;
     private String ultimaMensagem;
-    private Anuncio anuncio;
+    private Usuario usuario;
     private String horario;
 
 
@@ -45,11 +45,11 @@ public class Conversa {
         this.ultimaMensagem = ultimaMensagem;
     }
 
-    public Anuncio getUsuario() {
-        return anuncio;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUsuario(Anuncio anuncio) {
-        this.anuncio = anuncio;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

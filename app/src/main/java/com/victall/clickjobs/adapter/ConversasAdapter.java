@@ -59,12 +59,12 @@ public class ConversasAdapter extends RecyclerView.Adapter<ConversasAdapter.Conv
         Conversa conversa = conversas_list.get(position);
 
 
-        holder.nome.setText(conversa.getUsuario().getNomeAnunciante());
+        holder.nome.setText(conversa.getUsuario().getNome());
         holder.ultimaMesg.setText(conversa.getUltimaMensagem());
         holder.horarioUltMsg.setText(conversa.getHorario());
 
         DatabaseReference databaseReference = ConfiguracaoFirebase.getDatabaseReference()
-                .child("usuarios").child(conversa.getUsuario().getIdAnunciante()).child("status");
+                .child("usuarios").child(conversa.getUsuario().getId()).child("status");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -83,13 +83,13 @@ public class ConversasAdapter extends RecyclerView.Adapter<ConversasAdapter.Conv
         });
 
 
-        if(conversa.getUsuario().getFotoAnunciante().equals("") || conversa.getUsuario().getFotoAnunciante() == null){
+        if(conversa.getUsuario().getFoto().equals("") || conversa.getUsuario().getFoto() == null){
             Picasso.get()
                     .load(R.drawable.img_placeholder)
                     .into(holder.fotoConversa);
         }else{
             Picasso.get()
-                    .load(conversa.getUsuario().getFotoAnunciante())
+                    .load(conversa.getUsuario().getFoto())
                     .placeholder(R.drawable.img_placeholder)
                     .error(R.drawable.placeholder_error)
                     .into(holder.fotoConversa);

@@ -61,9 +61,6 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhes_anuncio);
 
-        Bundle bundle = getIntent().getExtras();
-
-
         inicializaToolbar();
 
         btnAtualizar = findViewById(R.id.btnChat);
@@ -78,6 +75,7 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         txtTellefone = findViewById(R.id.txtTelefoneDetAnunc);
         txtServico = findViewById(R.id.txtServico);
 
+        Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
 
@@ -210,12 +208,8 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
 
     public void abrirChat(View view){
 
-
-        Anuncio anun = this.anuncio;
-        anun.setIdAnunciante(idAnunciante);
-
         Intent intent = new Intent(DetalhesAnuncioActivity.this,ChatActivity.class);
-        intent.putExtra("anuncio",anun);
+        intent.putExtra("anuncio",anuncio);
         startActivity(intent);
 
     }
