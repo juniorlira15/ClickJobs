@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -31,10 +32,12 @@ import com.squareup.picasso.Picasso;
 import com.stfalcon.imageviewer.StfalconImageViewer;
 import com.victall.clickjobs.R;
 import com.victall.clickjobs.config.ConfiguracaoFirebase;
+import com.victall.clickjobs.help.CheckConnection;
 import com.victall.clickjobs.help.Permissoes;
 import com.victall.clickjobs.help.UsuarioFirebase;
 import com.victall.clickjobs.model.Anuncio;
 import com.victall.clickjobs.model.Endereco;
+import com.victall.clickjobs.model.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +58,7 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
     private static final String TELEFONE = "(xx) xxxx xxxx)";
     private String idAnunciante;
     private static final int SECOND_ACTIVITY_REQUEST_CODE = 0;
+    private Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +84,8 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
         if (bundle != null) {
 
             anuncio = (Anuncio) bundle.getSerializable("anuncio");
+
+            recuperaPerfil();
 
             txtValor.setText(anuncio.getValor());
             txtCategoria.setText(anuncio.getCategoria());
@@ -209,8 +215,42 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
     public void abrirChat(View view){
 
         Intent intent = new Intent(DetalhesAnuncioActivity.this,ChatActivity.class);
-        intent.putExtra("anuncio",anuncio);
+        intent.putExtra("usuario",this.usuario);
         startActivity(intent);
+
+    }
+
+    private void recuperaPerfil(){
+
+        if(CheckConnection.isOnline(this)) {
+
+            DatabaseReference databaseReference = ConfiguracaoFirebase.getDatabaseReference();
+
+            databaseReference.child("usuarios").child(anuncio.getIdAnunciante())
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            if(snapshot !=null) {
+
+                                Log.d("KEY", "caminho: "+anuncio.getIdAnunciante());
+
+                                usuario = snapshot.getValue(Usuario.class);
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+
+        }else{
+            Toast.makeText(this, "Não foi possível recuperar o perfil. Verfique a conexão de internet.", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
