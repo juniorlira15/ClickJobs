@@ -1,9 +1,14 @@
 package com.victall.clickjobs.help;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class DataHora {
 
@@ -29,5 +34,27 @@ public class DataHora {
         String dataFormatada = sdf.format(hora);
 
         return dataFormatada;
+    }
+
+    public static int diferencaEntreDatas(String data){
+
+        int diferenca=0;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+
+        try {
+            Date dataMensagem = sdf.parse(data);
+            Date dataAtual = sdf.parse(recuperaData());
+
+            long diff = dataAtual.getTime() - dataMensagem.getTime();
+
+            diferenca = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return diferenca;
     }
 }

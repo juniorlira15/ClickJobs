@@ -10,8 +10,10 @@ android {
         applicationId "com.victall.clickjobs"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 4
-        versionName "1.2"
+        versionCode 8
+        versionName "1.2.4" +
+                "" +
+                ""
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 

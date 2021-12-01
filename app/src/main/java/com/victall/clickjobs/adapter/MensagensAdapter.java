@@ -1,6 +1,7 @@
 package com.victall.clickjobs.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 import com.victall.clickjobs.R;
+import com.victall.clickjobs.help.DataHora;
 import com.victall.clickjobs.help.UsuarioFirebase;
 import com.victall.clickjobs.model.Mensagem;
 
@@ -55,6 +57,24 @@ public class MensagensAdapter extends RecyclerView.Adapter<MensagensAdapter.MyVi
         String imagem = mensagem.getImagem();
 
         holder.txtHorario.setText(mensagem.getHorario());
+
+        int dif = DataHora.diferencaEntreDatas(mensagem.getData());
+        Log.d("DIFFF", "onBindViewHolder: "+dif);
+
+        // Verifica se o dia da mensagem é "Hoje" e deixa em branco
+        if(dif == 0){
+            holder.txtData.setText("");
+        }
+        if(dif == 1){
+            // se a ultima mensagem for ontem deixa como "Ontem"
+            holder.txtData.setText("Ontem");
+        }
+
+        if(dif > 1){
+            holder.txtData.setText(mensagem.getData());
+        }
+
+
 
 //        if(mensagem.isSeen()){
 //            holder.imgCheck.setVisibility(View.VISIBLE);
@@ -102,6 +122,7 @@ public class MensagensAdapter extends RecyclerView.Adapter<MensagensAdapter.MyVi
         ImageView imagem;
         TextView txtHorario;
         ImageView imgCheck;
+        TextView txtData;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -110,6 +131,7 @@ public class MensagensAdapter extends RecyclerView.Adapter<MensagensAdapter.MyVi
             imagem = itemView.findViewById(R.id.imgMensagemFoto);
             txtHorario = itemView.findViewById(R.id.txtHorarioMsg);
             imgCheck = itemView.findViewById(R.id.imgCheckVisualizacao);
+            txtData = itemView.findViewById(R.id.txtDataMsg);
         }
     }
 }

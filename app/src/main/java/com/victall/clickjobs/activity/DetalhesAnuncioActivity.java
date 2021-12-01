@@ -256,8 +256,8 @@ public class DetalhesAnuncioActivity extends AppCompatActivity {
 
     public void ligarAnunciante(View view) {
 
-        String telefone = txtTellefone.getText().toString();
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + telefone));
+        String telefone = txtTellefone.getText().toString().replace("(","").replace(")","");
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+telefone));
         startActivity(intent);
 
     }

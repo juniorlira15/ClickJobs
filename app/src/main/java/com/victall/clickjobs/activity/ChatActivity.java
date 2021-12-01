@@ -179,6 +179,7 @@ public class ChatActivity extends AppCompatActivity {
             mensagem.setIdUsuario(idUsuarioRemetente);
             mensagem.setHorario(DataHora.recuperaHora());
             mensagem.setSeen(false);
+            mensagem.setData(DataHora.recuperaData());
 
             salvarMensagem(idUsuarioRemetente, idUsuarioDestinatario,mensagem);
 
@@ -200,6 +201,7 @@ public class ChatActivity extends AppCompatActivity {
         conversaR.setUltimaMensagem(mensagem.getMensagem());
         conversaR.setUsuario(userDestinatario);
         conversaR.setHorario(mensagem.getHorario());
+        conversaR.setData(mensagem.getData());
 
         // QUem ta recebendo
         conversaD.setIdRemetente(idUsuarioDestinatario);
@@ -207,6 +209,7 @@ public class ChatActivity extends AppCompatActivity {
         conversaD.setUltimaMensagem(mensagem.getMensagem());
         conversaD.setUsuario(userRemetente);
         conversaD.setHorario(mensagem.getHorario());
+        conversaD.setData(mensagem.getData());
 
 
 

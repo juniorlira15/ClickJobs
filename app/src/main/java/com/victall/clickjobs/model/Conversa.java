@@ -8,6 +8,7 @@ public class Conversa {
     private String ultimaMensagem;
     private Usuario usuario;
     private String horario;
+    private String data;
 
 
     public Conversa() {
@@ -51,5 +52,13 @@ public class Conversa {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }

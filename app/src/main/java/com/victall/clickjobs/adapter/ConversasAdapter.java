@@ -1,6 +1,7 @@
 package com.victall.clickjobs.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.victall.clickjobs.config.ConfiguracaoFirebase;
 import com.victall.clickjobs.help.DataHora;
 import com.victall.clickjobs.model.Conversa;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -62,6 +64,24 @@ public class ConversasAdapter extends RecyclerView.Adapter<ConversasAdapter.Conv
         holder.nome.setText(conversa.getUsuario().getNome());
         holder.ultimaMesg.setText(conversa.getUltimaMensagem());
         holder.horarioUltMsg.setText(conversa.getHorario());
+
+
+        int dif = DataHora.diferencaEntreDatas(conversa.getData());
+        Log.d("DIFFF", "onBindViewHolder: "+dif);
+
+        // Verifica se o dia da mensagem é "Hoje" e deixa em branco
+        if(dif == 0){
+            holder.dataUltMens.setText("");
+        }
+        if(dif == 1){
+            // se a ultima mensagem for ontem deixa como "Ontem"
+            holder.dataUltMens.setText("Ontem");
+        }
+
+        if(dif > 1){
+            holder.dataUltMens.setText(conversa.getData());
+        }
+
 
         DatabaseReference databaseReference = ConfiguracaoFirebase.getDatabaseReference()
                 .child("usuarios").child(conversa.getUsuario().getId()).child("status");
@@ -108,7 +128,7 @@ public class ConversasAdapter extends RecyclerView.Adapter<ConversasAdapter.Conv
     public static class ConversasViewHolder extends RecyclerView.ViewHolder {
 
         CircleImageView fotoConversa;
-        TextView nome,ultimaMesg,naoLida,horarioUltMsg;
+        TextView nome,ultimaMesg,naoLida,horarioUltMsg,dataUltMens;
         ImageView imgOnline;
 
 
@@ -121,6 +141,7 @@ public class ConversasAdapter extends RecyclerView.Adapter<ConversasAdapter.Conv
             naoLida = itemView.findViewById(R.id.txtMsgNaoLida);
             horarioUltMsg = itemView.findViewById(R.id.txtHorarioUltMsg);
             imgOnline = itemView.findViewById(R.id.imgOnline);
+            dataUltMens = itemView.findViewById(R.id.txtDataUltMens);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

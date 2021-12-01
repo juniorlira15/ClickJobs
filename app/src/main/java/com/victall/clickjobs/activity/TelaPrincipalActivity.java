@@ -16,6 +16,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.location.Geocoder;
@@ -105,6 +106,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
     private final int progressPadrao = 10;
     private String filtroEstado = "",filtroCategoria="";
     private AlertDialog alertDialogEstado,alertDialogCategoria;
+    private TextView txtVersao;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -253,6 +255,15 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         });
 
 
+        try {
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(this.getPackageName(), 0);
+            String version = pInfo.versionName;
+            int verCode = pInfo.versionCode;
+            txtVersao.setText("Versão: "+version+" Beta");
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
 
 
 
@@ -370,6 +381,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
         txtDistanciaKM = findViewById(R.id.txtFiltroDistancia);
         txtFiltroCategoria = findViewById(R.id.txtFiltroCategoria);
         txtFiltroRegiao = findViewById(R.id.txtFiltroRegiao);
+        txtVersao = findViewById(R.id.txtVersaoApp);
     }
 
     private void configDrawer(){
@@ -811,13 +823,19 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
                         for (DataSnapshot categorias : estados.getChildren()) {
 
-                            //contadorCategoria++;
+                            Log.d("CATEGORIAS", "categoria: "+categorias.getRef().getKey()+ "Tamanho= "+categorias.getChildrenCount());
+
+
+
                             FiltragemCatEst categoria = new FiltragemCatEst();
                             categoria.setNome(categorias.getRef().getKey());
                             categoria.setContador((int) categorias.getChildrenCount());
                             categorias_list.add(categoria);
 
-                            Log.d("ESTADOS", "categorias: "+categorias.getRef().getKey());
+
+
+
+                            //Log.d("ESTADOS", "categorias: "+categorias.getRef().getKey());
 
                             for (DataSnapshot anuncios : categorias.getChildren()) {
 
@@ -826,7 +844,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
                                 Anuncio anuncio = anuncios.getValue(Anuncio.class);
 
-                                Log.d("CONTADOR", "categorias: " + contadorGeral);
+                               // Log.d("CONTADOR", "categorias: " + contadorGeral);
                                 ANUNCIOS.add(anuncio);
                                 TelaPrincipalActivity.adapter.notifyDataSetChanged();
                             }
@@ -840,12 +858,17 @@ public class TelaPrincipalActivity extends AppCompatActivity implements Navigati
 
 
 
-//                    Collections.sort(ANUNCIOS, new Comparator<Anuncio>() {
-//                        @Override
-//                        public int compare(Anuncio o1, Anuncio o2) {
-//                            return o1.getData().compareTo(o2.getData());
-//                        }
-//                    });
+                    Collections.sort(ANUNCIOS, new Comparator<Anuncio>() {
+                        @Override
+                        public int compare(Anuncio o1, Anuncio o2) {
+
+                            if(o1.getData().equals(o2.getData())){
+                                return o2.getHora().compareTo(o1.getHora());
+                            }
+
+                            return o2.getData().compareTo(o1.getData());
+                        }
+                    });
 
                 }
 

@@ -6,6 +6,7 @@ public class Mensagem {
     private String mensagem;
     private String imagem;
     private String horario;
+    private String data;
     private boolean isSeen;
 
     public Mensagem() {
@@ -49,5 +50,13 @@ public class Mensagem {
 
     public void setSeen(boolean seen) {
         isSeen = seen;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }

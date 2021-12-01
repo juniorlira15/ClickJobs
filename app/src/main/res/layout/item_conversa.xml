@@ -71,6 +71,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/bg_msg_nao_lidas_numero"
         android:text="2"
+        android:visibility="gone"
         android:textSize="10sp"
         android:textColor="@color/branco"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -93,5 +94,17 @@
         app:layout_constraintBottom_toBottomOf="@+id/imgFotoConversa"
         app:layout_constraintEnd_toEndOf="@+id/imgFotoConversa"
         app:srcCompat="@drawable/ic_online" />
+
+    <TextView
+        android:id="@+id/txtDataUltMens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="dd/mm/aa"
+        android:textColor="@color/cinza_escuro"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/txtHorarioUltMsg"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
