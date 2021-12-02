@@ -85,7 +85,6 @@ dependencies {
     // carregar imagem da Firebase
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-
     // Mascara de carregamento do FACEbook
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
